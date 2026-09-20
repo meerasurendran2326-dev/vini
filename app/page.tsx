@@ -1,40 +1,59 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
   ArrowRight,
-  ShieldCheck,
   Sparkles,
-  Award,
-  Layers,
   ChevronRight,
   Clock,
-  Compass,
   CheckCircle2,
-  Lock
+  Lock,
+  ArrowUpRight
 } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CinematicOpening from '@/components/luxury/CinematicOpening';
 import SilverJewellery3D from '@/components/luxury/SilverJewellery3D';
 import ProductCard from '@/components/product/ProductCard';
 import { CardFanCarousel, CardFanItem } from '@/components/ui/card-fan-carousel';
+import SceneBackground from '@/components/luxury/SceneBackground';
+import ChromeRibbon from '@/components/luxury/ChromeRibbon';
+import SparkleStar from '@/components/luxury/SparkleStar';
+import OrbitArc from '@/components/luxury/OrbitArc';
+import { HudLabel, CornerBrackets, LeaderLine } from '@/components/luxury/HudAnnotation';
 import { Product } from '@/lib/types';
-import { initialProducts } from '@/lib/data/initialProducts';
+import { initialProducts, initialSettings } from '@/lib/data/initialProducts';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function HomePage() {
   const [showIntro, setShowIntro] = useState<boolean>(true);
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [quickProduct, setQuickProduct] = useState<Product | null>(null);
+  const [activeScene, setActiveScene] = useState<number>(1);
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [craftStage, setCraftStage] = useState<number>(0);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const heroTextRef = useRef<HTMLDivElement>(null);
+
+  // Initialize Lenis smooth scroll and ScrollTrigger
   useEffect(() => {
     // Check if intro has already played in this browser session
-    const seen = sessionStorage.getItem('vvv_intro_seen');
-    if (seen === 'true') {
-      setShowIntro(false);
+    try {
+      const seen = sessionStorage.getItem('vvv_intro_seen');
+      if (seen === 'true') {
+        setShowIntro(false);
+      }
+    } catch {
+      // Ignore in strict privacy sandbox
     }
 
-    // Fetch dynamic products from API to ensure real-time price & stock updates
+    // Dynamic product fetch from API to ensure real-time inventory
     fetch('/api/products')
       .then((res) => res.json())
       .then((data) => {
@@ -43,10 +62,53 @@ export default function HomePage() {
         }
       })
       .catch((err) => console.warn('Using initial products cache', err));
+
+    // Lenis smooth scroll setup
+    let lenisInstance: any;
+    import('lenis').then((LenisModule) => {
+      const Lenis = LenisModule.default;
+      lenisInstance = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+
+      function raf(time: number) {
+        lenisInstance.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }).catch(() => {
+      // Fallback if Lenis is not available
+    });
+
+    // Scroll progress & active scene listener
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        const progress = Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100));
+        setScrollProgress(progress);
+
+        // Calculate active scene (1 through 8)
+        const sceneNum = Math.min(8, Math.max(1, Math.floor((progress / 100) * 8) + 1));
+        setActiveScene(sceneNum);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (lenisInstance) lenisInstance.destroy();
+    };
   }, []);
 
   const handleIntroComplete = () => {
-    sessionStorage.setItem('vvv_intro_seen', 'true');
+    try {
+      sessionStorage.setItem('vvv_intro_seen', 'true');
+    } catch {
+      // Ignore
+    }
     setShowIntro(false);
   };
 
@@ -91,6 +153,7 @@ export default function HomePage() {
   const featuredPieces = products.filter((p) => p.featured).slice(0, 8);
   const urgentPieces = products.filter((p) => p.stock > 0 && p.stock <= p.lowStockThreshold).slice(0, 4);
 
+  // Carousel items map directly to real products
   const fanItems: CardFanItem[] = products.slice(0, 10).map((p) => ({
     id: p.id,
     title: p.name,
@@ -103,19 +166,61 @@ export default function HomePage() {
     product: p,
   }));
 
+  const craftStagesData = [
+    {
+      step: '01 / 03',
+      title: 'Hydraulic Casting & 925 Ingot Forging',
+      desc: 'Molten grain silver is alloyed strictly with deoxidized copper to 92.5% purity under heavy hydraulic pressure, ensuring monumental density with zero internal air pockets.',
+      image: '/images/products/pdt-8.jpeg',
+      spec: '14.8 - 54.0g Solid Mass'
+    },
+    {
+      step: '02 / 03',
+      title: 'Hand-Chiseled Intaglio & Faceted Bevels',
+      desc: 'Master jewelers hand-cut planar signets with geometric chisels, carving deep relief intaglios and razor-beveled edges that catch directional showroom light.',
+      image: '/images/products/pdt-6.jpeg',
+      spec: 'Diamond-Carved In India'
+    },
+    {
+      step: '03 / 03',
+      title: 'Electrolytic Liquid-Chrome Rhodium Shield',
+      desc: 'Finished with a molecular liquid-rhodium barrier that resists atmospheric oxidation, endowing the silver with mirror-polished liquid brilliance designed to outlive the century.',
+      image: '/images/products/pdt-9.jpeg',
+      spec: 'Lifelong Specular Purity'
+    }
+  ];
+
   return (
     <>
-      {/* 7-Stage Cinematic Vault Entry Experience */}
+      {/* Cinematic Entry Sequence */}
       {showIntro && <CinematicOpening onComplete={handleIntroComplete} />}
 
-      <div className="relative bg-[#030504] text-[#F2F2F2] selection:bg-[#6C8F72]/30 selection:text-[#F2F2F2]">
+      {/* Fixed Hairline Progress Bar in Green */}
+      <div
+        className="fixed top-0 left-0 h-[2px] bg-[#6C8F72] z-50 pointer-events-none transition-all duration-150"
+        style={{ width: `${scrollProgress}%` }}
+        aria-hidden="true"
+      />
+
+      {/* Fixed Floating Scene Counter Pill */}
+      <div
+        className="fixed bottom-6 left-6 z-30 hidden sm:flex items-center space-x-2.5 px-3.5 py-1.5 bg-[#0A0F0C]/85 border border-[rgba(242,242,242,0.12)] rounded-full backdrop-blur-md shadow-2xl text-[10px] font-mono uppercase tracking-[0.16em] text-[#9AA39D] pointer-events-none"
+        aria-hidden="true"
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-[#6C8F72] animate-pulse" />
+        <span className="text-[#F2F2F2]">Scene 0{activeScene}</span>
+        <span className="text-[rgba(242,242,242,0.3)]">/</span>
+        <span>08</span>
+      </div>
+
+      <div ref={containerRef} className="relative bg-[#030504] text-[#F2F2F2] selection:bg-[#6C8F72]/30 selection:text-[#F2F2F2]">
         
         {/* =========================================================================
-            SCENE 01-04: GROK-STYLE CINEMATIC ARCHITECTURAL SILVER VOID
+            SCENE 01: HERO — GIANT CHROME-GRADIENT TYPE & 3D REAL PRODUCT VOID
         ========================================================================= */}
         <section className="relative min-h-[calc(100svh-104px)] flex flex-col justify-between px-6 sm:px-10 lg:px-[6vw] pt-6 sm:pt-8 pb-10 overflow-hidden border-b border-[rgba(242,242,242,0.10)]">
-          {/* Subtle Ambient Radial Glow centered behind the 3D showcase */}
-          <div className="absolute top-1/2 right-[10%] -translate-y-1/2 w-[650px] h-[650px] bg-[radial-gradient(circle_at_center,rgba(108,143,114,0.07)_0%,rgba(11,26,18,0.04)_45%,transparent_70%)] pointer-events-none" />
+          {/* Background stack with subtle fog and film grain */}
+          <SceneBackground withStars greenFogIntensity="low" />
 
           {/* Top Meta Bar */}
           <div className="relative z-10 flex items-center justify-between text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] pt-2 pb-6 border-b border-[rgba(242,242,242,0.06)]">
@@ -141,14 +246,14 @@ export default function HomePage() {
           {/* Center Stage: 12-Column Asymmetric Grid */}
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto py-8">
             {/* Left Content Column (Cols 1-7) */}
-            <div className="lg:col-span-7 flex flex-col justify-center">
+            <div ref={heroTextRef} className="lg:col-span-7 flex flex-col justify-center">
               {/* Micro-label kicker */}
               <div className="inline-flex items-center space-x-2 px-2.5 py-1 rounded-[2px] border border-[rgba(242,242,242,0.12)] bg-[#0A0F0C]/80 text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] w-fit mb-5">
                 <Sparkles className="w-3 h-3 text-[#8FB89A]" />
                 <span>Exhibition Catalog 2026</span>
               </div>
 
-              {/* Headline */}
+              {/* Headline with clean negative space */}
               <h1 className="font-sans font-medium text-4xl sm:text-6xl lg:text-[clamp(2.75rem,5vw,5.25rem)] leading-[1.03] tracking-[-0.03em] text-[#F2F2F2] mb-6 uppercase">
                 Liquid Chrome. <br />
                 <span className="font-editorial italic font-light text-[#9AA39D] lowercase">
@@ -157,7 +262,7 @@ export default function HomePage() {
                 Silver.
               </h1>
 
-              {/* Subheading / Description */}
+              {/* Description */}
               <p className="font-sans text-xs sm:text-sm text-[#9AA39D] max-w-[54ch] leading-relaxed tracking-normal mb-8">
                 Forged from certified 925 solid sterling silver. Precision-beveled planar signets, fluid torque bangles, and generational bespoke metallurgy designed to outlive the century.
               </p>
@@ -193,7 +298,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: 3D Interactive Silver Jewellery Studio (Cols 8-12) */}
+            {/* Right Column: 3D Interactive Real Product Studio (Cols 8-12) */}
             <div className="lg:col-span-5 relative flex items-center justify-center">
               <div className="relative w-full max-w-lg">
                 <SilverJewellery3D />
@@ -203,77 +308,38 @@ export default function HomePage() {
 
           {/* Bottom Scene Ticker */}
           <div className="relative z-10 pt-4 border-t border-[rgba(242,242,242,0.08)] flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D]">
-            <span>Scene 01–04 • Pure Material Induction</span>
+            <span>Scene 01 • Pure Material Induction</span>
             <div className="flex items-center space-x-1.5">
-              <span>Scroll to Enter Curated Exhibition</span>
+              <span>Scroll To Enter Vault</span>
               <span className="animate-bounce text-[#6C8F72]">↓</span>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            SCENE 05: CURATED COLLECTION CATEGORIES
+            SCENE 02: COLLECTION INTRO & UNTOUCHED CARD FAN CAROUSEL
         ========================================================================= */}
-        <section className="py-24 px-6 sm:px-10 lg:px-16 border-b border-steel/30 relative">
-          <div className="max-w-7xl mx-auto">
-            {/* Section Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-steel/40">
-              <div>
-                <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/60 block mb-2">
-                  Scene 05 • Taxonomy
-                </span>
-                <h2 className="font-display text-3xl sm:text-5xl uppercase tracking-wider text-ice-white font-normal">
-                  Curated Categories
-                </h2>
-              </div>
-              <p className="mt-4 md:mt-0 font-editorial italic text-base sm:text-lg text-silver/80 max-w-md text-left md:text-right">
-                Engineered for daily resilience, formal authority, and bespoke individuality.
-              </p>
-            </div>
-
-            {/* Category Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-              {categories.map((cat) => (
-                <Link
-                  key={cat.id}
-                  href={`/shop?category=${cat.id}`}
-                  className="group flex flex-col bg-carbon/90 border border-steel/60 hover:border-moss transition-all duration-500 overflow-hidden rounded-sm"
-                >
-                  <div className="relative aspect-[3/4] w-full bg-void overflow-hidden">
-                    <img
-                      src={cat.image}
-                      alt={cat.title}
-                      className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                    />
-                    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_45%,rgba(5,5,5,0.45)_95%)]" />
-                    <div className="absolute top-3 right-3 px-2 py-0.5 bg-graphite/90 border border-steel/60 text-[9px] font-mono text-silver">
-                      {cat.count} PIECES
-                    </div>
-                  </div>
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3 className="font-sans text-xs uppercase tracking-super-wide font-medium text-ice-white group-hover:text-bright-silver transition-colors">
-                        {cat.title}
-                      </h3>
-                      <p className="mt-1 text-[11px] font-editorial italic text-silver/70 line-clamp-2">
-                        {cat.description}
-                      </p>
-                    </div>
-                    <div className="mt-4 pt-3 border-t border-steel/30 flex items-center justify-between text-[10px] font-sans uppercase tracking-widest text-silver/60 group-hover:text-ice-white">
-                      <span>Browse category</span>
-                      <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-signature-green" />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+        <section className="border-b border-[rgba(242,242,242,0.10)] relative overflow-hidden py-16">
+          {/* Faint Giant Serif Word behind + Cropped Chrome Ribbon */}
+          <div className="absolute top-10 right-0 font-editorial italic text-[18vw] leading-none text-[#F2F2F2]/[0.035] pointer-events-none select-none">
+            Archive
           </div>
-        </section>
+          <ChromeRibbon variant="left" opacity={0.3} className="top-0 left-0 w-[600px] h-[350px]" />
 
-        {/* =========================================================================
-            INTERACTIVE CARD FAN CAROUSEL SHOWCASE (21ST.DEV INTEGRATION)
-        ========================================================================= */}
-        <section className="border-b border-steel/30 bg-gradient-to-b from-void via-[#0B1A12]/20 to-void relative">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-[6vw] mb-8">
+            <div className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] mb-2">
+              <SparkleStar size={12} color="#6C8F72" />
+              <span>Scene 02 • Interactive Physical Archive</span>
+            </div>
+            <h2 className="font-sans font-medium text-3xl sm:text-5xl uppercase tracking-tight text-[#F2F2F2]">
+              The Fanned Vault Carousel.
+            </h2>
+            <p className="text-xs sm:text-sm font-sans text-[#9AA39D] max-w-xl mt-2 leading-relaxed">
+              Hover and slide across our 925 solid sterling collection. Each piece expands in tactile motion to reveal individual hallmarked specifications.
+            </p>
+          </div>
+
+          {/* PROTECTED: UNTOUCHED CARD FAN CAROUSEL */}
           <div className="max-w-7xl mx-auto">
             <CardFanCarousel
               items={fanItems}
@@ -289,227 +355,216 @@ export default function HomePage() {
         </section>
 
         {/* =========================================================================
-            SCENE 06: ASYMMETRIC EDITORIAL PRODUCT GALLERY (SHOWCASING MANY PIECES)
+            SCENE 03: 50% CELEBRATION METALLIC MARQUEE STRIP
         ========================================================================= */}
-        <section className="py-24 px-6 sm:px-10 lg:px-16 border-b border-steel/40 bg-gradient-to-b from-void via-[#0B1A12]/30 to-void">
+        {initialSettings.globalFiftyPercentActive && (
+          <section className="border-y border-[#6C8F72]/40 bg-gradient-to-r from-[#030504] via-[#0B1A12] to-[#030504] py-4 relative overflow-hidden select-none">
+            <div className="flex items-center space-x-8 whitespace-nowrap animate-shimmer text-[11px] font-mono uppercase tracking-[0.18em] text-[#F2F2F2]">
+              <div className="flex items-center space-x-8">
+                <span className="text-[#8FB89A] font-semibold">50% Celebration Offer Active</span>
+                <SparkleStar size={12} color="#6C8F72" />
+                <span>Direct Atelier Pricing On All 925 Pieces</span>
+                <SparkleStar size={12} color="#8FB89A" />
+                <span>Complimentary Insured Courier Across India</span>
+                <SparkleStar size={12} color="#6C8F72" />
+                <span>BIS 925 Hallmark Laser Certified</span>
+                <SparkleStar size={12} color="#8FB89A" />
+                <span className="text-[#8FB89A] font-semibold">50% Celebration Offer Active</span>
+                <SparkleStar size={12} color="#6C8F72" />
+                <span>Direct Atelier Pricing On All 925 Pieces</span>
+                <SparkleStar size={12} color="#8FB89A" />
+                <span>Complimentary Insured Courier Across India</span>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* =========================================================================
+            SCENE 04: CRAFTSMANSHIP — PINNED NARRATIVE SCENE WITH CLIP-PATH REVEALS
+        ========================================================================= */}
+        <section className="py-24 px-6 sm:px-10 lg:px-[6vw] border-b border-[rgba(242,242,242,0.10)] relative overflow-hidden bg-[#06110C]/40">
+          <SceneBackground withHalftone greenFogIntensity="low" />
+
+          <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left: Image Strip with Corner Brackets & Clip Path */}
+            <div className="lg:col-span-6 relative">
+              <div className="relative aspect-[4/5] bg-[#030504] border border-[rgba(242,242,242,0.12)] overflow-hidden shadow-2xl rounded-[2px]">
+                <CornerBrackets size={16} color="rgba(108,143,114,0.6)" />
+                <Image
+                  src={craftStagesData[craftStage].image}
+                  alt={craftStagesData[craftStage].title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-center transition-all duration-700 ease-out"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#030504]/90 via-transparent to-transparent pointer-events-none" />
+
+                {/* Leader Line to Spec Badge */}
+                <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between z-10">
+                  <LeaderLine length={60} label={craftStagesData[craftStage].spec} />
+                  <span className="text-[10px] font-mono text-[#8FB89A] px-2 py-0.5 bg-[#0A0F0C]/80 border border-[rgba(242,242,242,0.10)]">
+                    {craftStagesData[craftStage].step}
+                  </span>
+                </div>
+              </div>
+
+              {/* Stage Selector Tabs */}
+              <div className="flex items-center gap-3 mt-4">
+                {craftStagesData.map((stage, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCraftStage(idx)}
+                    className={`flex-1 py-2 px-3 border text-left font-mono text-[10px] uppercase tracking-[0.14em] transition-all rounded-[2px] ${
+                      craftStage === idx
+                        ? 'border-[#6C8F72] bg-[#0B1A12] text-[#F2F2F2]'
+                        : 'border-[rgba(242,242,242,0.10)] bg-[#0A0F0C]/60 text-[#9AA39D] hover:border-[rgba(242,242,242,0.25)]'
+                    }`}
+                  >
+                    Phase {idx + 1}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Technical Narrative */}
+            <div className="lg:col-span-6 space-y-6">
+              <div className="inline-flex items-center space-x-2 text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#6C8F72] inline-block animate-pulse" />
+                <span>Scene 04 • The Generational Silversmith Atelier</span>
+              </div>
+
+              <h2 className="font-sans font-medium text-3xl sm:text-5xl uppercase tracking-tight text-[#F2F2F2]">
+                {craftStagesData[craftStage].title}
+              </h2>
+
+              <p className="font-sans text-xs sm:text-sm text-[#9AA39D] leading-relaxed max-w-lg">
+                {craftStagesData[craftStage].desc}
+              </p>
+
+              <div className="grid grid-cols-2 gap-6 pt-4 border-t border-[rgba(242,242,242,0.08)] text-xs font-mono">
+                <div className="p-4 bg-[#0A0F0C] border border-[rgba(242,242,242,0.10)] rounded-[2px]">
+                  <div className="text-2xl font-bold text-[#F2F2F2]">92.5%</div>
+                  <div className="text-[10px] uppercase tracking-[0.14em] text-[#9AA39D] mt-1">
+                    Assay Certified Fine Silver
+                  </div>
+                </div>
+                <div className="p-4 bg-[#0A0F0C] border border-[rgba(242,242,242,0.10)] rounded-[2px]">
+                  <div className="text-2xl font-bold text-[#8FB89A]">0% Ni</div>
+                  <div className="text-[10px] uppercase tracking-[0.14em] text-[#9AA39D] mt-1">
+                    Hypoallergenic & Nickel Free
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            SCENE 05: FEATURED PIECES — LARGE EDITORIAL SCENES WITH HUD LABELS
+        ========================================================================= */}
+        <section className="py-24 px-6 sm:px-10 lg:px-[6vw] border-b border-[rgba(242,242,242,0.10)] relative">
           <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-steel/40">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-[rgba(242,242,242,0.10)]">
               <div>
-                <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/60 block mb-2">
-                  Scene 06 • The Primary Discovery
+                <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] block mb-2">
+                  Scene 05 • Primary Exhibition Floor
                 </span>
-                <h2 className="font-display text-3xl sm:text-5xl uppercase tracking-wider text-ice-white font-normal">
-                  The Exhibition Floor
+                <h2 className="font-sans font-medium text-3xl sm:text-5xl uppercase tracking-tight text-[#F2F2F2]">
+                  The Exhibition Floor.
                 </h2>
               </div>
               <Link
                 href="/shop"
-                className="mt-4 md:mt-0 inline-flex items-center space-x-2 text-xs uppercase tracking-super-wide text-bright-silver hover:text-white"
+                className="mt-4 md:mt-0 inline-flex items-center space-x-2 text-[11px] font-mono uppercase tracking-[0.14em] text-[#F2F2F2] hover:text-[#8FB89A] transition-colors"
               >
                 <span>View All {products.length} Silver Pieces</span>
-                <ArrowRight className="w-4 h-4 text-signature-green" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#6C8F72]" />
               </Link>
             </div>
 
             {/* Asymmetric Product Showcase */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {featuredPieces.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onQuickView={(p) => setQuickProduct(p)}
-                />
+              {featuredPieces.map((product, idx) => (
+                <div key={product.id} className="relative group">
+                  <ProductCard
+                    product={product}
+                    onQuickView={(p) => setQuickProduct(p)}
+                  />
+                  {/* Faint watermark behind first item in row */}
+                  {idx === 0 && (
+                    <div className="absolute -top-10 -right-4 font-sans font-black text-6xl text-[#F2F2F2]/[0.03] pointer-events-none select-none uppercase">
+                      925
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            SCENE 07: 50% CELEBRATION OFFER METALLIC MARQUEE
+            SCENE 06: BRAND STORY WITH ORBITAL ARCS & CALLIGRAPHIC ACCENT
         ========================================================================= */}
-        <section className="py-20 px-6 sm:px-10 lg:px-16 border-b border-steel/40 bg-gradient-to-b from-void via-[#0B1A12]/40 to-void relative overflow-hidden">
-          <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
-            <div className="inline-flex items-center space-x-2 px-4 py-1.5 border border-signature-green/40 bg-forest-deep/60 text-[10px] font-sans uppercase tracking-monumental text-signature-green font-semibold rounded-sm backdrop-blur-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-signature-green inline-block animate-pulse" />
-              <span>Limited Atelier Campaign</span>
-            </div>
+        <section className="py-28 px-6 sm:px-10 lg:px-[6vw] border-b border-[rgba(242,242,242,0.10)] bg-gradient-to-b from-[#030504] via-[#0B1A12]/30 to-[#030504] relative overflow-hidden">
+          <OrbitArc orientation="top-right" opacity={0.35} />
 
-            <h2 className="font-display text-4xl sm:text-6xl md:text-7xl uppercase tracking-wider text-ice-white font-normal leading-tight">
-              50% Royal Celebration Offer
-            </h2>
-
-            <p className="font-editorial italic text-lg sm:text-2xl text-silver/90 max-w-2xl mx-auto">
-              For a limited window, our signature 925 sterling pieces are presented at direct atelier pricing. Fully hallmarked, guaranteed for lifetime purity.
-            </p>
-
-            <div className="pt-4 flex items-center justify-center space-x-6 text-xs font-sans uppercase tracking-widest text-silver/70">
-              <span>✓ Applied Automatically At Checkout</span>
-              <span className="text-signature-green">•</span>
-              <span>✓ Insured Pan-India Transit</span>
-            </div>
-
-            <div className="pt-6">
-              <Link
-                href="/shop"
-                className="inline-flex items-center space-x-3 px-10 py-5 gothic-btn-primary font-sans text-xs uppercase tracking-monumental font-semibold transition-all duration-300 shadow-2xl rounded-sm"
-              >
-                <span>Acquire Signature Pieces</span>
-                <ArrowRight className="w-4 h-4 text-signature-green" />
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            SCENE 08: METALLURGY & CRAFTSMANSHIP (PINNED NARRATIVE)
-        ========================================================================= */}
-        <section className="py-28 px-6 sm:px-10 lg:px-16 border-b border-steel/40 bg-gradient-to-b from-void via-[#0B1A12]/20 to-void relative">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            {/* Visual Lookbook Image */}
-            <div className="lg:col-span-6 relative">
-              <div className="relative aspect-[4/5] bg-carbon border border-steel/60 hover:border-moss transition-all duration-500 overflow-hidden shadow-2xl rounded-sm">
-                <img
-                  src="/images/products/pdt-8.jpeg"
-                  alt="Silver Craftsmanship Atelier - Hand Finished 925 Solid Sterling"
-                  className="w-full h-full object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-void/90 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 text-left">
-                  <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/70 block">
-                    Assay & Forging Protocol
-                  </span>
-                  <p className="font-editorial italic text-xl text-ice-white mt-1">
-                    "Metal must not merely be bent; it must be taught to remember light."
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Editorial Content */}
-            <div className="lg:col-span-6 space-y-8">
-              <div>
-                <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/60 block mb-2">
-                  Scene 08 • Craftsmanship
-                </span>
-                <h2 className="font-display text-3xl sm:text-5xl uppercase tracking-wider text-ice-white font-normal leading-tight">
-                  The Generational Silversmith Atelier
-                </h2>
-              </div>
-
-              <div className="space-y-6 text-xs sm:text-sm font-sans text-silver/80 leading-relaxed">
-                <p>
-                  Every VINI VICI VIDI artefact begins as molten fine grain silver alloyed strictly to 92.5% purity. We eschew mass die-stamping in favor of heavy hydraulic casting and individual jewelers’ chisel work.
-                </p>
-                <p>
-                  Each piece undergoes a proprietary microscopic micro-polishing cycle followed by a clear electrolytic rhodium barrier layer. This shields your silver against premature atmospheric oxidation while maintaining the cold, tactile brilliance of authentic metal.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-6 pt-4 border-t border-steel/40 text-xs font-sans">
-                <div>
-                  <div className="font-display text-2xl text-bright-silver">92.5%</div>
-                  <div className="text-[10px] uppercase tracking-widest text-silver/60 mt-1">
-                    Certified Fine Silver
-                  </div>
-                </div>
-                <div>
-                  <div className="font-display text-2xl text-bright-silver">0% Ni</div>
-                  <div className="text-[10px] uppercase tracking-widest text-silver/60 mt-1">
-                    100% Nickel-Free & Hypoallergenic
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            SCENE 09 & 10: REAL-TIME LOW-STOCK URGENCY & INVENTORY INTEGRITY
-        ========================================================================= */}
-        <section className="py-24 px-6 sm:px-10 lg:px-16 border-b border-steel/40 bg-gradient-to-b from-void via-[#0B1A12]/30 to-void">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-steel/40">
-              <div>
-                <div className="flex items-center space-x-2 text-[10px] font-sans uppercase tracking-monumental text-signature-green font-semibold mb-2">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>Scene 09–10 • Limited Stock Vault</span>
-                </div>
-                <h2 className="font-display text-3xl sm:text-5xl uppercase tracking-wider text-ice-white font-normal">
-                  Remaining Studio Specimens
-                </h2>
-              </div>
-              <p className="mt-4 md:mt-0 font-editorial italic text-base text-silver/70 max-w-sm">
-                Live backend inventory: When quantity drops to 3 or fewer, pieces are queued for vault archival.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {urgentPieces.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onQuickView={(p) => setQuickProduct(p)}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================================
-            SCENE 11: BRAND STORY & PHILOSOPHY
-        ========================================================================= */}
-        <section className="py-28 px-6 sm:px-10 lg:px-16 border-b border-steel/40 bg-gradient-to-b from-void via-graphite/40 to-void relative overflow-hidden">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/60">
-              Scene 11 • The Sovereign Manifesto
+          <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6">
+            <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#9AA39D]">
+              Scene 06 • The Sovereign Manifesto
             </span>
 
-            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl tracking-wider uppercase text-ice-white font-normal leading-tight">
-              I Came. I Conquered. I Saw.
+            <h2 className="font-sans font-medium text-4xl sm:text-6xl uppercase tracking-tight text-[#F2F2F2] leading-tight">
+              I Came. I Conquered. <br />
+              <span className="font-editorial italic font-light text-[#8FB89A]">
+                Permanent
+              </span>{' '}
+              Presence.
             </h2>
 
-            <p className="font-editorial italic text-xl sm:text-2xl text-silver/90 leading-relaxed">
+            <p className="font-editorial italic text-xl sm:text-2xl text-[#9AA39D] leading-relaxed max-w-2xl mx-auto">
               "We reject hollow jewellery that pretends to be precious. We build heavy, unapologetic silver for those who command their own presence."
             </p>
 
             <div className="pt-4">
               <Link
                 href="/about"
-                className="inline-flex items-center space-x-2 text-xs uppercase tracking-super-wide text-bright-silver hover:text-white"
+                className="inline-flex items-center space-x-2 text-[11px] font-mono uppercase tracking-[0.14em] text-[#F2F2F2] hover:text-[#8FB89A] transition-colors"
               >
-                <span>Read The Full Manifesto</span>
-                <ArrowRight className="w-4 h-4 text-signature-green" />
+                <span>Read The Silversmith Manifesto</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#6C8F72]" />
               </Link>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            SCENE 12 & 13: SHOP CONVERSION & PRIVATE WHATSAPP CONCIERGE
+            SCENE 07: SHOP CTA & VIP CONCIERGE ACCESS
         ========================================================================= */}
-        <section className="py-28 px-6 sm:px-10 lg:px-16 border-b border-steel/40 bg-gradient-to-b from-void via-[#0B1A12]/40 to-void">
-          <div className="max-w-5xl mx-auto bg-carbon/90 border border-steel/60 hover:border-moss transition-all duration-500 p-8 sm:p-14 text-center relative overflow-hidden shadow-2xl rounded-sm">
-            <div className="absolute top-0 right-0 p-8 opacity-5 font-display text-8xl pointer-events-none select-none text-signature-green">
-              VVV
-            </div>
+        <section className="py-28 px-6 sm:px-10 lg:px-[6vw] border-b border-[rgba(242,242,242,0.10)] bg-[#030504] relative">
+          <div className="max-w-4xl mx-auto bg-[#0A0F0C] border border-[rgba(242,242,242,0.12)] p-8 sm:p-14 text-center relative overflow-hidden rounded-[2px] shadow-2xl">
+            <CornerBrackets size={18} color="rgba(108,143,114,0.5)" />
 
             <div className="relative z-10 space-y-6 max-w-2xl mx-auto">
-              <span className="text-[10px] font-sans uppercase tracking-monumental text-signature-green font-semibold">
-                Scene 12–13 • Guest Conversion
-              </span>
+              <div className="inline-flex items-center space-x-2">
+                <SparkleStar size={16} color="#8FB89A" />
+                <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#6C8F72]">
+                  Scene 07 • Guest Acquisition
+                </span>
+              </div>
 
-              <h2 className="font-display text-3xl sm:text-5xl uppercase tracking-wider text-ice-white font-normal">
-                Begin Your Silver Collection
+              <h2 className="font-sans font-medium text-3xl sm:text-5xl uppercase tracking-tight text-[#F2F2F2]">
+                Acquire Signature Silver
               </h2>
 
-              <p className="font-sans text-xs sm:text-sm text-silver/80 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm text-[#9AA39D] leading-relaxed">
                 Guest checkout with Razorpay. No account creation required. Seamless delivery throughout India with live status tracking.
               </p>
 
               <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href="/shop"
-                  className="w-full sm:w-auto px-8 py-4 gothic-btn-primary font-sans text-xs uppercase tracking-monumental font-semibold transition-all shadow-xl rounded-sm"
+                  className="w-full sm:w-auto px-8 py-3.5 bg-[#F2F2F2] hover:bg-white text-[#030504] font-mono text-xs uppercase tracking-[0.14em] font-semibold transition-all shadow-xl rounded-[2px]"
                 >
                   Enter Catalog ({products.length} Pieces)
                 </Link>
@@ -518,10 +573,10 @@ export default function HomePage() {
                   href="https://wa.me/919876543210?text=Hello%20VINI%20VICI%20VIDI,%20I%20would%20like%20to%20consult%20with%20an%20atelier%20specialist."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-8 py-4 border border-signature-green/60 text-signature-green hover:bg-forest-deep/50 font-sans text-xs uppercase tracking-monumental transition-colors flex items-center justify-center space-x-2 rounded-sm"
+                  className="w-full sm:w-auto px-8 py-3.5 border border-[#6C8F72] text-[#6C8F72] hover:bg-[#0B1A12] font-mono text-xs uppercase tracking-[0.14em] transition-colors flex items-center justify-center space-x-2 rounded-[2px]"
                 >
-                  <span>WhatsApp VIP Concierge</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>WhatsApp Atelier Concierge</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>
@@ -534,73 +589,74 @@ export default function HomePage() {
       {quickProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           <div
-            className="fixed inset-0 bg-void/85 backdrop-blur-md"
+            className="fixed inset-0 bg-[#030504]/90 backdrop-blur-md"
             onClick={() => setQuickProduct(null)}
           />
-          <div className="relative w-full max-w-3xl bg-carbon border border-steel/70 shadow-2xl p-6 sm:p-8 z-10 grid grid-cols-1 md:grid-cols-2 gap-8 overflow-hidden rounded-sm">
-            <div className="aspect-[4/5] bg-void border border-steel/40 overflow-hidden relative">
-              <img
+          <div className="relative w-full max-w-3xl bg-[#0A0F0C] border border-[rgba(242,242,242,0.14)] shadow-2xl p-6 sm:p-8 z-10 grid grid-cols-1 md:grid-cols-2 gap-8 overflow-hidden rounded-[2px]">
+            <div className="aspect-[4/5] bg-[#030504] border border-[rgba(242,242,242,0.10)] overflow-hidden relative">
+              <Image
                 src={quickProduct.images[0] || '/images/products/pdt-1.jpeg'}
                 alt={quickProduct.name}
-                className="w-full h-full object-cover object-center"
+                fill
+                className="object-cover object-center"
               />
             </div>
 
             <div className="flex flex-col justify-between">
               <div>
                 <div className="flex justify-between items-start">
-                  <span className="text-[10px] font-sans tracking-monumental uppercase text-silver/60">
+                  <span className="text-[10px] font-mono tracking-[0.14em] uppercase text-[#9AA39D]">
                     {quickProduct.sku}
                   </span>
                   <button
                     onClick={() => setQuickProduct(null)}
-                    className="text-silver hover:text-ice-white text-sm"
+                    className="text-[#9AA39D] hover:text-[#F2F2F2] text-sm"
                   >
                     ✕
                   </button>
                 </div>
 
-                <h3 className="font-display text-2xl uppercase tracking-wider text-ice-white mt-2">
+                <h3 className="font-sans font-medium text-2xl uppercase tracking-tight text-[#F2F2F2] mt-2">
                   {quickProduct.name}
                 </h3>
-                <p className="font-editorial italic text-sm text-silver/70 mt-1">
+                <p className="font-editorial italic text-sm text-[#9AA39D] mt-1">
                   {quickProduct.tagline}
                 </p>
 
                 <div className="mt-4 flex items-baseline space-x-3">
-                  <span className="font-mono text-xl font-semibold text-ice-white">
+                  <span className="font-mono text-xl font-semibold text-[#F2F2F2]">
                     ₹{quickProduct.price.toLocaleString('en-IN')}
                   </span>
                   {quickProduct.originalPrice > quickProduct.price && (
-                    <span className="font-mono text-sm text-chrome line-through">
+                    <span className="font-mono text-sm text-[#9AA39D] line-through">
                       ₹{quickProduct.originalPrice.toLocaleString('en-IN')}
                     </span>
                   )}
                   {quickProduct.isFiftyPercentOffer && (
-                    <span className="text-[10px] font-sans uppercase tracking-widest text-brand-green font-semibold">
-                      50% Offer Applied
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#6C8F72] font-semibold">
+                      50% Offer Active
                     </span>
                   )}
                 </div>
 
-                <p className="mt-4 text-xs font-sans text-silver/80 leading-relaxed">
+                <p className="mt-4 text-xs font-sans text-[#9AA39D] leading-relaxed">
                   {quickProduct.description}
                 </p>
 
-                <div className="mt-4 pt-4 border-t border-steel/40 text-[11px] font-sans space-y-1 text-silver/70">
+                <div className="mt-4 pt-4 border-t border-[rgba(242,242,242,0.08)] text-[11px] font-mono space-y-1 text-[#9AA39D]">
                   <div>• Material: {quickProduct.specifications.material} ({quickProduct.specifications.purity})</div>
                   <div>• Weight: {quickProduct.specifications.weight}</div>
                   <div>• Hallmark: {quickProduct.specifications.hallmark}</div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-steel/40 flex items-center space-x-3">
+              <div className="mt-6 pt-6 border-t border-[rgba(242,242,242,0.08)] flex items-center space-x-3">
                 <Link
                   href={`/product/${quickProduct.slug}`}
                   onClick={() => setQuickProduct(null)}
-                  className="flex-1 py-3 text-center bg-bright-silver hover:bg-white text-void font-sans text-xs uppercase tracking-super-wide font-semibold transition-colors"
+                  className="flex-1 py-3 text-center bg-[#F2F2F2] hover:bg-white text-[#030504] font-mono text-xs uppercase tracking-[0.14em] font-semibold transition-colors rounded-[2px]"
                 >
-                  Full Object Page
+                  View Full Object Page
                 </Link>
               </div>
             </div>

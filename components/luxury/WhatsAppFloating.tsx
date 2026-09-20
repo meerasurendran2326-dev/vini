@@ -17,24 +17,21 @@ export default function WhatsAppFloating({
   const waUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
 
   return (
-    <div className="fixed bottom-6 left-6 z-40">
+    <div className="fixed bottom-6 right-6 z-40">
       <a
         href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Connect on WhatsApp"
-        className="group flex items-center space-x-3 px-4 py-3 bg-graphite/90 hover:bg-carbon border border-steel/80 hover:border-brand-green/60 text-ice-white backdrop-blur-md transition-all duration-300 shadow-xl"
+        className="group flex items-center space-x-2.5 px-3.5 py-2 bg-[#0A0F0C]/85 hover:bg-[#0A0F0C] border border-[rgba(242,242,242,0.12)] hover:border-[#6C8F72]/60 text-[#F2F2F2] rounded-full backdrop-blur-md transition-all duration-300 shadow-2xl"
       >
-        <div className="relative">
-          <MessageCircle className="w-4 h-4 text-brand-green transition-transform duration-300 group-hover:scale-110" />
-          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-brand-green animate-ping" />
+        <div className="relative flex items-center justify-center">
+          <MessageCircle className="w-3.5 h-3.5 text-[#6C8F72] transition-transform duration-300 group-hover:scale-110" />
+          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[#6C8F72] animate-ping" />
         </div>
-        <div className="flex flex-col text-left">
-          <span className="text-[9px] font-sans uppercase tracking-widest text-silver/60">
-            Concierge
-          </span>
-          <span className="text-[11px] font-sans uppercase tracking-wider text-ice-white group-hover:text-brand-green-light transition-colors">
-            WhatsApp Atelier
+        <div className="flex items-center space-x-1.5 text-left">
+          <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] group-hover:text-[#F2F2F2] transition-colors">
+            Atelier WhatsApp
           </span>
         </div>
       </a>

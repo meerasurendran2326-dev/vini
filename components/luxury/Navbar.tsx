@@ -36,101 +36,87 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Top Promotional Metallic Marquee */}
-      <div className="w-full gothic-offer-strip text-silver/90 text-[10px] sm:text-[11px] font-sans tracking-widest uppercase py-2 px-4 text-center overflow-hidden relative">
-        <div className="flex items-center justify-center space-x-6 font-medium">
-          <span className="text-bright-silver flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-signature-green inline-block animate-pulse" />
+      {/* 32px Slim Announcement Bar */}
+      <div className="w-full h-[32px] bg-bg border-b border-line text-muted font-mono text-[10px] tracking-[0.14em] uppercase px-4 flex items-center justify-center overflow-hidden relative z-50">
+        <div className="flex items-center justify-center space-x-4 sm:space-x-6">
+          <span className="text-text flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-green inline-block animate-pulse" />
             50% CELEBRATION OFFER ON ALL SIGNATURE PIECES
           </span>
-          <span className="hidden sm:inline text-silver/70">• COMPLIMENTARY INSURED COURIER ACROSS INDIA •</span>
-          <span className="text-silver/90 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-signature-green inline-block" />
+          <span className="hidden md:inline text-line-strong">•</span>
+          <span className="hidden sm:inline text-muted">COMPLIMENTARY INSURED COURIER ACROSS INDIA</span>
+          <span className="hidden md:inline text-line-strong">•</span>
+          <span className="text-muted flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-green inline-block" />
             BIS 925 HALLMARK CERTIFIED
           </span>
         </div>
       </div>
 
-      {/* Main Header */}
+      {/* Main Header (Single row, exactly 72px tall) */}
       <header
-        className={`fixed top-[33px] inset-x-0 z-40 transition-all duration-500 ${
+        className={`fixed top-[32px] inset-x-0 z-40 h-[72px] transition-all duration-300 ${
           scrolled
-            ? 'bg-void/90 backdrop-blur-md border-b border-steel/40 py-4 shadow-xl'
-            : 'bg-transparent py-6'
+            ? 'bg-bg/85 backdrop-blur-md border-b border-line shadow-2xl'
+            : 'bg-transparent border-b border-line/40'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 flex items-center justify-between">
-          {/* Mobile Menu Trigger */}
-          <div className="flex items-center lg:hidden">
+        <div className="max-w-7xl mx-auto h-full px-6 sm:px-10 flex items-center justify-between">
+          {/* Left: Monogram + Small Wordmark */}
+          <div className="flex items-center space-x-3">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
-              className="p-1 text-ice-white hover:text-bright-silver transition-colors"
+              aria-label="Open navigation menu"
+              className="p-1.5 text-muted hover:text-text lg:hidden transition-colors mr-2"
             >
               <Menu className="w-5 h-5" />
             </button>
+
+            <Link href="/" className="flex items-center space-x-3 group">
+              <span className="w-7 h-7 rounded-sm border border-line bg-surface flex items-center justify-center text-[10px] font-mono tracking-tighter text-text font-bold group-hover:border-green transition-colors">
+                VVV
+              </span>
+              <div className="flex flex-col">
+                <span className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-text group-hover:text-white transition-colors">
+                  Vini Vici Vidi
+                </span>
+                <span className="text-[8px] font-mono uppercase tracking-widest text-muted">
+                  Silver Collection
+                </span>
+              </div>
+            </Link>
           </div>
 
-          {/* Desktop Left Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8 text-xs uppercase tracking-super-wide font-sans text-silver/80">
-            {navLinks.slice(0, 4).map((link) => (
+          {/* Center: Frosted Glass Pill with unwrapped links */}
+          <nav className="hidden lg:flex items-center space-x-1 px-3 py-1.5 rounded-full border border-line bg-surface/70 backdrop-blur-md shadow-sm">
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-ice-white transition-colors duration-200 relative group py-1"
+                className="px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-muted hover:text-text hover:bg-white/[0.04] rounded-full transition-colors whitespace-nowrap"
               >
                 {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-bright-silver transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
           </nav>
 
-          {/* Centered Brand Title */}
-          <div className="text-center">
-            <Link href="/" className="inline-block group">
-              <span className="font-display text-xl sm:text-2xl md:text-3xl tracking-[0.25em] text-ice-white font-normal uppercase block transition-colors group-hover:text-bright-silver">
-                VINI VICI VIDI
-              </span>
-              <span className="block text-[8px] sm:text-[9px] font-sans tracking-monumental text-silver/60 uppercase mt-0.5">
-                Silver Collection
-              </span>
-            </Link>
-          </div>
-
-          {/* Right Navigation & Commerce Controls */}
-          <div className="flex items-center space-x-6 sm:space-x-8 text-xs uppercase tracking-super-wide font-sans text-silver/80">
-            <nav className="hidden lg:flex items-center space-x-8">
-              {navLinks.slice(4).map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="hover:text-ice-white transition-colors duration-200 relative group py-1"
-                >
-                  {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-bright-silver transition-all duration-300 group-hover:w-full" />
-                </Link>
-              ))}
-            </nav>
-
-            {/* Live Search Trigger */}
+          {/* Right: Search + Cart (clean, zero stray bars) */}
+          <div className="flex items-center space-x-3 sm:space-x-4">
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search collection"
-              className="hover:text-ice-white transition-colors p-1"
+              className="p-2 text-muted hover:text-text rounded-full hover:bg-surface/80 border border-transparent hover:border-line transition-all"
             >
               <Search className="w-4 h-4" />
             </button>
 
-            {/* Cart Drawer Trigger */}
             <button
               onClick={openCart}
               aria-label="Open shopping cart"
-              className="relative p-1 text-ice-white hover:text-bright-silver transition-colors flex items-center space-x-2"
+              className="flex items-center space-x-2 px-3 py-1.5 rounded-full border border-line bg-surface/80 hover:border-green hover:text-white text-text transition-all"
             >
-              <ShoppingBag className="w-4 h-4" />
-              <span className="text-[11px] font-mono font-medium">
-                ({itemCount})
-              </span>
+              <ShoppingBag className="w-3.5 h-3.5 text-muted" />
+              <span className="text-[10px] font-mono font-medium">({itemCount})</span>
             </button>
           </div>
         </div>
