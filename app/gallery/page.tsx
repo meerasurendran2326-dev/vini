@@ -1,128 +1,450 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { X, ArrowRight, Sparkles } from 'lucide-react';
+import Image from 'next/image';
+import { X, ChevronLeft, ChevronRight, ArrowRight, Sparkles, ExternalLink } from 'lucide-react';
+import { initialProducts } from '@/lib/data/initialProducts';
+
+interface GalleryPlate {
+  id: string;
+  type: 'product' | 'atmosphere';
+  plateNumber: string;
+  src: string;
+  title: string;
+  subtitle: string;
+  material: string;
+  aspectRatio: string;
+  productSlug?: string;
+  price?: number;
+  colSpan?: string;
+}
+
+// Curate gallery plates strictly from real client product inventory and procedural atmosphere plates
+const galleryPlates: GalleryPlate[] = [
+  {
+    id: 'plate-01',
+    type: 'product',
+    plateNumber: '01',
+    src: '/images/products/pdt-1.jpeg',
+    title: initialProducts[0]?.name || 'Aethelgard Hand-Carved Sovereign Ring',
+    subtitle: 'Brutalist Geometry • Chiseled Intaglio',
+    material: 'Solid Sterling Silver • 925 Certified',
+    aspectRatio: 'aspect-[4/5]',
+    productSlug: initialProducts[0]?.slug,
+    price: initialProducts[0]?.price,
+    colSpan: 'lg:col-span-8'
+  },
+  {
+    id: 'plate-02',
+    type: 'product',
+    plateNumber: '02',
+    src: '/images/products/pdt-2.jpeg',
+    title: initialProducts[1]?.name || 'Argent L\'Ombre Liquid Drop Pendant',
+    subtitle: 'Fluid Gravitational Molten Form',
+    material: 'Solid 925 Silver • Liquid Chrome Finish',
+    aspectRatio: 'aspect-square',
+    productSlug: initialProducts[1]?.slug,
+    price: initialProducts[1]?.price,
+    colSpan: 'lg:col-span-4'
+  },
+  {
+    id: 'plate-03',
+    type: 'product',
+    plateNumber: '03',
+    src: '/images/products/pdt-3.jpeg',
+    title: initialProducts[2]?.name || 'Vesper Heavy Solid Torque Bangle',
+    subtitle: 'Tapered Finials • Hand-Finished Satin',
+    material: '925 Fine Sterling • 42.6 Grams',
+    aspectRatio: 'aspect-square',
+    productSlug: initialProducts[2]?.slug,
+    price: initialProducts[2]?.price,
+    colSpan: 'lg:col-span-5'
+  },
+  {
+    id: 'plate-04',
+    type: 'atmosphere',
+    plateNumber: '04',
+    src: '', // Procedural atmosphere plate (liquid chrome vector study)
+    title: 'NON-PRODUCT ATMOSPHERE: SPECULAR METALLURGY VECTOR',
+    subtitle: 'Micro-Grain Light Diffraction Simulation (Non-Jewellery Plate)',
+    material: 'Procedural Computational Light Study',
+    aspectRatio: 'aspect-[16/9]',
+    colSpan: 'lg:col-span-7'
+  },
+  {
+    id: 'plate-05',
+    type: 'product',
+    plateNumber: '05',
+    src: '/images/products/pdt-4.jpeg',
+    title: initialProducts[3]?.name || 'Ouroboros Diamond-Cut Byzantine Chain',
+    subtitle: 'Interlocking Quad-Link Heraldry Weave',
+    material: '925 Sterling Silver • 38.2 Grams',
+    aspectRatio: 'aspect-[4/5]',
+    productSlug: initialProducts[3]?.slug,
+    price: initialProducts[3]?.price,
+    colSpan: 'lg:col-span-4'
+  },
+  {
+    id: 'plate-06',
+    type: 'product',
+    plateNumber: '06',
+    src: '/images/products/pdt-5.jpeg',
+    title: initialProducts[4]?.name || 'Valknut Monolithic Shield Signet',
+    subtitle: 'Faceted Knife-Edge Architectural Band',
+    material: '925 Sterling Silver • Deep Acid Oxidation',
+    aspectRatio: 'aspect-[16/10]',
+    productSlug: initialProducts[4]?.slug,
+    price: initialProducts[4]?.price,
+    colSpan: 'lg:col-span-8'
+  },
+  {
+    id: 'plate-07',
+    type: 'product',
+    plateNumber: '07',
+    src: '/images/products/pdt-6.jpeg',
+    title: initialProducts[5]?.name || 'Obsidian Monolith Intaglio Ring',
+    subtitle: 'Natural Mineral Inlay In Cast Chasis',
+    material: '925 Sterling Silver • Natural Obsidian Matrix',
+    aspectRatio: 'aspect-square',
+    productSlug: initialProducts[5]?.slug,
+    price: initialProducts[5]?.price,
+    colSpan: 'lg:col-span-6'
+  },
+  {
+    id: 'plate-08',
+    type: 'product',
+    plateNumber: '08',
+    src: '/images/products/pdt-7.jpeg',
+    title: initialProducts[6]?.name || 'Kavach Sacred Geometry Reliquary Locket',
+    subtitle: 'Concealed Hinge Bespoke Vessel',
+    material: 'Solid 925 Sterling • Micro-Hinge Metallurgy',
+    aspectRatio: 'aspect-square',
+    productSlug: initialProducts[6]?.slug,
+    price: initialProducts[6]?.price,
+    colSpan: 'lg:col-span-6'
+  },
+  {
+    id: 'plate-09',
+    type: 'product',
+    plateNumber: '09',
+    src: '/images/products/pdt-8.jpeg',
+    title: initialProducts[7]?.name || 'Chronos Ribbed Articulated Armor Cuff',
+    subtitle: 'Segmented Ergonomic Wrist Armor',
+    material: 'Certified 925 Sterling • 54.0 Grams',
+    aspectRatio: 'aspect-[4/5]',
+    productSlug: initialProducts[7]?.slug,
+    price: initialProducts[7]?.price,
+    colSpan: 'lg:col-span-7'
+  },
+  {
+    id: 'plate-10',
+    type: 'product',
+    plateNumber: '10',
+    src: '/images/products/pdt-9.jpeg',
+    title: initialProducts[8]?.name || 'Gothic Thorn Floral Seal Ring',
+    subtitle: 'Baroque Silhouette Meets Brutalist Steel Cast',
+    material: 'Solid 925 Sterling • Hand Carved In Mumbai',
+    aspectRatio: 'aspect-[4/5]',
+    productSlug: initialProducts[8]?.slug,
+    price: initialProducts[8]?.price,
+    colSpan: 'lg:col-span-5'
+  }
+];
 
 export default function GalleryPage() {
-  const [selectedImg, setSelectedImg] = useState<{ src: string; caption: string; title: string } | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const lookbookItems = [
-    { src: '/images/inspo/inspo-1.jpeg', title: 'The Forging Vault', caption: 'Atmospheric light across molten 925 alloy' },
-    { src: '/images/inspo/inspo-2.jpeg', title: 'Architectural Shadow', caption: 'High-contrast editorial serif framing solid silver' },
-    { src: '/images/inspo/inspo-3.jpeg', title: 'Liquid Chrome Horizon', caption: 'Reflective sculptural chrome surfaces' },
-    { src: '/images/inspo/inspo-4.jpeg', title: 'Generational Chisel', caption: 'Hand carving of signet seals and deep intaglio' },
-    { src: '/images/inspo/inspo-5.jpeg', title: 'Specular Glint', caption: 'Controlled showroom spotlights revealing metallic grain' },
-    { src: '/images/inspo/inspo-6.jpeg', title: 'Brutalist Form', caption: 'Heavy monolithic silhouettes forged in India' },
-    { src: '/images/inspo/inspo-7.jpeg', title: 'Velvet Darkness', caption: 'Black titanium void framing precious white metal' },
-    { src: '/images/inspo/inspo-8.jpeg', title: 'Heirloom Ingot', caption: 'Solid investment assay stamps and serial seals' },
-    { src: '/images/products/pdt-1.jpeg', title: 'Aethelgard Signet', caption: 'Hand-carved sovereign ring in 925 fine silver' },
-    { src: '/images/products/pdt-2.jpeg', title: 'Argent L\'Ombre', caption: 'Fluid liquid metal pendant suspended in space' },
-    { src: '/images/products/pdt-3.jpeg', title: 'Vesper Torque', caption: 'Solid terminal finial heavy bracelet' },
-    { src: '/images/products/pdt-4.jpeg', title: 'Byzantine Weave', caption: 'Eight hundred interlocking four-in-one links' },
-  ];
+  // Keyboard navigation for lightbox
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (activeIndex === null) return;
+      if (e.key === 'Escape') {
+        setActiveIndex(null);
+      } else if (e.key === 'ArrowRight') {
+        setActiveIndex((prev) => (prev !== null ? (prev + 1) % galleryPlates.length : 0));
+      } else if (e.key === 'ArrowLeft') {
+        setActiveIndex((prev) =>
+          prev !== null ? (prev - 1 + galleryPlates.length) % galleryPlates.length : 0
+        );
+      }
+    },
+    [activeIndex]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    if (activeIndex !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [handleKeyDown, activeIndex]);
+
+  const activePlate = activeIndex !== null ? galleryPlates[activeIndex] : null;
 
   return (
-    <div className="bg-void min-h-screen text-ice-white pb-32">
-      {/* Editorial Header */}
-      <div className="pt-12 pb-16 px-6 sm:px-10 lg:px-16 border-b border-steel/30 bg-graphite/40">
+    <div className="bg-[#030504] min-h-screen text-[#F2F2F2] selection:bg-[#6C8F72]/30 selection:text-[#F2F2F2]">
+      {/* Editorial Header - Aligned with 6vw container */}
+      <header className="px-6 sm:px-10 lg:px-[6vw] pt-12 pb-14 border-b border-[rgba(242,242,242,0.10)] bg-[#06110C]/40 relative">
         <div className="max-w-7xl mx-auto">
-          <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/60 block mb-2">
-            Visual World & Atmosphere
-          </span>
-          <h1 className="font-display text-4xl sm:text-6xl uppercase tracking-wider text-ice-white font-normal">
-            Exhibition Lookbook
+          <div className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#6C8F72] inline-block animate-pulse" />
+            <span>Exhibition Archive • Real Client Inventory Only</span>
+          </div>
+
+          <h1 className="font-sans font-medium text-4xl sm:text-6xl uppercase tracking-[-0.03em] text-[#F2F2F2]">
+            Exhibition Lookbook. <br />
+            <span className="font-editorial italic font-light text-[#9AA39D] lowercase">
+              photographic
+            </span>{' '}
+            Studies.
           </h1>
-          <p className="mt-3 font-editorial italic text-lg sm:text-xl text-silver/80 max-w-2xl">
-            A photographic study in cold reflection, deep shadow, and tactile metallic permanence.
+
+          <p className="mt-4 font-sans text-xs sm:text-sm text-[#9AA39D] max-w-2xl leading-relaxed">
+            Every plate represents authentic handcrafted 925 sterling silver artefacts from the Vini vici vidi atelier. Photographed under controlled showroom illumination to reveal true metallic texture and sculptural weight.
           </p>
         </div>
-      </div>
+      </header>
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-12">
-        {/* Masonry / Asymmetric Gallery */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {lookbookItems.map((item, idx) => (
-            <div
-              key={idx}
-              onClick={() => setSelectedImg(item)}
-              className="group relative bg-carbon border border-steel/50 overflow-hidden cursor-pointer shadow-xl transition-all duration-500 hover:border-bright-silver/60"
+      {/* Asymmetric Editorial Gallery Grid */}
+      <main className="px-6 sm:px-10 lg:px-[6vw] py-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {galleryPlates.map((plate, index) => (
+            <article
+              key={plate.id}
+              className={`${plate.colSpan || 'lg:col-span-6'} group relative flex flex-col bg-[#0A0F0C] border border-[rgba(242,242,242,0.10)] hover:border-[#6C8F72]/60 transition-all duration-500 overflow-hidden rounded-[2px] shadow-2xl`}
             >
-              <div className="aspect-[4/5] w-full overflow-hidden bg-void">
-                <img
-                  src={item.src}
-                  alt={item.title}
-                  className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
-                />
+              {/* Media Container with Desktop Hover Spotlight */}
+              <div
+                onClick={() => setActiveIndex(index)}
+                className={`relative ${plate.aspectRatio} w-full overflow-hidden bg-[#030504] cursor-pointer`}
+              >
+                {plate.type === 'product' ? (
+                  <>
+                    <Image
+                      src={plate.src}
+                      alt={`${plate.title} - ${plate.material}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
+                      className="object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                      priority={index < 3}
+                    />
+                    {/* Subtle vignette */}
+                    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_45%,rgba(3,5,4,0.55)_98%)]" />
+                  </>
+                ) : (
+                  /* Procedural Atmosphere Plate (Strictly Non-Product) */
+                  <div className="w-full h-full relative flex items-center justify-center p-8 bg-[radial-gradient(ellipse_at_center,rgba(108,143,114,0.12)_0%,rgba(11,26,18,0.4)_50%,#030504_100%)] overflow-hidden">
+                    <svg className="w-full h-full opacity-60" viewBox="0 0 600 300" fill="none">
+                      <defs>
+                        <linearGradient id="chromeFlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#030504" />
+                          <stop offset="30%" stopColor="#0B1A12" />
+                          <stop offset="60%" stopColor="#6C8F72" />
+                          <stop offset="85%" stopColor="#F2F2F2" />
+                          <stop offset="100%" stopColor="#BFC3C7" />
+                        </linearGradient>
+                      </defs>
+                      <path
+                        d="M-50,150 C150,50 250,250 450,120 C550,50 650,200 700,150"
+                        stroke="url(#chromeFlow)"
+                        strokeWidth="38"
+                        strokeLinecap="round"
+                        fill="none"
+                      />
+                      <path
+                        d="M-30,220 C180,120 280,320 480,180 C580,120 680,260 720,200"
+                        stroke="rgba(242,242,242,0.15)"
+                        strokeWidth="1"
+                        fill="none"
+                      />
+                    </svg>
+                    <div className="absolute bottom-4 left-4 right-4 bg-[#0A0F0C]/80 border border-[rgba(242,242,242,0.10)] px-3 py-1.5 text-[9px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] text-center">
+                      Atmospheric Ray-Traced Vector Study • Non-Jewellery Plate
+                    </div>
+                  </div>
+                )}
+
+                {/* Plate Badge */}
+                <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#0A0F0C]/85 border border-[rgba(242,242,242,0.12)] text-[10px] font-mono tracking-[0.14em] text-[#F2F2F2] backdrop-blur-sm">
+                  PLATE {plate.plateNumber}
+                </div>
+
+                {/* Inspect Action Hint */}
+                <div className="absolute top-3 right-3 px-2.5 py-1 bg-[#0A0F0C]/85 border border-[rgba(242,242,242,0.12)] text-[10px] font-mono uppercase tracking-[0.12em] text-[#9AA39D] group-hover:text-[#F2F2F2] transition-colors backdrop-blur-sm flex items-center space-x-1">
+                  <span>Enlarge</span>
+                  <span>↗</span>
+                </div>
               </div>
 
-              {/* Caption Overlay */}
-              <div className="p-5 bg-carbon flex flex-col justify-between">
-                <div className="flex items-center justify-between text-[10px] font-sans uppercase tracking-monumental text-silver/60">
-                  <span>Plate {idx < 9 ? `0${idx + 1}` : idx + 1}</span>
-                  <span className="text-bright-silver group-hover:underline">Inspect Lightbox ↗</span>
+              {/* Caption Section with Real Metadata */}
+              <div className="p-6 flex flex-col justify-between flex-1 border-t border-[rgba(242,242,242,0.08)] bg-[#0A0F0C]">
+                <div>
+                  <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] mb-1.5">
+                    <span>{plate.subtitle}</span>
+                    {plate.price && <span className="text-[#F2F2F2]">₹{plate.price.toLocaleString('en-IN')}</span>}
+                  </div>
+                  <h2 className="font-sans font-medium text-lg uppercase tracking-tight text-[#F2F2F2] group-hover:text-[#8FB89A] transition-colors">
+                    {plate.title}
+                  </h2>
+                  <p className="text-[11px] font-mono text-[#9AA39D] mt-1 tracking-wide">
+                    {plate.material}
+                  </p>
                 </div>
-                <h3 className="font-display text-lg uppercase tracking-wider text-ice-white mt-1">
-                  {item.title}
-                </h3>
-                <p className="font-editorial italic text-xs text-silver/70 mt-0.5">
-                  {item.caption}
-                </p>
+
+                {plate.productSlug && (
+                  <div className="mt-5 pt-3 border-t border-[rgba(242,242,242,0.06)] flex items-center justify-between">
+                    <Link
+                      href={`/product/${plate.productSlug}`}
+                      className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#6C8F72] hover:text-[#F2F2F2] transition-colors flex items-center space-x-1.5"
+                    >
+                      <span>Acquire Piece In Shop</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </Link>
+                    <button
+                      onClick={() => setActiveIndex(index)}
+                      className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] hover:text-[#F2F2F2] transition-colors"
+                    >
+                      View Specs ↗
+                    </button>
+                  </div>
+                )}
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-24 p-10 bg-graphite border border-steel/60 text-center max-w-3xl mx-auto space-y-4">
-          <h3 className="font-display text-2xl uppercase tracking-wider text-ice-white">
-            Transform Art Direction Into Personal Possession
-          </h3>
-          <p className="text-xs font-sans text-silver/80 max-w-md mx-auto">
-            All pieces featured in this photographic study are available in limited studio quantities.
-          </p>
-          <div className="pt-2">
-            <Link
-              href="/shop"
-              className="inline-flex items-center space-x-2 px-8 py-3.5 bg-bright-silver hover:bg-white text-void font-sans text-xs uppercase tracking-super-wide font-semibold transition-colors"
-            >
-              <span>Explore The Full Archive</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+        {/* Exhibition Closing Strip */}
+        <section className="mt-24 p-10 sm:p-14 bg-[#0A0F0C] border border-[rgba(242,242,242,0.10)] text-center max-w-4xl mx-auto rounded-[2px] shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(108,143,114,0.06)_0%,transparent_70%)] pointer-events-none" />
+          <div className="relative z-10 space-y-4">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 border border-[rgba(242,242,242,0.12)] bg-[#030504] text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D]">
+              <Sparkles className="w-3 h-3 text-[#6C8F72]" />
+              <span>Limited Atelier Inventory</span>
+            </div>
+            <h2 className="font-sans font-medium text-2xl sm:text-4xl uppercase tracking-tight text-[#F2F2F2]">
+              Acquire Directly From The Silversmith Vault
+            </h2>
+            <p className="text-xs sm:text-sm font-sans text-[#9AA39D] max-w-lg mx-auto leading-relaxed">
+              Every creation featured in this catalog is cast in solid 925 sterling metallurgy, individually stamped with official hallmarks and shipped in our magnetic obsidian presentation case.
+            </p>
+            <div className="pt-4 flex items-center justify-center gap-4 flex-wrap">
+              <Link
+                href="/shop"
+                className="inline-flex items-center space-x-2 px-8 py-3.5 bg-[#F2F2F2] hover:bg-white text-[#030504] font-mono text-xs uppercase tracking-[0.14em] font-semibold transition-all shadow-xl rounded-[2px]"
+              >
+                <span>Explore Full Collection</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
 
-      {/* Lightbox Modal */}
-      {selectedImg && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8">
+      {/* Keyboard-Navigable Lightbox Modal */}
+      {activePlate && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={activePlate.title}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8"
+        >
+          {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-void/95 backdrop-blur-md"
-            onClick={() => setSelectedImg(null)}
+            className="fixed inset-0 bg-[#030504]/95 backdrop-blur-md"
+            onClick={() => setActiveIndex(null)}
           />
-          <div className="relative max-w-4xl max-h-[90vh] bg-graphite border border-steel/80 p-6 z-10 shadow-2xl flex flex-col">
-            <div className="flex justify-between items-center pb-4 border-b border-steel/40">
+
+          {/* Modal Card */}
+          <div className="relative max-w-5xl w-full max-h-[92vh] bg-[#0A0F0C] border border-[rgba(242,242,242,0.14)] p-6 sm:p-8 z-10 shadow-2xl flex flex-col rounded-[2px]">
+            {/* Top Bar */}
+            <div className="flex justify-between items-start pb-4 border-b border-[rgba(242,242,242,0.10)]">
               <div>
-                <h3 className="font-display text-lg uppercase tracking-wider text-ice-white">
-                  {selectedImg.title}
+                <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#6C8F72] block">
+                  Plate {activePlate.plateNumber} of {galleryPlates.length < 10 ? `0${galleryPlates.length}` : galleryPlates.length}
+                </span>
+                <h3 className="font-sans font-medium text-xl uppercase tracking-tight text-[#F2F2F2] mt-1">
+                  {activePlate.title}
                 </h3>
-                <p className="text-xs font-editorial italic text-silver/70">
-                  {selectedImg.caption}
+                <p className="text-xs font-mono text-[#9AA39D] mt-0.5">
+                  {activePlate.material}
                 </p>
               </div>
               <button
-                onClick={() => setSelectedImg(null)}
-                className="p-2 text-silver hover:text-ice-white transition-colors"
+                onClick={() => setActiveIndex(null)}
+                aria-label="Close Lightbox"
+                className="p-2 text-[#9AA39D] hover:text-[#F2F2F2] border border-[rgba(242,242,242,0.10)] hover:border-[rgba(242,242,242,0.3)] transition-colors rounded-[2px]"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="relative flex-1 overflow-hidden mt-4 flex items-center justify-center">
-              <img
-                src={selectedImg.src}
-                alt={selectedImg.title}
-                className="max-h-[70vh] w-auto object-contain"
-              />
+
+            {/* Media Area */}
+            <div className="relative flex-1 overflow-hidden my-6 flex items-center justify-center min-h-[40vh] max-h-[55vh]">
+              {activePlate.type === 'product' ? (
+                <div className="relative w-full h-full max-h-[55vh] flex items-center justify-center">
+                  <Image
+                    src={activePlate.src}
+                    alt={activePlate.title}
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-[#030504] border border-[rgba(242,242,242,0.06)]">
+                  <p className="text-xs font-mono uppercase tracking-[0.14em] text-[#6C8F72]">
+                    Atmospheric Computational Light Study
+                  </p>
+                  <p className="text-[11px] text-[#9AA39D] mt-2 max-w-md">
+                    Rendered purely from non-jewellery vector calculations to demonstrate silver specular reflectivity without representing any physical jewellery piece.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Lightbox Footer & Pagination */}
+            <div className="pt-4 border-t border-[rgba(242,242,242,0.10)] flex items-center justify-between text-xs font-mono">
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() =>
+                    setActiveIndex((prev) =>
+                      prev !== null ? (prev - 1 + galleryPlates.length) % galleryPlates.length : 0
+                    )
+                  }
+                  className="px-3 py-1.5 border border-[rgba(242,242,242,0.12)] hover:border-[#6C8F72] text-[#9AA39D] hover:text-[#F2F2F2] transition-colors flex items-center space-x-1"
+                  aria-label="Previous plate"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <span>PREV</span>
+                </button>
+                <button
+                  onClick={() =>
+                    setActiveIndex((prev) =>
+                      prev !== null ? (prev + 1) % galleryPlates.length : 0
+                    )
+                  }
+                  className="px-3 py-1.5 border border-[rgba(242,242,242,0.12)] hover:border-[#6C8F72] text-[#9AA39D] hover:text-[#F2F2F2] transition-colors flex items-center space-x-1"
+                  aria-label="Next plate"
+                >
+                  <span>NEXT</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {activePlate.productSlug && (
+                <Link
+                  href={`/product/${activePlate.productSlug}`}
+                  className="px-5 py-1.5 bg-[#F2F2F2] hover:bg-white text-[#030504] font-semibold transition-colors uppercase tracking-[0.14em] text-[11px] rounded-[2px]"
+                >
+                  View Product Page
+                </Link>
+              )}
             </div>
           </div>
         </div>

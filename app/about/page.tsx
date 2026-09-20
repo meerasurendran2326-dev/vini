@@ -25,8 +25,8 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 relative aspect-[4/5] bg-carbon border border-steel/60 overflow-hidden shadow-2xl">
             <img
-              src="/images/inspo/inspo-2.jpeg"
-              alt="Atelier Craft"
+              src="/images/products/pdt-6.jpeg"
+              alt="Atelier Craft - Hand Carved Solid 925 Silver"
               className="w-full h-full object-cover"
             />
           </div>
@@ -75,8 +75,8 @@ export default function AboutPage() {
 
           <div className="lg:col-span-6 relative aspect-[4/5] bg-carbon border border-steel/60 overflow-hidden shadow-2xl lg:order-2 order-1">
             <img
-              src="/images/inspo/inspo-3.jpeg"
-              alt="Assay and Purity"
+              src="/images/products/pdt-9.jpeg"
+              alt="Assay and Purity - Solid 925 Sterling Silver"
               className="w-full h-full object-cover"
             />
           </div>

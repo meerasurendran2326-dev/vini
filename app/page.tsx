@@ -108,91 +108,93 @@ export default function HomePage() {
       {/* 7-Stage Cinematic Vault Entry Experience */}
       {showIntro && <CinematicOpening onComplete={handleIntroComplete} />}
 
-      <div className="relative bg-void text-ice-white selection:bg-steel selection:text-ice-white">
+      <div className="relative bg-[#030504] text-[#F2F2F2] selection:bg-[#6C8F72]/30 selection:text-[#F2F2F2]">
         
         {/* =========================================================================
-            SCENE 01-04: HERO VOID, SILVER LIGHT, 3D JEWELLERY STUDIO & MANIFESTO
+            SCENE 01-04: GROK-STYLE CINEMATIC ARCHITECTURAL SILVER VOID
         ========================================================================= */}
-        <section className="relative min-h-[92vh] flex flex-col justify-between px-6 sm:px-10 lg:px-16 pt-8 pb-16 overflow-hidden border-b border-steel/30">
-          {/* Subtle Ambient Radial Glow */}
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(212,215,218,0.06),transparent_70%)] pointer-events-none" />
-
-          {/* Architectural Background Giant Lettering (Sitting behind hero) */}
-          <div className="absolute top-12 left-1/2 -translate-x-1/2 font-display text-[15vw] leading-none text-carbon/80 select-none pointer-events-none font-bold tracking-[0.2em] whitespace-nowrap z-0">
-            SOLID 925
-          </div>
+        <section className="relative min-h-[calc(100svh-104px)] flex flex-col justify-between px-6 sm:px-10 lg:px-[6vw] pt-6 sm:pt-8 pb-10 overflow-hidden border-b border-[rgba(242,242,242,0.10)]">
+          {/* Subtle Ambient Radial Glow centered behind the 3D showcase */}
+          <div className="absolute top-1/2 right-[10%] -translate-y-1/2 w-[650px] h-[650px] bg-[radial-gradient(circle_at_center,rgba(108,143,114,0.07)_0%,rgba(11,26,18,0.04)_45%,transparent_70%)] pointer-events-none" />
 
           {/* Top Meta Bar */}
-          <div className="relative z-10 flex flex-wrap items-center justify-between text-[10px] sm:text-[11px] font-sans uppercase tracking-monumental text-silver/60 pt-4 pb-6">
-            <div className="flex items-center space-x-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-              <span>Atelier Online Showroom</span>
+          <div className="relative z-10 flex items-center justify-between text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] pt-2 pb-6 border-b border-[rgba(242,242,242,0.06)]">
+            <div className="flex items-center space-x-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#6C8F72] inline-block animate-pulse" />
+              <span className="text-[#F2F2F2]">Atelier Online Showroom</span>
             </div>
-            <div className="hidden md:block">
-              <span>Pure 92.5% Sterling Metallurgy • Handcrafted In India</span>
+            <div className="hidden md:flex items-center space-x-3 text-[rgba(242,242,242,0.6)]">
+              <span>Pure 92.5% Sterling Metallurgy</span>
+              <span className="text-[#6C8F72]">•</span>
+              <span>Handcrafted In India</span>
             </div>
             <div>
               <button
                 onClick={() => setShowIntro(true)}
-                className="hover:text-ice-white transition-colors underline decoration-steel underline-offset-4"
+                className="hover:text-[#F2F2F2] transition-colors underline decoration-[rgba(242,242,242,0.25)] underline-offset-4"
               >
                 Replay Vault Intro
               </button>
             </div>
           </div>
 
-          {/* Center Stage: Split Screen between Architectural Typography and 3D Studio */}
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center my-auto">
-            {/* Left Content Column */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 border border-steel/50 bg-carbon/80 text-[10px] font-sans uppercase tracking-widest text-silver">
-                <Sparkles className="w-3.5 h-3.5 text-bright-silver" />
+          {/* Center Stage: 12-Column Asymmetric Grid */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto py-8">
+            {/* Left Content Column (Cols 1-7) */}
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              {/* Micro-label kicker */}
+              <div className="inline-flex items-center space-x-2 px-2.5 py-1 rounded-[2px] border border-[rgba(242,242,242,0.12)] bg-[#0A0F0C]/80 text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] w-fit mb-5">
+                <Sparkles className="w-3 h-3 text-[#8FB89A]" />
                 <span>Exhibition Catalog 2026</span>
               </div>
 
-              <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-7xl tracking-wider text-ice-white font-normal uppercase leading-[1.05]">
+              {/* Headline */}
+              <h1 className="font-sans font-medium text-4xl sm:text-6xl lg:text-[clamp(2.75rem,5vw,5.25rem)] leading-[1.03] tracking-[-0.03em] text-[#F2F2F2] mb-6 uppercase">
                 Liquid Chrome. <br />
-                <span className="italic font-editorial font-light text-silver">
-                  Architectural
+                <span className="font-editorial italic font-light text-[#9AA39D] lowercase">
+                  architectural
                 </span>{' '}
                 Silver.
               </h1>
 
-              <p className="font-sans text-xs sm:text-sm text-silver/80 max-w-lg leading-relaxed tracking-wide">
-                Forged from certified 925 solid sterling silver. Precision-beveled planar signets, fluid torque bangles, and generational bespoke engravings designed to outlive the century.
+              {/* Subheading / Description */}
+              <p className="font-sans text-xs sm:text-sm text-[#9AA39D] max-w-[54ch] leading-relaxed tracking-normal mb-8">
+                Forged from certified 925 solid sterling silver. Precision-beveled planar signets, fluid torque bangles, and generational bespoke metallurgy designed to outlive the century.
               </p>
 
               {/* Action Buttons */}
-              <div className="pt-4 flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4 mb-8">
                 <Link
                   href="/shop"
-                  className="px-8 py-4 bg-bright-silver hover:bg-white text-void text-xs font-sans uppercase tracking-monumental font-semibold transition-all duration-300 shadow-xl flex items-center space-x-3 group"
+                  className="px-7 py-3.5 bg-[#F2F2F2] hover:bg-white text-[#030504] text-[11px] font-mono uppercase tracking-[0.14em] font-semibold rounded-[2px] transition-all duration-300 shadow-xl flex items-center space-x-2.5 group"
                 >
                   <span>Explore Exhibition</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
 
                 <Link
                   href="/about"
-                  className="px-8 py-4 border border-steel/70 hover:border-silver text-ice-white hover:bg-carbon text-xs font-sans uppercase tracking-monumental transition-colors"
+                  className="group px-7 py-3.5 border border-[rgba(242,242,242,0.14)] hover:border-[#6C8F72] text-[#F2F2F2] hover:bg-[#0A0F0C] text-[11px] font-mono uppercase tracking-[0.14em] rounded-[2px] transition-colors"
                 >
                   The Silversmith Story
                 </Link>
               </div>
 
-              {/* Live Scarcity & Offer Callout */}
-              <div className="pt-4 flex items-center space-x-6 text-[10px] font-sans uppercase tracking-widest text-silver/70">
-                <span className="flex items-center space-x-1.5 text-brand-green">
+              {/* Meta Scarcity & Offer Row */}
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] font-mono uppercase tracking-[0.12em] text-[#9AA39D]">
+                <span className="flex items-center space-x-1.5 text-[#6C8F72]">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>50% Celebration Discount Active</span>
                 </span>
-                <span>•</span>
+                <span className="text-[rgba(242,242,242,0.2)] hidden sm:inline">•</span>
                 <span>Guest Checkout Enabled</span>
+                <span className="text-[rgba(242,242,242,0.2)] hidden sm:inline">•</span>
+                <span className="hidden sm:inline">Lifetime Metallurgy Guarantee</span>
               </div>
             </div>
 
-            {/* Right Column: 3D Interactive Silver Jewellery Studio */}
-            <div className="lg:col-span-6 relative flex items-center justify-center">
+            {/* Right Column: 3D Interactive Silver Jewellery Studio (Cols 8-12) */}
+            <div className="lg:col-span-5 relative flex items-center justify-center">
               <div className="relative w-full max-w-lg">
                 <SilverJewellery3D />
               </div>
@@ -200,11 +202,11 @@ export default function HomePage() {
           </div>
 
           {/* Bottom Scene Ticker */}
-          <div className="relative z-10 pt-8 border-t border-steel/20 flex items-center justify-between text-[10px] font-sans uppercase tracking-widest text-chrome">
+          <div className="relative z-10 pt-4 border-t border-[rgba(242,242,242,0.08)] flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D]">
             <span>Scene 01–04 • Pure Material Induction</span>
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-1.5">
               <span>Scroll to Enter Curated Exhibition</span>
-              <span className="animate-bounce">↓</span>
+              <span className="animate-bounce text-[#6C8F72]">↓</span>
             </div>
           </div>
         </section>
@@ -367,8 +369,8 @@ export default function HomePage() {
             <div className="lg:col-span-6 relative">
               <div className="relative aspect-[4/5] bg-carbon border border-steel/60 hover:border-moss transition-all duration-500 overflow-hidden shadow-2xl rounded-sm">
                 <img
-                  src="/images/inspo/inspo-1.jpeg"
-                  alt="Silver Craftsmanship Atelier"
+                  src="/images/products/pdt-8.jpeg"
+                  alt="Silver Craftsmanship Atelier - Hand Finished 925 Solid Sterling"
                   className="w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-void/90 via-transparent to-transparent" />
