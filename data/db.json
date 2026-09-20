@@ -1,0 +1,1133 @@
+{
+  "products": [
+    {
+      "id": "vvv-pdt-01",
+      "sku": "VVV-RNG-01",
+      "name": "Aethelgard Hand-Carved Sovereign Ring",
+      "slug": "aethelgard-hand-carved-sovereign-ring",
+      "tagline": "Brutalist geometry crafted in 925 Solid Sterling Silver",
+      "description": "Architectural purity meets artisanal metallurgy. Cast in dense 925 sterling silver with a brushed oxidized recessed face and micro-beveled mirror chrome edges. Designed as an heirloom seal ring.",
+      "category": "rings",
+      "price": 6450,
+      "originalPrice": 9900,
+      "isFiftyPercentOffer": true,
+      "stock": 2,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-1.jpeg",
+        "/images/products/pdt-2.jpeg",
+        "/images/products/pdt-3.jpeg"
+      ],
+      "featured": true,
+      "bestseller": true,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "14.8 grams",
+        "finish": "Polished Chrome & Satin Oxidation",
+        "hallmark": "BIS 925 Laser Inscription",
+        "dimensions": "18mm width x 4.2mm depth"
+      },
+      "details": [
+        "Individually hand-chiseled by master silversmiths",
+        "Rhodium e-coat for lifelong tarnish resistance",
+        "Comfort-fit inner core engineered for all-day wear",
+        "Arrives in signature Obsidian magnetic presentation vault"
+      ],
+      "createdAt": "2026-09-20T13:37:59.382Z",
+      "updatedAt": "2026-09-20T13:39:53.585Z"
+    },
+    {
+      "id": "vvv-pdt-02",
+      "sku": "VVV-PDT-02",
+      "name": "Argent L'Ombre Liquid Drop Pendant",
+      "slug": "argent-lombre-liquid-drop-pendant",
+      "tagline": "Fluid sculpted chrome suspended in gravitational silence",
+      "description": "An homage to molten metal caught mid-motion. The Argent L'Ombre drop captures the reflective brilliance of liquid silver, contoured to catch ambient showroom spotlight.",
+      "category": "pendants",
+      "price": 3850,
+      "originalPrice": 7700,
+      "isFiftyPercentOffer": true,
+      "stock": 2,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-2.jpeg",
+        "/images/products/pdt-4.jpeg"
+      ],
+      "featured": true,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "11.2 grams",
+        "finish": "Mirror Polished Liquid Chrome",
+        "hallmark": "Laser Hallmarked 925",
+        "dimensions": "32mm length x 14mm cross-section"
+      },
+      "details": [
+        "Continuous seamless cast with zero weld points",
+        "Includes 22-inch adjustable 925 diamond-cut wheat chain",
+        "High-specular liquid-chrome reflection profile"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-03",
+      "sku": "VVV-BRC-03",
+      "name": "Vesper Heavy Solid Torque Bangle",
+      "slug": "vesper-heavy-solid-torque-bangle",
+      "tagline": "Monumental silver silhouette with tapered terminus finials",
+      "description": "Forged under heavy hydraulic pressure and hand-finished with an ultra-fine grain polish. The Vesper Torque delivers substantial presence on the wrist while flexing gently for bespoke fitment.",
+      "category": "bracelets",
+      "price": 8900,
+      "originalPrice": 17800,
+      "isFiftyPercentOffer": true,
+      "stock": 5,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-3.jpeg",
+        "/images/products/pdt-5.jpeg"
+      ],
+      "featured": true,
+      "bestseller": true,
+      "specifications": {
+        "material": "925 Fine Sterling Silver",
+        "purity": "92.5% Pure Silver",
+        "weight": "36.4 grams",
+        "finish": "Directional Brushed Satin & Mirror Finials",
+        "hallmark": "Assay Stamped 925",
+        "dimensions": "65mm internal diameter (adjustable)"
+      },
+      "details": [
+        "Substantial 36g weight feels grounded and authoritative",
+        "Antiallergenic and nickel-free alloy composition",
+        "Inner surface diamond-buffed for skin velvet feel"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-04",
+      "sku": "VVV-CHN-04",
+      "name": "Byzantine Hand-Linked Heavy Silver Chain",
+      "slug": "byzantine-hand-linked-heavy-silver-chain",
+      "tagline": "Intricate historical weave interlocking four-in-one rings",
+      "description": "Over 800 individual 925 silver links meticulously woven and compressed by hand. A statement piece that balances historical imperial weight with contemporary minimal styling.",
+      "category": "chains",
+      "price": 12500,
+      "originalPrice": 25000,
+      "isFiftyPercentOffer": true,
+      "stock": 3,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-4.jpeg",
+        "/images/products/pdt-6.jpeg"
+      ],
+      "featured": true,
+      "bestseller": true,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "52.0 grams",
+        "finish": "Hand-Antiqued Sterling Silver",
+        "hallmark": "Clasp Inscribed 925",
+        "dimensions": "24 inches length x 6mm width"
+      },
+      "details": [
+        "Heavy custom box clasp with dual safety latch",
+        "Supple fluid drape across the collarbone",
+        "Lifetime silversmith warranty against link stretch"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-05",
+      "sku": "VVV-RNG-05",
+      "name": "Kuro Obsidian Signet Ring",
+      "slug": "kuro-obsidian-signet-ring",
+      "tagline": "Raw natural obsidian inlaid into heavy silver architecture",
+      "description": "A dark mirror obsidian gemstone set flush into a sculpted geometric 925 silver chassis. Under light, the obsidian reflects like deep glass against cold polished chrome.",
+      "category": "rings",
+      "price": 5400,
+      "originalPrice": 10800,
+      "isFiftyPercentOffer": true,
+      "stock": 8,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-5.jpeg",
+        "/images/products/pdt-7.jpeg"
+      ],
+      "featured": false,
+      "bestseller": true,
+      "specifications": {
+        "material": "Solid 925 Sterling Silver & Natural Obsidian",
+        "purity": "925 Certified",
+        "weight": "16.1 grams",
+        "finish": "Mirror Polish & Black Inlay",
+        "hallmark": "BIS 925",
+        "dimensions": "16mm x 14mm face plate"
+      },
+      "details": [
+        "Hand-cut obsidian stone with chamfered edge",
+        "Solid back construction (no hollow cavity)",
+        "Protective rhodium barrier layer"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-06",
+      "sku": "VVV-BSK-06",
+      "name": "Solstice Monolith Bespoke Talisman",
+      "slug": "solstice-monolith-bespoke-talisman",
+      "tagline": "Custom-engraved celestial coordinates in brutalist bar",
+      "description": "An elongated solid ingot carved with custom bespoke coordinates, Roman numerals, or personal family seal. Polished flat planar faces reflect light in clean architectural strobing.",
+      "category": "bespoke",
+      "price": 6800,
+      "originalPrice": 13600,
+      "isFiftyPercentOffer": true,
+      "stock": 4,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-6.jpeg",
+        "/images/products/pdt-8.jpeg"
+      ],
+      "featured": true,
+      "bestseller": false,
+      "specifications": {
+        "material": "Pure 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "22.5 grams",
+        "finish": "Architectural Brushed Face with Polished Edges",
+        "hallmark": "925 Assay Seal",
+        "dimensions": "45mm x 9mm x 4mm"
+      },
+      "details": [
+        "Custom laser or diamond-drag engraving available upon order",
+        "Heavier gauge bail fits chains up to 8mm width",
+        "WhatsApp consultation provided for bespoke font selection"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-07",
+      "sku": "VVV-BRC-07",
+      "name": "Helix Ribbed Sterling Cuff",
+      "slug": "helix-ribbed-sterling-cuff",
+      "tagline": "Dynamic ridged grooves creating light-sweep reflections",
+      "description": "Geometric ridges run longitudinally across this open cuff, producing optical refraction when illuminated by moving light. Built for those who demand tactile luxury.",
+      "category": "bracelets",
+      "price": 7200,
+      "originalPrice": 14400,
+      "isFiftyPercentOffer": true,
+      "stock": 1,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-7.jpeg",
+        "/images/products/pdt-9.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "28.0 grams",
+        "finish": "Dual Tone Brushed Flutes & Bright Ridges",
+        "hallmark": "925 Stamped",
+        "dimensions": "12mm width"
+      },
+      "details": [
+        "Ergonomic oval profile sits flush to the wrist",
+        "Resistant to bending fatigue",
+        "Includes protective velvet travel pouch"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-08",
+      "sku": "VVV-RNG-08",
+      "name": "Vanguard Eternity Silver Band",
+      "slug": "vanguard-eternity-silver-band",
+      "tagline": "Beveled multi-faceted edge catching 360-degree glints",
+      "description": "Precision-milled geometric facets encircle this modern band. Designed to be worn as a standalone statement or stacked alongside our signature signets.",
+      "category": "rings",
+      "price": 3200,
+      "originalPrice": 6400,
+      "isFiftyPercentOffer": true,
+      "stock": 12,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-8.jpeg",
+        "/images/products/pdt-10.jpeg"
+      ],
+      "featured": false,
+      "bestseller": true,
+      "specifications": {
+        "material": "925 Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "7.8 grams",
+        "finish": "High-Luster Rhodium Chrome",
+        "hallmark": "925 Interior Inscription",
+        "dimensions": "6mm bandwidth"
+      },
+      "details": [
+        "Flawless diamond-cut facets",
+        "Seamless round profile interior",
+        "Water, sweat, and perfume resistant"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-09",
+      "sku": "VVV-PDT-09",
+      "name": "Nocturne Crescent Silver Medallion",
+      "slug": "nocturne-crescent-silver-medallion",
+      "tagline": "Dual-sided coin featuring hand-chased celestial iconography",
+      "description": "Inspired by vintage sovereign coinage, the Nocturne medallion features a hand-embossed crescent moon enveloped in midnight satin oxidation.",
+      "category": "pendants",
+      "price": 4400,
+      "originalPrice": 8800,
+      "isFiftyPercentOffer": true,
+      "stock": 6,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-9.jpeg",
+        "/images/products/pdt-11.jpeg"
+      ],
+      "featured": true,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "15.4 grams",
+        "finish": "Vintage Chased & Oxidized",
+        "hallmark": "925 Rim Stamped",
+        "dimensions": "28mm diameter"
+      },
+      "details": [
+        "Struck on antique coin die for authentic relief depth",
+        "Reversible wear: celestial crest on face, clean mirror reverse",
+        "Includes 20-inch 925 curb chain"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-10",
+      "sku": "VVV-CHN-10",
+      "name": "Imperium Diamond-Cut Cuban Link",
+      "slug": "imperium-diamond-cut-cuban-link",
+      "tagline": "Precision flat-faced interlocking links with razor chamfers",
+      "description": "The definitive luxury silver chain. Each interlocking link is precision diamond-cut on both planes to form an immaculate, flat reflective ribbon of silver.",
+      "category": "chains",
+      "price": 14800,
+      "originalPrice": 29600,
+      "isFiftyPercentOffer": true,
+      "stock": 2,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-10.jpeg",
+        "/images/products/pdt-12.jpeg"
+      ],
+      "featured": true,
+      "bestseller": true,
+      "specifications": {
+        "material": "Solid 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "68.2 grams",
+        "finish": "Mirror Chrome Polish",
+        "hallmark": "BIS 925 Hallmarked",
+        "dimensions": "22 inches x 8.5mm gauge"
+      },
+      "details": [
+        "Double-safety foldover clasp with hidden lock button",
+        "Drapes perfectly flat without twisting or catching",
+        "Independently assayed and certified for silver purity"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-11",
+      "sku": "VVV-RNG-11",
+      "name": "Chronos Roman Numeral Band",
+      "slug": "chronos-roman-numeral-band",
+      "tagline": "Perpetual temporal markings engraved into solid silver",
+      "description": "Deep relief Roman numerals incised into a satin brushed silver band, framed by raised polished chrome rails. A timeless reflection on memory and strength.",
+      "category": "rings",
+      "price": 3600,
+      "originalPrice": 7200,
+      "isFiftyPercentOffer": true,
+      "stock": 9,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-11.jpeg",
+        "/images/products/pdt-13.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "8.5 grams",
+        "finish": "Matte Flute & Polished Guard Rails",
+        "hallmark": "925 Inscribed",
+        "dimensions": "7mm width"
+      },
+      "details": [
+        "Laser engraved high-precision numerals",
+        "Ergonomic curvature for maximum comfort",
+        "Free custom interior name/date engraving"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-12",
+      "sku": "VVV-BRC-12",
+      "name": "Phantom Mesh Weave Silver Bracelet",
+      "slug": "phantom-mesh-weave-silver-bracelet",
+      "tagline": "Flexible woven silver fabric engineered with mechanical clasp",
+      "description": "Thousands of microscopic silver rings articulated into a supple metallic fabric that mirrors the temperature of your skin. Fastened with our magnetic barrel lock.",
+      "category": "bracelets",
+      "price": 6100,
+      "originalPrice": 12200,
+      "isFiftyPercentOffer": true,
+      "stock": 3,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-12.jpeg",
+        "/images/products/pdt-14.jpeg"
+      ],
+      "featured": false,
+      "bestseller": true,
+      "specifications": {
+        "material": "Solid 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "24.6 grams",
+        "finish": "Fluid Satin Silver Mesh",
+        "hallmark": "925 Hallmarked",
+        "dimensions": "7.5 inches length x 10mm width"
+      },
+      "details": [
+        "Ultra-fluid mesh adapts to every wrist contour",
+        "Heavy-duty neodymium magnetic lock mechanism",
+        "Will not snag knitwear or cuffs"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-13",
+      "sku": "VVV-RNG-13",
+      "name": "Valkyrie Angular Chevron Ring",
+      "slug": "valkyrie-angular-chevron-ring",
+      "tagline": "Geometric knife-edge peak channeling heroic geometry",
+      "description": "An architectural apex ring cast in pure 925 silver. The dramatic knife-edge silhouette slices light into two opposing planes of brilliance and shadow.",
+      "category": "rings",
+      "price": 3400,
+      "originalPrice": 6800,
+      "isFiftyPercentOffer": true,
+      "stock": 7,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-13.jpeg",
+        "/images/products/pdt-15.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "9.2 grams",
+        "finish": "Mirror Chrome Edge",
+        "hallmark": "925 Stamp",
+        "dimensions": "10mm peak elevation"
+      },
+      "details": [
+        "Stackable with curved eternity bands",
+        "Solid unhollowed core"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.385Z"
+    },
+    {
+      "id": "vvv-pdt-14",
+      "sku": "VVV-PDT-14",
+      "name": "Cipher Geometric Prism Locket",
+      "slug": "cipher-geometric-prism-locket",
+      "tagline": "Concealed interior compartment within faceted polygon",
+      "description": "A functional modern locket disguised as a sculptural hexagonal silver prism. Opens on an invisible micro-hinge to enclose a personal keepsake or talisman.",
+      "category": "pendants",
+      "price": 5200,
+      "originalPrice": 10400,
+      "isFiftyPercentOffer": true,
+      "stock": 2,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-14.jpeg",
+        "/images/products/pdt-16.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "925 Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "18.0 grams",
+        "finish": "Satin Brushed Facets",
+        "hallmark": "Internal 925 Hallmark",
+        "dimensions": "26mm x 15mm"
+      },
+      "details": [
+        "Precision snap clasp keeps contents secure",
+        "Includes 22-inch silver cable chain"
+      ],
+      "createdAt": "2026-09-20T13:37:59.385Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-15",
+      "sku": "VVV-BSK-15",
+      "name": "Atelier Signature Bespoke Family Crest Ring",
+      "slug": "atelier-signature-bespoke-family-crest-ring",
+      "tagline": "Intaglio hand-engraved signet for authentic wax sealing",
+      "description": "Deep intaglio engraving into a substantial 18g solid silver signet crown. Can be used with traditional sealing wax or worn as a permanent personal insignia.",
+      "category": "bespoke",
+      "price": 9800,
+      "originalPrice": 19600,
+      "isFiftyPercentOffer": true,
+      "stock": 3,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-15.jpeg",
+        "/images/products/pdt-17.jpeg"
+      ],
+      "featured": true,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "18.5 grams",
+        "finish": "High-Gloss Mirror Crown",
+        "hallmark": "BIS 925 Verified",
+        "dimensions": "19mm circular signet table"
+      },
+      "details": [
+        "Direct 1-on-1 WhatsApp consultation with our master engraver",
+        "Full digital rendering approval before metal is touched",
+        "Includes complimentary red sealing wax stick and sample stamp impression"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-16",
+      "sku": "VVV-RNG-16",
+      "name": "Nebula Raw Hammered Band",
+      "slug": "nebula-raw-hammered-band",
+      "tagline": "Individual hammer blow textures refracting light organically",
+      "description": "Forged with repetitive blows using a polished spherical jeweler's hammer. No two rings share the exact same texture; each facet tells the physical story of craftsmanship.",
+      "category": "rings",
+      "price": 2900,
+      "originalPrice": 5800,
+      "isFiftyPercentOffer": true,
+      "stock": 14,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-16.jpeg",
+        "/images/products/pdt-18.jpeg"
+      ],
+      "featured": false,
+      "bestseller": true,
+      "specifications": {
+        "material": "Solid 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "6.9 grams",
+        "finish": "Organic Planished Hammer Texture",
+        "hallmark": "925 Hallmark",
+        "dimensions": "5mm width"
+      },
+      "details": [
+        "Organic hand-forged finish",
+        "Rounded comfort interior"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-17",
+      "sku": "VVV-BRC-17",
+      "name": "Gothic Ouroboros Heavy Cuff",
+      "slug": "gothic-ouroboros-heavy-cuff",
+      "tagline": "Ancient serpent swallowing its tail in oxidized relief",
+      "description": "Detailed micro-sculpted scales, serpentine contours, and ruby-toned synthetic eye accents cast in thick 925 silver. Treated with antique dark sulfur wash.",
+      "category": "bracelets",
+      "price": 8400,
+      "originalPrice": 16800,
+      "isFiftyPercentOffer": true,
+      "stock": 2,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-17.jpeg",
+        "/images/products/pdt-19.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "34.1 grams",
+        "finish": "Deep Antique Black Patina & Polished Highlights",
+        "hallmark": "925 Marked",
+        "dimensions": "Adjustable 62mm diameter"
+      },
+      "details": [
+        "Hand-burnished scales",
+        "Heavyweight silver feel"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-18",
+      "sku": "VVV-CHN-18",
+      "name": "Rope Twist Imperial Silver Chain",
+      "slug": "rope-twist-imperial-silver-chain",
+      "tagline": "Diamond-cut spiral rope producing dynamic fluid glints",
+      "description": "Tightly wound spiral links diamond-faceted along every turn. When moving under natural daylight or evening chandeliers, the spiral creates a cascading flash of brilliance.",
+      "category": "chains",
+      "price": 8900,
+      "originalPrice": 17800,
+      "isFiftyPercentOffer": true,
+      "stock": 5,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-18.jpeg",
+        "/images/products/pdt-20.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "38.2 grams",
+        "finish": "Bright Luster Diamond Cut",
+        "hallmark": "925 Clasp",
+        "dimensions": "22 inches x 5.5mm diameter"
+      },
+      "details": [
+        "Robust lobster swivel claw clasp",
+        "Anti-kink internal core geometry"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-19",
+      "sku": "VVV-PDT-19",
+      "name": "Aura Sacred Geometry Hex Pendant",
+      "slug": "aura-sacred-geometry-hex-pendant",
+      "tagline": "Laser-machined Metatron cube suspended in silver halo",
+      "description": "Micron-level openwork fretwork representing sacred geometry diagrams. Suspended within a thick protective circular silver rim.",
+      "category": "pendants",
+      "price": 4100,
+      "originalPrice": 8200,
+      "isFiftyPercentOffer": true,
+      "stock": 8,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-19.jpeg",
+        "/images/products/pdt-21.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "13.6 grams",
+        "finish": "Two-tone Matte Fretwork & Mirror Frame",
+        "hallmark": "925 Stamp",
+        "dimensions": "30mm diameter"
+      },
+      "details": [
+        "Hypoallergenic pure sterling silver",
+        "Includes 20-inch curb link"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-20",
+      "sku": "VVV-RNG-20",
+      "name": "Sovereign Shield Matte Silver Ring",
+      "slug": "sovereign-shield-matte-silver-ring",
+      "tagline": "Broad armor shield face with tapered heavy band",
+      "description": "An unadorned shield silhouette that celebrates the pure physical beauty of brushed silver. Minimalist, authoritative, and perfectly proportioned.",
+      "category": "rings",
+      "price": 4200,
+      "originalPrice": 8400,
+      "isFiftyPercentOffer": true,
+      "stock": 3,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-20.jpeg",
+        "/images/products/pdt-22.jpeg"
+      ],
+      "featured": false,
+      "bestseller": true,
+      "specifications": {
+        "material": "925 Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "12.8 grams",
+        "finish": "Directional Brushed Satin",
+        "hallmark": "Laser Hallmarked 925",
+        "dimensions": "15mm shield elevation"
+      },
+      "details": [
+        "Thick sidewall construction",
+        "Engineered comfort curve inside"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-21",
+      "sku": "VVV-BRC-21",
+      "name": "Vortex Chain Link Heavy Bracelet",
+      "slug": "vortex-chain-link-heavy-bracelet",
+      "tagline": "Oversized bold maritime links with toggle bar closure",
+      "description": "Bold maritime links interlocking with substantial heft. Secured with an architectural T-bar toggle adorned with VINI VICI VIDI micro-insignia.",
+      "category": "bracelets",
+      "price": 7900,
+      "originalPrice": 15800,
+      "isFiftyPercentOffer": true,
+      "stock": 4,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-21.jpeg",
+        "/images/products/pdt-23.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "32.5 grams",
+        "finish": "High Gloss Chrome",
+        "hallmark": "925 Bar Marked",
+        "dimensions": "8 inches total length"
+      },
+      "details": [
+        "Sculpted anchor link profile",
+        "T-bar with security retention detent"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-22",
+      "sku": "VVV-BSK-22",
+      "name": "Architectural Custom Initial Signet",
+      "slug": "architectural-custom-initial-signet",
+      "tagline": "Sharply chiseled monogram initials in heavy geometric seal",
+      "description": "Choose 1 to 3 monogram characters to be custom engraved into our flagship heavy octagon signet. A bespoke signature for discerning collectors.",
+      "category": "bespoke",
+      "price": 5900,
+      "originalPrice": 11800,
+      "isFiftyPercentOffer": true,
+      "stock": 5,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-22.jpeg",
+        "/images/products/pdt-24.jpeg"
+      ],
+      "featured": true,
+      "bestseller": true,
+      "specifications": {
+        "material": "Solid 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "15.9 grams",
+        "finish": "Mirror Bevel with Micro-Stippled Bed",
+        "hallmark": "BIS 925 Inscribed",
+        "dimensions": "17mm x 15mm face"
+      },
+      "details": [
+        "Custom typography preview sent via WhatsApp before production",
+        "Finished by master hand-engraver with 25+ years experience",
+        "Ready to dispatch within 4 business days"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-23",
+      "sku": "VVV-RNG-23",
+      "name": "Apex Double Band Ring",
+      "slug": "apex-double-band-ring",
+      "tagline": "Parallel silver rails joined by structural pillars",
+      "description": "Two parallel gleaming bands suspended across air by recessed architectural pillars. Gives the illusion of floating silver rings bound in perfect tension.",
+      "category": "rings",
+      "price": 3700,
+      "originalPrice": 7400,
+      "isFiftyPercentOffer": true,
+      "stock": 6,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-23.jpeg",
+        "/images/products/pdt-25.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "9.5 grams",
+        "finish": "Polished Mirror Chrome",
+        "hallmark": "925 Stamp",
+        "dimensions": "11mm overall width"
+      },
+      "details": [
+        "Open negative space design",
+        "Smooth chamfered edges"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-24",
+      "sku": "VVV-PDT-24",
+      "name": "Eclipse Two-Tone Dark Silver Disc",
+      "slug": "eclipse-two-tone-dark-silver-disc",
+      "tagline": "Dark ruthenium plate colliding with pure bright silver",
+      "description": "Divided precisely down the golden ratio meridian, this heavy medallion marries blackened ruthenium antique silver with ultra-bright rhodium chrome.",
+      "category": "pendants",
+      "price": 4600,
+      "originalPrice": 9200,
+      "isFiftyPercentOffer": true,
+      "stock": 2,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-24.jpeg",
+        "/images/products/pdt-26.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "16.8 grams",
+        "finish": "Ruthenium Black & Rhodium White Split",
+        "hallmark": "925 Rim Stamped",
+        "dimensions": "27mm diameter x 3mm depth"
+      },
+      "details": [
+        "Includes 22-inch adjustable black oxidized silver chain",
+        "Striking contrast under direct lighting"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-25",
+      "sku": "VVV-BRC-25",
+      "name": "Barricade Industrial Segment Bracelet",
+      "slug": "barricade-industrial-segment-bracelet",
+      "tagline": "Articulated geometric silver plates with precision pivot pins",
+      "description": "Heavily inspired by brutalist architecture and precision mechanical engineering. Curved solid rectangular segments linked seamlessly around the wrist.",
+      "category": "bracelets",
+      "price": 9400,
+      "originalPrice": 18800,
+      "isFiftyPercentOffer": true,
+      "stock": 3,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-25.jpeg",
+        "/images/products/pdt-27.jpeg"
+      ],
+      "featured": true,
+      "bestseller": false,
+      "specifications": {
+        "material": "Pure 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "44.0 grams",
+        "finish": "Brushed Steel Look with Polished Bevels",
+        "hallmark": "Assay 925 Laser",
+        "dimensions": "14mm plate width"
+      },
+      "details": [
+        "Integrated push-button stealth deployment clasp",
+        "Substantial collector-grade heft"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-26",
+      "sku": "VVV-RNG-26",
+      "name": "Elysium Sculpted Wave Band",
+      "slug": "elysium-sculpted-wave-band",
+      "tagline": "Continuous sinuous crests flowing around the finger",
+      "description": "Gentle organic undulations capture light in soft shifting ribbons. Subtle and elegant, yet distinctively unique from conventional wedding bands.",
+      "category": "rings",
+      "price": 3100,
+      "originalPrice": 6200,
+      "isFiftyPercentOffer": true,
+      "stock": 11,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-26.jpeg",
+        "/images/products/pdt-28.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "7.4 grams",
+        "finish": "High-Luster Mirror",
+        "hallmark": "925 Internal Stamp",
+        "dimensions": "5.5mm variable width"
+      },
+      "details": [
+        "Flowing liquid metal silhouette",
+        "Comfort rounded inner profile"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-27",
+      "sku": "VVV-PDT-27",
+      "name": "Chronicle Heavy Silver Ingot",
+      "slug": "chronicle-heavy-silver-ingot",
+      "tagline": "Stamped with 999 investment assay marks and individual serial",
+      "description": "A replica investment bar cast in 925 sterling silver, stamped with serial number, purity mark, and VINI VICI VIDI foundry seal. Pure metallic prestige.",
+      "category": "pendants",
+      "price": 5700,
+      "originalPrice": 11400,
+      "isFiftyPercentOffer": true,
+      "stock": 2,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-27.jpeg",
+        "/images/products/pdt-29.jpeg"
+      ],
+      "featured": false,
+      "bestseller": true,
+      "specifications": {
+        "material": "Solid 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "25.0 grams",
+        "finish": "Raw Forged Texture with Stamped Seals",
+        "hallmark": "Serial Stamped 925",
+        "dimensions": "38mm x 18mm x 4.5mm"
+      },
+      "details": [
+        "Individually serialized collector piece",
+        "Includes heavy 24-inch curb chain"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-28",
+      "sku": "VVV-CHN-28",
+      "name": "Valknut Interlocking Triangle Chain",
+      "slug": "valknut-interlocking-triangle-chain",
+      "tagline": "Geometric triangular links woven in endless knotwork",
+      "description": "Custom triangular wire drawn and folded into interlocking segments. Catches oblique light from multiple sharp geometric vertices.",
+      "category": "chains",
+      "price": 11200,
+      "originalPrice": 22400,
+      "isFiftyPercentOffer": true,
+      "stock": 4,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-28.jpeg",
+        "/images/products/pdt-1.jpeg"
+      ],
+      "featured": false,
+      "bestseller": false,
+      "specifications": {
+        "material": "Solid 925 Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "48.6 grams",
+        "finish": "Polished Chrome",
+        "hallmark": "925 Hallmarked",
+        "dimensions": "22 inches x 7mm width"
+      },
+      "details": [
+        "Double security locking claw",
+        "High tensile link strength"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    },
+    {
+      "id": "vvv-pdt-29",
+      "sku": "VVV-BSK-29",
+      "name": "Astraea Custom Astrological Ring",
+      "slug": "astraea-custom-astrological-ring",
+      "tagline": "Constellation star map set with natural moissanite stars",
+      "description": "Your birth constellation precision-drilled into a heavy satin signet, highlighted by microscopic silver starbursts. Bespoke and deeply meaningful.",
+      "category": "bespoke",
+      "price": 6500,
+      "originalPrice": 13000,
+      "isFiftyPercentOffer": true,
+      "stock": 3,
+      "lowStockThreshold": 3,
+      "images": [
+        "/images/products/pdt-29.jpeg",
+        "/images/products/pdt-3.jpeg"
+      ],
+      "featured": true,
+      "bestseller": true,
+      "specifications": {
+        "material": "Solid Sterling Silver",
+        "purity": "925 Certified",
+        "weight": "14.2 grams",
+        "finish": "Darkened Starlit Bed & Bright Outer Bevel",
+        "hallmark": "925 Stamped",
+        "dimensions": "16mm oval face"
+      },
+      "details": [
+        "Specify your zodiac sign or custom star coordinate in order notes",
+        "Detailed astronomical chart consultation on WhatsApp",
+        "Dispatched within 5 business days with certificate of authenticity"
+      ],
+      "createdAt": "2026-09-20T13:37:59.386Z",
+      "updatedAt": "2026-09-20T13:37:59.386Z"
+    }
+  ],
+  "orders": [
+    {
+      "customer": {
+        "fullName": "Arjun Singhania",
+        "email": "arjun@singhania.luxury",
+        "phone": "+91 98200 99999"
+      },
+      "delivery": {
+        "addressLine1": "Villa 7, Malabar Hill",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400006",
+        "country": "India"
+      },
+      "items": [
+        {
+          "productId": "vvv-pdt-01",
+          "sku": "VVV-RNG-01",
+          "name": "Aethelgard Hand-Carved Sovereign Ring",
+          "price": 4950,
+          "originalPrice": 9900,
+          "quantity": 1,
+          "image": "/images/products/pdt-1.jpeg",
+          "size": "US 10"
+        }
+      ],
+      "subtotal": 9900,
+      "discount": 4950,
+      "shippingFee": 0,
+      "total": 4950,
+      "paymentMethod": "RAZORPAY",
+      "paymentId": "pay_test_rzp_1789911593529",
+      "razorpayOrderId": "order_vvv_1789911593525_t8fw2",
+      "razorpaySignature": "sig_verified_server",
+      "status": "SHIPPED",
+      "id": "ord-1789911593540",
+      "orderNumber": "VVV-81448",
+      "createdAt": "2026-09-20T13:39:53.540Z",
+      "updatedAt": "2026-09-20T13:39:53.574Z",
+      "statusTimeline": [
+        {
+          "status": "CONFIRMED",
+          "timestamp": "2026-09-20T13:39:53.540Z",
+          "note": "Payment successfully verified by server"
+        },
+        {
+          "status": "SHIPPED",
+          "timestamp": "2026-09-20T13:39:53.574Z",
+          "note": "Dispatched via BlueDart Apex Security Airway Bill #BLU-882194"
+        }
+      ]
+    },
+    {
+      "id": "ord-mock-01",
+      "orderNumber": "VVV-89421",
+      "createdAt": "2026-09-19T13:39:53.448Z",
+      "updatedAt": "2026-09-19T13:39:53.448Z",
+      "customer": {
+        "fullName": "Devika Singhania",
+        "email": "devika.s@example.com",
+        "phone": "+91 98201 12345",
+        "whatsappPhone": "+91 98201 12345"
+      },
+      "delivery": {
+        "addressLine1": "Flat 14B, Imperial Towers, Altamount Road",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400026",
+        "country": "India"
+      },
+      "items": [
+        {
+          "productId": "vvv-pdt-01",
+          "sku": "VVV-RNG-01",
+          "name": "Aethelgard Hand-Carved Sovereign Ring",
+          "price": 4950,
+          "originalPrice": 9900,
+          "quantity": 1,
+          "image": "/images/products/pdt-1.jpeg",
+          "size": "US 10"
+        }
+      ],
+      "subtotal": 9900,
+      "discount": 4950,
+      "shippingFee": 0,
+      "total": 4950,
+      "paymentMethod": "RAZORPAY",
+      "paymentId": "pay_RzpMock_091823",
+      "razorpayOrderId": "order_mock_9812",
+      "status": "PROCESSING",
+      "statusTimeline": [
+        {
+          "status": "PENDING_PAYMENT",
+          "timestamp": "2026-09-19T13:39:53.448Z",
+          "note": "Checkout initialized"
+        },
+        {
+          "status": "PAID",
+          "timestamp": "2026-09-19T13:41:53.448Z",
+          "note": "Razorpay payment verified"
+        },
+        {
+          "status": "CONFIRMED",
+          "timestamp": "2026-09-19T13:42:53.448Z",
+          "note": "Order locked and hallmarked stock reserved"
+        },
+        {
+          "status": "PROCESSING",
+          "timestamp": "2026-09-20T01:39:53.448Z",
+          "note": "Under fine inspection at atelier"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "storeName": "VINI VICI VIDI",
+    "tagline": "PREMIUM SILVER COLLECTION",
+    "whatsappNumber": "+919876543210",
+    "whatsappPrefillText": "Hello Vini vici vidi, I would like to inquire about a piece from the silver collection.",
+    "supportEmail": "concierge@vinivicividi.luxury",
+    "supportPhone": "+91 98765 43210",
+    "bannerNotice": "COMPLIMENTARY INSURED COURIER DISPATCH ACROSS INDIA ON ALL ORDERS",
+    "globalFiftyPercentActive": true,
+    "freeShippingThreshold": 0,
+    "atelierAddress": "Vini vici vidi Atelier, High Street, Mumbai / New Delhi, India"
+  }
+}

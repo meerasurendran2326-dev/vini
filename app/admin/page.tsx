@@ -1,0 +1,1265 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import {
+  Package,
+  ShoppingCart,
+  TrendingUp,
+  AlertTriangle,
+  Settings,
+  Plus,
+  Edit2,
+  Trash2,
+  Check,
+  RefreshCw,
+  ExternalLink,
+  ShieldAlert,
+  Search,
+  Sliders,
+  DollarSign,
+  Truck,
+  MessageCircle,
+  Eye
+} from 'lucide-react';
+import { Product, Order, StoreSettings, OrderStatus } from '@/lib/types';
+
+export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passcode, setPasscode] = useState('');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'products' | 'inventory' | 'orders' | 'promotions' | 'settings'>('dashboard');
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [settings, setSettings] = useState<StoreSettings | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState<string | null>(null);
+
+  // Edit Product Modal State
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [isCreatingProduct, setIsCreatingProduct] = useState(false);
+
+  // Order Details Modal State
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+
+  // Order status filter
+  const [orderFilter, setOrderFilter] = useState<string>('ALL');
+
+  const notify = (msg: string) => {
+    setFeedback(msg);
+    setTimeout(() => setFeedback(null), 3500);
+  };
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const [prodRes, ordRes, setRes] = await Promise.all([
+        fetch('/api/products').then((r) => r.json()),
+        fetch('/api/orders').then((r) => r.json()),
+        fetch('/api/settings').then((r) => r.json()),
+      ]);
+
+      if (prodRes.success) setProducts(prodRes.products);
+      if (ordRes.success) setOrders(ordRes.orders);
+      if (setRes.success) setSettings(setRes.settings);
+    } catch (err) {
+      console.warn('Failed to load admin data', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Check local session
+    if (sessionStorage.getItem('vvv_admin_auth') === 'true') {
+      setIsAuthenticated(true);
+      loadData();
+    }
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passcode === 'vinivici2026' || passcode === 'admin') {
+      sessionStorage.setItem('vvv_admin_auth', 'true');
+      setIsAuthenticated(true);
+      loadData();
+    } else {
+      alert('Invalid Atelier Passcode. Default access: admin or vinivici2026');
+    }
+  };
+
+  const handleQuickStockUpdate = async (productId: string, newStock: number) => {
+    try {
+      const res = await fetch(`/api/products/${productId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stock: newStock }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProducts((prev) => prev.map((p) => (p.id === productId ? data.product : p)));
+        notify(`Stock for ${data.product.name} updated to ${newStock} units`);
+      }
+    } catch {
+      notify('Failed to update stock');
+    }
+  };
+
+  const handleQuickPriceUpdate = async (productId: string, newPrice: number) => {
+    try {
+      const res = await fetch(`/api/products/${productId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ price: newPrice }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProducts((prev) => prev.map((p) => (p.id === productId ? data.product : p)));
+        notify(`Price updated to ₹${newPrice.toLocaleString('en-IN')}`);
+      }
+    } catch {
+      notify('Failed to update price');
+    }
+  };
+
+  const handleSaveProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProduct) return;
+
+    try {
+      if (isCreatingProduct) {
+        const res = await fetch('/api/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(editingProduct),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setProducts((prev) => [data.product, ...prev]);
+          notify(`Created product "${data.product.name}"`);
+          setEditingProduct(null);
+          setIsCreatingProduct(false);
+        }
+      } else {
+        const res = await fetch(`/api/products/${editingProduct.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(editingProduct),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setProducts((prev) => prev.map((p) => (p.id === editingProduct.id ? data.product : p)));
+          notify(`Saved updates for "${data.product.name}"`);
+          setEditingProduct(null);
+        }
+      }
+    } catch {
+      notify('Error saving product');
+    }
+  };
+
+  const handleOrderStatusUpdate = async (orderId: string, newStatus: OrderStatus) => {
+    try {
+      const res = await fetch(`/api/orders/${orderId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status: newStatus,
+          note: `Admin transitioned consignment status to ${newStatus}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setOrders((prev) => prev.map((o) => (o.id === orderId ? data.order : o)));
+        if (selectedOrder?.id === orderId) {
+          setSelectedOrder(data.order);
+        }
+        notify(`Order status transitioned to ${newStatus}`);
+      }
+    } catch {
+      notify('Error updating order state');
+    }
+  };
+
+  const handleSaveSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!settings) return;
+    try {
+      const res = await fetch('/api/settings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSettings(data.settings);
+        notify('Store & Concierge settings updated successfully');
+      }
+    } catch {
+      notify('Failed to save settings');
+    }
+  };
+
+  // Auth Gate
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-void flex items-center justify-center p-6 text-ice-white">
+        <div className="w-full max-w-md bg-graphite border border-steel/70 p-8 shadow-2xl space-y-6">
+          <div className="text-center space-y-2">
+            <span className="font-display text-2xl tracking-[0.25em] text-ice-white">
+              VINI VICI VIDI
+            </span>
+            <p className="text-[10px] font-sans uppercase tracking-monumental text-silver/60">
+              Royal Modern Back Office
+            </p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4 pt-4">
+            <div>
+              <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                Atelier Access Passcode
+              </label>
+              <input
+                type="password"
+                required
+                placeholder="Enter passcode (e.g. admin)"
+                value={passcode}
+                onChange={(e) => setPasscode(e.target.value)}
+                className="w-full bg-carbon border border-steel/60 p-3 text-xs text-ice-white placeholder-silver/40 focus:outline-none focus:border-bright-silver font-mono"
+              />
+              <span className="text-[9px] text-silver/50 mt-1 block">
+                Demo access code: <code className="text-bright-silver">admin</code>
+              </span>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3.5 bg-bright-silver hover:bg-white text-void font-sans text-xs uppercase tracking-super-wide font-semibold transition-colors"
+            >
+              Enter Dashboard
+            </button>
+          </form>
+
+          <div className="pt-2 text-center">
+            <Link href="/" className="text-[11px] text-silver/50 hover:text-ice-white uppercase tracking-wider">
+              ← Return to Public Showroom
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Derived dashboard metrics
+  const totalRevenue = orders.reduce((sum, o) => sum + (o.status !== 'CANCELLED' ? o.total : 0), 0);
+  const lowStockCount = products.filter((p) => p.stock > 0 && p.stock <= p.lowStockThreshold).length;
+  const outOfStockCount = products.filter((p) => p.stock <= 0).length;
+  const fiftyPercentOfferCount = products.filter((p) => p.isFiftyPercentOffer).length;
+
+  const filteredOrders = orders.filter((o) => {
+    if (orderFilter === 'ALL') return true;
+    return o.status === orderFilter;
+  });
+
+  return (
+    <div className="bg-void min-h-screen text-ice-white pb-32">
+      {/* Toast Feedback */}
+      {feedback && (
+        <div className="fixed bottom-6 right-6 z-50 bg-graphite border border-brand-green/60 text-ice-white px-5 py-3 shadow-2xl flex items-center space-x-3 text-xs tracking-widest uppercase animate-fade-in backdrop-blur-md">
+          <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
+          <span>{feedback}</span>
+        </div>
+      )}
+
+      {/* Admin Top Header */}
+      <div className="bg-graphite border-b border-steel/50 px-6 sm:px-10 py-5 flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <span className="font-display text-lg tracking-widest text-ice-white uppercase">
+            VINI VICI VIDI • Back Office
+          </span>
+          <span className="text-[9px] font-sans px-2.5 py-0.5 bg-carbon border border-brand-green/40 text-brand-green uppercase tracking-widest">
+            Royal Modern v1.0
+          </span>
+        </div>
+
+        <div className="flex items-center space-x-6 text-xs font-sans">
+          <button
+            onClick={loadData}
+            disabled={loading}
+            className="flex items-center space-x-1.5 text-silver hover:text-ice-white"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+            <span className="uppercase tracking-wider text-[10px]">Sync DB</span>
+          </button>
+          <Link
+            href="/"
+            target="_blank"
+            className="flex items-center space-x-1.5 text-bright-silver hover:underline uppercase tracking-wider text-[10px]"
+          >
+            <span>Live Storefront</span>
+            <ExternalLink className="w-3 h-3" />
+          </Link>
+        </div>
+      </div>
+
+      {/* Admin Navigation Bar */}
+      <div className="border-b border-steel/40 bg-carbon px-6 sm:px-10 flex items-center space-x-2 overflow-x-auto scrollbar-none text-xs font-sans uppercase tracking-super-wide">
+        <button
+          onClick={() => setActiveTab('dashboard')}
+          className={`py-4 px-4 border-b-2 font-medium transition-colors ${
+            activeTab === 'dashboard' ? 'border-bright-silver text-ice-white' : 'border-transparent text-silver/60 hover:text-silver'
+          }`}
+        >
+          Dashboard Overview
+        </button>
+        <button
+          onClick={() => setActiveTab('products')}
+          className={`py-4 px-4 border-b-2 font-medium transition-colors ${
+            activeTab === 'products' ? 'border-bright-silver text-ice-white' : 'border-transparent text-silver/60 hover:text-silver'
+          }`}
+        >
+          Product Catalog ({products.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('inventory')}
+          className={`py-4 px-4 border-b-2 font-medium transition-colors flex items-center space-x-1.5 ${
+            activeTab === 'inventory' ? 'border-bright-silver text-ice-white' : 'border-transparent text-silver/60 hover:text-silver'
+          }`}
+        >
+          <span>Inventory & Urgency</span>
+          {lowStockCount > 0 && (
+            <span className="px-1.5 py-0.2 bg-amber-500/20 text-amber-300 text-[9px] rounded-full">
+              {lowStockCount}
+            </span>
+          )}
+        </button>
+        <button
+          onClick={() => setActiveTab('orders')}
+          className={`py-4 px-4 border-b-2 font-medium transition-colors flex items-center space-x-1.5 ${
+            activeTab === 'orders' ? 'border-bright-silver text-ice-white' : 'border-transparent text-silver/60 hover:text-silver'
+          }`}
+        >
+          <span>Orders Pipeline</span>
+          <span className="px-1.5 py-0.2 bg-steel text-ice-white text-[9px] rounded-full">
+            {orders.length}
+          </span>
+        </button>
+        <button
+          onClick={() => setActiveTab('promotions')}
+          className={`py-4 px-4 border-b-2 font-medium transition-colors ${
+            activeTab === 'promotions' ? 'border-bright-silver text-ice-white' : 'border-transparent text-silver/60 hover:text-silver'
+          }`}
+        >
+          50% Offers
+        </button>
+        <button
+          onClick={() => setActiveTab('settings')}
+          className={`py-4 px-4 border-b-2 font-medium transition-colors ${
+            activeTab === 'settings' ? 'border-bright-silver text-ice-white' : 'border-transparent text-silver/60 hover:text-silver'
+          }`}
+        >
+          Concierge Settings
+        </button>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-10">
+        
+        {/* =========================================================================
+            TAB 1: DASHBOARD OVERVIEW
+        ========================================================================= */}
+        {activeTab === 'dashboard' && (
+          <div className="space-y-10">
+            {/* Metric KPI Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="p-6 bg-carbon border border-steel/50">
+                <div className="text-[10px] uppercase tracking-monumental text-silver/60">
+                  Gross Revenue
+                </div>
+                <div className="font-mono text-3xl font-semibold text-ice-white mt-2">
+                  ₹{totalRevenue.toLocaleString('en-IN')}
+                </div>
+                <div className="text-[10px] text-brand-green mt-1">
+                  100% Server Verified
+                </div>
+              </div>
+
+              <div className="p-6 bg-carbon border border-steel/50">
+                <div className="text-[10px] uppercase tracking-monumental text-silver/60">
+                  Total Orders
+                </div>
+                <div className="font-mono text-3xl font-semibold text-ice-white mt-2">
+                  {orders.length}
+                </div>
+                <div className="text-[10px] text-silver/60 mt-1">
+                  Guest-First Checkout
+                </div>
+              </div>
+
+              <div className="p-6 bg-carbon border border-steel/50">
+                <div className="text-[10px] uppercase tracking-monumental text-silver/60">
+                  Low Stock Urgency Cues
+                </div>
+                <div className="font-mono text-3xl font-semibold text-amber-300 mt-2">
+                  {lowStockCount}
+                </div>
+                <div className="text-[10px] text-amber-400 mt-1">
+                  Triggering "ONLY X LEFT"
+                </div>
+              </div>
+
+              <div className="p-6 bg-carbon border border-steel/50">
+                <div className="text-[10px] uppercase tracking-monumental text-silver/60">
+                  Active 50% Offers
+                </div>
+                <div className="font-mono text-3xl font-semibold text-bright-silver mt-2">
+                  {fiftyPercentOfferCount}
+                </div>
+                <div className="text-[10px] text-silver/60 mt-1">
+                  Campaigns active
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Orders Stream */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center pb-2 border-b border-steel/40">
+                <h3 className="font-display text-xl uppercase tracking-wider text-ice-white">
+                  Recent Orders Queue
+                </h3>
+                <button
+                  onClick={() => setActiveTab('orders')}
+                  className="text-xs font-sans uppercase tracking-wider text-bright-silver hover:underline"
+                >
+                  Manage All Orders →
+                </button>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs font-sans border border-steel/40 divide-y divide-steel/40">
+                  <thead className="bg-carbon text-silver/60 uppercase text-[10px] tracking-wider">
+                    <tr>
+                      <th className="p-4">Order #</th>
+                      <th className="p-4">Recipient</th>
+                      <th className="p-4">City / State</th>
+                      <th className="p-4">Items</th>
+                      <th className="p-4">Amount</th>
+                      <th className="p-4">Status</th>
+                      <th className="p-4 text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-steel/20 bg-graphite">
+                    {orders.slice(0, 5).map((o) => (
+                      <tr key={o.id} className="hover:bg-carbon/50">
+                        <td className="p-4 font-mono font-medium text-bright-silver">
+                          {o.orderNumber}
+                        </td>
+                        <td className="p-4 text-ice-white">
+                          {o.customer.fullName}
+                          <span className="block text-[10px] text-silver/50">{o.customer.phone}</span>
+                        </td>
+                        <td className="p-4 text-silver">
+                          {o.delivery.city}, {o.delivery.state}
+                        </td>
+                        <td className="p-4 text-silver">
+                          {o.items.length} {o.items.length === 1 ? 'item' : 'items'}
+                        </td>
+                        <td className="p-4 font-mono font-medium text-ice-white">
+                          ₹{o.total.toLocaleString('en-IN')}
+                        </td>
+                        <td className="p-4">
+                          <span className="px-2.5 py-1 text-[9px] uppercase font-sans tracking-wider border border-steel/60 bg-carbon text-ice-white rounded">
+                            {o.status}
+                          </span>
+                        </td>
+                        <td className="p-4 text-right">
+                          <button
+                            onClick={() => setSelectedOrder(o)}
+                            className="text-bright-silver hover:underline text-[11px] uppercase tracking-wider"
+                          >
+                            Inspect
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            TAB 2: PRODUCTS MANAGER
+        ========================================================================= */}
+        {activeTab === 'products' && (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center pb-4 border-b border-steel/40">
+              <div>
+                <h3 className="font-display text-2xl uppercase tracking-wider text-ice-white">
+                  Silver Collection Archive ({products.length})
+                </h3>
+                <p className="text-xs font-sans text-silver/70 mt-0.5">
+                  Update selling prices, MRPs, categories, and 50% offer status. Changes reflect immediately on storefront.
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  setIsCreatingProduct(true);
+                  setEditingProduct({
+                    id: '',
+                    sku: `VVV-${Date.now().toString().slice(-4)}`,
+                    name: '',
+                    slug: '',
+                    tagline: '',
+                    description: '',
+                    category: 'rings',
+                    price: 3500,
+                    originalPrice: 7000,
+                    isFiftyPercentOffer: true,
+                    stock: 5,
+                    lowStockThreshold: 3,
+                    images: ['/images/products/pdt-1.jpeg'],
+                    featured: true,
+                    bestseller: false,
+                    specifications: {
+                      material: 'Solid Sterling Silver',
+                      purity: '925 Certified',
+                      weight: '12.0 grams',
+                      finish: 'Mirror Chrome Polish',
+                      hallmark: 'BIS 925 Hallmark',
+                    },
+                    details: ['Handcrafted in India', 'Includes presentation vault'],
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                  });
+                }}
+                className="px-4 py-2.5 bg-bright-silver hover:bg-white text-void text-xs font-sans uppercase tracking-super-wide font-semibold flex items-center space-x-2"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Silver Piece</span>
+              </button>
+            </div>
+
+            {/* Products Table */}
+            <div className="overflow-x-auto border border-steel/40">
+              <table className="w-full text-left text-xs font-sans divide-y divide-steel/40">
+                <thead className="bg-carbon text-silver/60 uppercase text-[10px] tracking-wider">
+                  <tr>
+                    <th className="p-4">Piece</th>
+                    <th className="p-4">SKU</th>
+                    <th className="p-4">Category</th>
+                    <th className="p-4">Current Price</th>
+                    <th className="p-4">Original MRP</th>
+                    <th className="p-4">Stock</th>
+                    <th className="p-4">50% Offer</th>
+                    <th className="p-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-steel/20 bg-graphite">
+                  {products.map((p) => (
+                    <tr key={p.id} className="hover:bg-carbon/40">
+                      <td className="p-4 flex items-center space-x-3">
+                        <div className="w-12 h-14 bg-void border border-steel/40 overflow-hidden flex-shrink-0">
+                          <img src={p.images[0] || '/images/products/pdt-1.jpeg'} alt={p.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-ice-white">{p.name}</div>
+                          <div className="text-[10px] text-silver/50 font-editorial italic">{p.tagline}</div>
+                        </div>
+                      </td>
+                      <td className="p-4 font-mono text-silver">{p.sku}</td>
+                      <td className="p-4 uppercase text-[10px] tracking-wider text-silver">{p.category}</td>
+                      <td className="p-4 font-mono font-medium text-ice-white">
+                        ₹{p.price.toLocaleString('en-IN')}
+                      </td>
+                      <td className="p-4 font-mono text-chrome line-through">
+                        ₹{p.originalPrice.toLocaleString('en-IN')}
+                      </td>
+                      <td className="p-4">
+                        <span
+                          className={`font-mono px-2 py-0.5 text-xs rounded ${
+                            p.stock <= p.lowStockThreshold
+                              ? 'bg-amber-950/60 text-amber-300 border border-amber-500/40 font-bold'
+                              : 'text-silver'
+                          }`}
+                        >
+                          {p.stock}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <span
+                          className={`text-[10px] uppercase tracking-wider font-semibold ${
+                            p.isFiftyPercentOffer ? 'text-brand-green' : 'text-silver/40'
+                          }`}
+                        >
+                          {p.isFiftyPercentOffer ? 'Active (50%)' : 'Standard'}
+                        </span>
+                      </td>
+                      <td className="p-4 text-right space-x-2">
+                        <button
+                          onClick={() => {
+                            setIsCreatingProduct(false);
+                            setEditingProduct({ ...p });
+                          }}
+                          className="p-1.5 text-silver hover:text-ice-white"
+                          title="Edit Piece"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            TAB 3: INVENTORY & URGENCY CONTROL
+        ========================================================================= */}
+        {activeTab === 'inventory' && (
+          <div className="space-y-6">
+            <div className="pb-4 border-b border-steel/40">
+              <h3 className="font-display text-2xl uppercase tracking-wider text-ice-white">
+                Live Inventory & Scarcity Controls
+              </h3>
+              <p className="text-xs font-sans text-silver/80 mt-1 leading-relaxed">
+                Demonstrating PRD Requirement: Changing any stock count to <strong>3, 2, or 1</strong> immediately drives the "ONLY X LEFT" urgency message on the public storefront.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {products.map((p) => {
+                const isUrgent = p.stock > 0 && p.stock <= p.lowStockThreshold;
+                return (
+                  <div
+                    key={p.id}
+                    className={`p-5 bg-carbon border transition-colors ${
+                      isUrgent ? 'border-amber-500/50 shadow-[0_0_20px_rgba(245,158,11,0.1)]' : 'border-steel/50'
+                    }`}
+                  >
+                    <div className="flex space-x-3">
+                      <div className="w-14 h-16 bg-void border border-steel/40 overflow-hidden flex-shrink-0">
+                        <img src={p.images[0] || '/images/products/pdt-1.jpeg'} alt={p.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-xs uppercase font-medium text-ice-white line-clamp-1">
+                          {p.name}
+                        </div>
+                        <div className="text-[10px] font-mono text-silver/60 mt-0.5">
+                          SKU: {p.sku}
+                        </div>
+                        {isUrgent && (
+                          <div className="mt-1 text-[9px] font-sans uppercase tracking-widest text-amber-300 font-bold animate-pulse">
+                            Triggering: "ONLY {p.stock} LEFT"
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-steel/30 flex items-center justify-between">
+                      <span className="text-[10px] font-sans uppercase tracking-wider text-silver">
+                        Current Physical Units:
+                      </span>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => handleQuickStockUpdate(p.id, Math.max(0, p.stock - 1))}
+                          className="w-7 h-7 bg-graphite border border-steel/60 text-silver hover:text-ice-white flex items-center justify-center font-mono text-sm"
+                        >
+                          -
+                        </button>
+                        <span className="font-mono text-sm font-bold text-ice-white w-8 text-center">
+                          {p.stock}
+                        </span>
+                        <button
+                          onClick={() => handleQuickStockUpdate(p.id, p.stock + 1)}
+                          className="w-7 h-7 bg-graphite border border-steel/60 text-silver hover:text-ice-white flex items-center justify-center font-mono text-sm"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 flex space-x-2">
+                      <button
+                        onClick={() => handleQuickStockUpdate(p.id, 3)}
+                        className="flex-1 py-1 bg-graphite hover:bg-carbon border border-steel/40 text-[9px] uppercase tracking-wider text-amber-300"
+                      >
+                        Set to 3 (Urgency)
+                      </button>
+                      <button
+                        onClick={() => handleQuickStockUpdate(p.id, 10)}
+                        className="flex-1 py-1 bg-graphite hover:bg-carbon border border-steel/40 text-[9px] uppercase tracking-wider text-silver"
+                      >
+                        Restock (10)
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            TAB 4: ORDERS LIFECYCLE (SHOPIFY-LIKE)
+        ========================================================================= */}
+        {activeTab === 'orders' && (
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-steel/40">
+              <div>
+                <h3 className="font-display text-2xl uppercase tracking-wider text-ice-white">
+                  Consignment & Order Operations
+                </h3>
+                <p className="text-xs font-sans text-silver/70 mt-0.5">
+                  Shopify-like lifecycle: Advance orders through processing, vault packing, dispatch, and final delivery.
+                </p>
+              </div>
+
+              {/* Status Filter */}
+              <div className="flex items-center space-x-2 bg-carbon border border-steel/50 px-3 py-1.5 text-xs text-silver">
+                <span>Filter:</span>
+                <select
+                  value={orderFilter}
+                  onChange={(e) => setOrderFilter(e.target.value)}
+                  className="bg-transparent text-ice-white focus:outline-none uppercase tracking-wider cursor-pointer"
+                >
+                  <option value="ALL" className="bg-graphite">All States</option>
+                  <option value="CONFIRMED" className="bg-graphite">Confirmed</option>
+                  <option value="PROCESSING" className="bg-graphite">Processing</option>
+                  <option value="PACKED" className="bg-graphite">Packed</option>
+                  <option value="SHIPPED" className="bg-graphite">Shipped</option>
+                  <option value="DELIVERED" className="bg-graphite">Delivered</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Orders Table */}
+            <div className="overflow-x-auto border border-steel/40">
+              <table className="w-full text-left text-xs font-sans divide-y divide-steel/40">
+                <thead className="bg-carbon text-silver/60 uppercase text-[10px] tracking-wider">
+                  <tr>
+                    <th className="p-4">Order #</th>
+                    <th className="p-4">Date & Time</th>
+                    <th className="p-4">Client Contact</th>
+                    <th className="p-4">Delivery PIN</th>
+                    <th className="p-4">Total Amount</th>
+                    <th className="p-4">Gateway ID</th>
+                    <th className="p-4">Current State</th>
+                    <th className="p-4 text-right">Lifecycle Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-steel/20 bg-graphite">
+                  {filteredOrders.map((order) => (
+                    <tr key={order.id} className="hover:bg-carbon/40">
+                      <td className="p-4 font-mono font-medium text-bright-silver">
+                        {order.orderNumber}
+                      </td>
+                      <td className="p-4 text-silver text-[11px]">
+                        {new Date(order.createdAt).toLocaleDateString('en-IN', {
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </td>
+                      <td className="p-4 text-ice-white">
+                        <div>{order.customer.fullName}</div>
+                        <div className="text-[10px] text-silver/50">{order.customer.phone}</div>
+                      </td>
+                      <td className="p-4 text-silver">
+                        {order.delivery.city} ({order.delivery.pincode})
+                      </td>
+                      <td className="p-4 font-mono font-semibold text-ice-white">
+                        ₹{order.total.toLocaleString('en-IN')}
+                      </td>
+                      <td className="p-4 font-mono text-[10px] text-silver/60">
+                        {order.paymentId || 'N/A'}
+                      </td>
+                      <td className="p-4">
+                        <span className="px-2.5 py-1 text-[9px] uppercase font-sans tracking-wider border border-steel/60 bg-carbon text-bright-silver rounded">
+                          {order.status}
+                        </span>
+                      </td>
+                      <td className="p-4 text-right space-x-2">
+                        <button
+                          onClick={() => setSelectedOrder(order)}
+                          className="px-3 py-1.5 bg-carbon border border-steel/60 hover:border-bright-silver text-silver hover:text-ice-white text-[10px] uppercase tracking-wider"
+                        >
+                          Details & Timeline
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            TAB 5: 50% PROMOTIONS & OFFERS
+        ========================================================================= */}
+        {activeTab === 'promotions' && (
+          <div className="space-y-6 max-w-4xl">
+            <div className="pb-4 border-b border-steel/40">
+              <h3 className="font-display text-2xl uppercase tracking-wider text-ice-white">
+                50% Royal Celebration Offer Controller
+              </h3>
+              <p className="text-xs font-sans text-silver/70 mt-1">
+                Toggle the 50% offer on individual pieces or enable the global promotional announcement marquee.
+              </p>
+            </div>
+
+            <div className="p-6 bg-carbon border border-steel/50 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-xs uppercase tracking-super-wide font-sans text-ice-white font-medium">
+                    Global Sitewide 50% Campaign Active
+                  </h4>
+                  <p className="text-[11px] font-sans text-silver/70 mt-0.5">
+                    Displays the top metallic marquee and highlights promotional badges across discovery.
+                  </p>
+                </div>
+                <button
+                  onClick={async () => {
+                    if (!settings) return;
+                    const nextVal = !settings.globalFiftyPercentActive;
+                    setSettings({ ...settings, globalFiftyPercentActive: nextVal });
+                    await fetch('/api/settings', {
+                      method: 'PATCH',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ globalFiftyPercentActive: nextVal }),
+                    });
+                    notify(`50% campaign is now ${nextVal ? 'ACTIVE' : 'PAUSED'}`);
+                  }}
+                  className={`px-4 py-2 text-xs font-sans uppercase tracking-wider font-semibold border ${
+                    settings?.globalFiftyPercentActive
+                      ? 'bg-brand-green/20 border-brand-green text-brand-green'
+                      : 'bg-graphite border-steel text-silver'
+                  }`}
+                >
+                  {settings?.globalFiftyPercentActive ? 'Active' : 'Disabled'}
+                </button>
+              </div>
+            </div>
+
+            {/* Quick Bulk Toggle for Products */}
+            <div className="space-y-4 pt-4">
+              <h4 className="font-display text-lg uppercase tracking-wider text-ice-white">
+                Per-Product 50% Offer Configuration
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {products.map((p) => (
+                  <div key={p.id} className="p-4 bg-carbon border border-steel/50 flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-12 bg-void border border-steel/40 overflow-hidden flex-shrink-0">
+                        <img src={p.images[0] || '/images/products/pdt-1.jpeg'} alt={p.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <div className="text-xs uppercase font-medium text-ice-white line-clamp-1">{p.name}</div>
+                        <div className="text-[10px] font-mono text-silver/60">₹{p.price} (MRP: ₹{p.originalPrice})</div>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={async () => {
+                        const next = !p.isFiftyPercentOffer;
+                        await fetch(`/api/products/${p.id}`, {
+                          method: 'PATCH',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ isFiftyPercentOffer: next }),
+                        });
+                        setProducts((prev) =>
+                          prev.map((item) => (item.id === p.id ? { ...item, isFiftyPercentOffer: next } : item))
+                        );
+                        notify(`Toggled 50% offer for ${p.name}`);
+                      }}
+                      className={`px-3 py-1 text-[10px] font-sans uppercase tracking-wider border ${
+                        p.isFiftyPercentOffer
+                          ? 'bg-brand-green/20 border-brand-green text-brand-green'
+                          : 'bg-graphite border-steel/50 text-silver'
+                      }`}
+                    >
+                      {p.isFiftyPercentOffer ? '50% On' : 'Standard'}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            TAB 6: CONCIERGE & STORE SETTINGS
+        ========================================================================= */}
+        {activeTab === 'settings' && settings && (
+          <form onSubmit={handleSaveSettings} className="space-y-6 max-w-2xl">
+            <div className="pb-4 border-b border-steel/40">
+              <h3 className="font-display text-2xl uppercase tracking-wider text-ice-white">
+                Concierge & Store Settings
+              </h3>
+              <p className="text-xs font-sans text-silver/70 mt-1">
+                Configure the WhatsApp customer inquiry pathways and storefront contact references.
+              </p>
+            </div>
+
+            <div className="p-6 bg-carbon border border-steel/50 space-y-4">
+              <div>
+                <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                  WhatsApp Concierge Phone Number (with Country Code)
+                </label>
+                <input
+                  type="text"
+                  value={settings.whatsappNumber}
+                  onChange={(e) => setSettings({ ...settings, whatsappNumber: e.target.value })}
+                  className="w-full bg-graphite border border-steel/60 p-3 text-xs text-ice-white font-mono focus:outline-none focus:border-bright-silver"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                  Default WhatsApp Inquiry Message Prefill
+                </label>
+                <textarea
+                  rows={3}
+                  value={settings.whatsappPrefillText}
+                  onChange={(e) => setSettings({ ...settings, whatsappPrefillText: e.target.value })}
+                  className="w-full bg-graphite border border-steel/60 p-3 text-xs text-ice-white focus:outline-none focus:border-bright-silver resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                  Top Header Announcement Banner Text
+                </label>
+                <input
+                  type="text"
+                  value={settings.bannerNotice}
+                  onChange={(e) => setSettings({ ...settings, bannerNotice: e.target.value })}
+                  className="w-full bg-graphite border border-steel/60 p-3 text-xs text-ice-white focus:outline-none focus:border-bright-silver"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                    Concierge Email
+                  </label>
+                  <input
+                    type="email"
+                    value={settings.supportEmail}
+                    onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
+                    className="w-full bg-graphite border border-steel/60 p-3 text-xs text-ice-white focus:outline-none focus:border-bright-silver"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                    Concierge Phone
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.supportPhone}
+                    onChange={(e) => setSettings({ ...settings, supportPhone: e.target.value })}
+                    className="w-full bg-graphite border border-steel/60 p-3 text-xs text-ice-white focus:outline-none focus:border-bright-silver"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-4">
+                <button
+                  type="submit"
+                  className="px-8 py-3 bg-bright-silver hover:bg-white text-void font-sans text-xs uppercase tracking-super-wide font-semibold transition-colors"
+                >
+                  Save Store Settings
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
+      </div>
+
+      {/* Edit / Create Product Modal */}
+      {editingProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-void/90 backdrop-blur-md" onClick={() => setEditingProduct(null)} />
+          <div className="relative w-full max-w-2xl bg-graphite border border-steel/80 p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-6">
+            <div className="flex justify-between items-center pb-4 border-b border-steel/40">
+              <h3 className="font-display text-xl uppercase tracking-wider text-ice-white">
+                {isCreatingProduct ? 'Create New Silver Piece' : `Edit Piece: ${editingProduct.name}`}
+              </h3>
+              <button onClick={() => setEditingProduct(null)} className="text-silver hover:text-ice-white">
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveProduct} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                    Product Title *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editingProduct.name}
+                    onChange={(e) =>
+                      setEditingProduct({
+                        ...editingProduct,
+                        name: e.target.value,
+                        slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                      })
+                    }
+                    className="w-full bg-carbon border border-steel/60 p-2.5 text-xs text-ice-white focus:outline-none focus:border-bright-silver"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                    SKU Code *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editingProduct.sku}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, sku: e.target.value })}
+                    className="w-full bg-carbon border border-steel/60 p-2.5 text-xs text-ice-white font-mono focus:outline-none focus:border-bright-silver"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                  Editorial Tagline
+                </label>
+                <input
+                  type="text"
+                  value={editingProduct.tagline}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, tagline: e.target.value })}
+                  className="w-full bg-carbon border border-steel/60 p-2.5 text-xs text-ice-white focus:outline-none focus:border-bright-silver"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                    Selling Price (INR) *
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={editingProduct.price}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, price: Number(e.target.value) })}
+                    className="w-full bg-carbon border border-steel/60 p-2.5 text-xs text-ice-white font-mono focus:outline-none focus:border-bright-silver"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                    Original Price (MRP) *
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={editingProduct.originalPrice}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, originalPrice: Number(e.target.value) })}
+                    className="w-full bg-carbon border border-steel/60 p-2.5 text-xs text-ice-white font-mono focus:outline-none focus:border-bright-silver"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                    Inventory Stock *
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={editingProduct.stock}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, stock: Number(e.target.value) })}
+                    className="w-full bg-carbon border border-steel/60 p-2.5 text-xs text-ice-white font-mono focus:outline-none focus:border-bright-silver"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                    Category
+                  </label>
+                  <select
+                    value={editingProduct.category}
+                    onChange={(e: any) => setEditingProduct({ ...editingProduct, category: e.target.value })}
+                    className="w-full bg-carbon border border-steel/60 p-2.5 text-xs text-ice-white focus:outline-none focus:border-bright-silver"
+                  >
+                    <option value="rings">Sovereign Rings</option>
+                    <option value="pendants">Liquid Pendants</option>
+                    <option value="bracelets">Torques & Cuffs</option>
+                    <option value="chains">Byzantine Chains</option>
+                    <option value="bespoke">Bespoke Artefacts</option>
+                  </select>
+                </div>
+
+                <div className="flex items-center space-x-6 pt-5">
+                  <label className="flex items-center space-x-2 text-xs font-sans text-silver cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editingProduct.isFiftyPercentOffer}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, isFiftyPercentOffer: e.target.checked })}
+                      className="accent-bright-silver"
+                    />
+                    <span>50% Offer Flag</span>
+                  </label>
+                  <label className="flex items-center space-x-2 text-xs font-sans text-silver cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editingProduct.featured}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, featured: e.target.checked })}
+                      className="accent-bright-silver"
+                    />
+                    <span>Featured In Hero</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-sans uppercase tracking-wider text-silver/70 mb-1.5">
+                  Description
+                </label>
+                <textarea
+                  rows={4}
+                  value={editingProduct.description}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
+                  className="w-full bg-carbon border border-steel/60 p-2.5 text-xs text-ice-white focus:outline-none focus:border-bright-silver resize-none"
+                />
+              </div>
+
+              <div className="pt-4 flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setEditingProduct(null)}
+                  className="px-5 py-2.5 border border-steel text-xs uppercase tracking-wider text-silver"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 bg-bright-silver hover:bg-white text-void font-sans text-xs uppercase tracking-super-wide font-semibold"
+                >
+                  Save Piece
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Order Detail & Status Transition Modal */}
+      {selectedOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-void/90 backdrop-blur-md" onClick={() => setSelectedOrder(null)} />
+          <div className="relative w-full max-w-2xl bg-graphite border border-steel/80 p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-6">
+            <div className="flex justify-between items-start pb-4 border-b border-steel/40">
+              <div>
+                <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/60">
+                  Order Management
+                </span>
+                <h3 className="font-display text-2xl uppercase tracking-wider text-ice-white mt-1">
+                  #{selectedOrder.orderNumber}
+                </h3>
+              </div>
+              <button onClick={() => setSelectedOrder(null)} className="text-silver hover:text-ice-white">
+                ✕
+              </button>
+            </div>
+
+            {/* Lifecycle Progression Buttons */}
+            <div className="p-4 bg-carbon border border-steel/50 space-y-3">
+              <span className="text-[10px] font-sans uppercase tracking-monumental text-bright-silver font-semibold">
+                Shopify-Like Lifecycle Progression
+              </span>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {(['CONFIRMED', 'PROCESSING', 'PACKED', 'SHIPPED', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'] as OrderStatus[]).map((st) => (
+                  <button
+                    key={st}
+                    onClick={() => handleOrderStatusUpdate(selectedOrder.id, st)}
+                    className={`px-3 py-1.5 text-[10px] font-sans uppercase tracking-wider border transition-all ${
+                      selectedOrder.status === st
+                        ? 'bg-bright-silver text-void border-bright-silver font-bold'
+                        : 'bg-graphite border-steel/50 text-silver hover:text-ice-white'
+                    }`}
+                  >
+                    Mark {st}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Customer & Address Details */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans text-silver/80">
+              <div className="p-4 bg-carbon border border-steel/40 space-y-1">
+                <div className="text-[10px] uppercase tracking-wider text-silver/50 font-semibold">
+                  Customer
+                </div>
+                <div className="font-medium text-ice-white">{selectedOrder.customer.fullName}</div>
+                <div>{selectedOrder.customer.email}</div>
+                <div>{selectedOrder.customer.phone}</div>
+              </div>
+
+              <div className="p-4 bg-carbon border border-steel/40 space-y-1">
+                <div className="text-[10px] uppercase tracking-wider text-silver/50 font-semibold">
+                  Delivery Destination
+                </div>
+                <div>{selectedOrder.delivery.addressLine1}</div>
+                <div>{selectedOrder.delivery.city}, {selectedOrder.delivery.state} - {selectedOrder.delivery.pincode}</div>
+                <div>Payment ID: {selectedOrder.paymentId || 'N/A'}</div>
+              </div>
+            </div>
+
+            {/* Order Items */}
+            <div className="space-y-3">
+              <h4 className="text-xs uppercase tracking-wider font-sans text-silver font-semibold">
+                Purchased Pieces ({selectedOrder.items.length})
+              </h4>
+              {selectedOrder.items.map((it, idx) => (
+                <div key={idx} className="flex justify-between items-center p-3 bg-carbon border border-steel/30 text-xs font-sans">
+                  <div>
+                    <span className="font-medium text-ice-white uppercase">{it.name}</span>
+                    <span className="block text-[10px] text-silver/60">SKU: {it.sku} • Qty: {it.quantity}</span>
+                  </div>
+                  <span className="font-mono text-bright-silver">
+                    ₹{(it.price * it.quantity).toLocaleString('en-IN')}
+                  </span>
+                </div>
+              ))}
+              <div className="p-3 bg-carbon border border-steel/50 flex justify-between text-sm font-semibold text-ice-white">
+                <span>Final Paid Total</span>
+                <span className="font-mono text-bright-silver font-bold">
+                  ₹{selectedOrder.total.toLocaleString('en-IN')}
+                </span>
+              </div>
+            </div>
+
+            {/* Status Timeline History */}
+            <div className="p-4 bg-carbon border border-steel/40 space-y-3">
+              <span className="text-[10px] font-sans uppercase tracking-wider text-silver/50 font-semibold">
+                Audit Timeline
+              </span>
+              <div className="space-y-2 text-xs font-sans">
+                {selectedOrder.statusTimeline.map((step, idx) => (
+                  <div key={idx} className="flex justify-between text-silver/70 border-b border-steel/20 pb-1.5 last:border-0">
+                    <div>
+                      <span className="font-semibold text-ice-white uppercase text-[11px]">{step.status}</span>
+                      <span className="text-[10px] block text-silver/60">{step.note}</span>
+                    </div>
+                    <span className="text-[9px] font-mono text-silver/40">
+                      {new Date(step.timestamp).toLocaleString('en-IN')}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
