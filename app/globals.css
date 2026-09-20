@@ -5,36 +5,46 @@
 @tailwind utilities;
 
 :root {
-  /* Gothic + Cinematic Design Tokens */
-  --void: #050505;
-  --graphite: #0A0A0A;
-  --carbon: #111111;
-  --forest-deep: #0B1A12;
-  --emerald-shadow: #12261B;
+  /* Phase 1 Design Tokens: Cinematic Black, Deep Green & White */
+  --void: #030504;
+  --emerald-black: #06110C;
+  --forest: #0B1A12;
+  --emerald: #123524;
   --moss: #2E4A37;
-  --signature-green: #6C8F72;
+  --green: #6C8F72;
   --green-glow: #8FB89A;
+  --white: #F2F2F2;
   --silver: #BFC3C7;
-  --bright-silver: #D4D7DA;
-  --ice-white: #F2F2F2;
-  --steel: #34383C;
-  --chrome: #6D7277;
+  --muted: #9AA39D;
+  --line: rgba(242, 242, 242, 0.10);
 
-  /* Typography */
-  --font-cinzel: 'Cinzel', serif;
-  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
-  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Semantic Aliases & Compatibility */
+  --bg: var(--void);
+  --surface: var(--emerald-black);
+  --text: var(--white);
+  --line-strong: rgba(242, 242, 242, 0.18);
+  --steel: var(--line);
+  --graphite: var(--emerald-black);
+  --carbon: #0B1A12;
+  --ice-white: var(--white);
+  --bright-silver: var(--silver);
+  --signature-green: var(--green);
+  --brand-green: var(--green);
+  --green-soft: var(--green-glow);
+  --green-deep: var(--forest);
+  --forest-deep: var(--forest);
+  --chrome: #6D7277;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--void);
-  color: var(--ice-white);
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 body {
-  background-color: var(--void);
-  color: var(--ice-white);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: var(--font-inter);
   overflow-x: hidden;
   position: relative;
