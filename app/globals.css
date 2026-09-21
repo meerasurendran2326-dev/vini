@@ -60,6 +60,14 @@ html {
 
 body {
   background-color: var(--ivory);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(169, 191, 174, 0.16) 0px, transparent 50%),
+    radial-gradient(at 100% 15%, rgba(108, 143, 114, 0.10) 0px, transparent 45%),
+    radial-gradient(at 50% 50%, rgba(221, 229, 222, 0.28) 0px, transparent 60%),
+    radial-gradient(at 15% 85%, rgba(169, 191, 174, 0.14) 0px, transparent 50%),
+    radial-gradient(at 85% 95%, rgba(108, 143, 114, 0.08) 0px, transparent 40%),
+    linear-gradient(180deg, #FAF9F5 0%, #F5F4EF 25%, #EBEFEA 60%, #F7F6F1 100%);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-sans);
   overflow-x: hidden;
@@ -114,3 +122,18 @@ body {
   border: 1px solid rgba(228, 231, 234, 0.18);
   box-shadow: 0 4px 24px rgba(15, 46, 32, 0.25);
 }
+
+/* Luxury Gradient Presets */
+.bg-hero-gradient {
+  background: 
+    radial-gradient(ellipse 75% 55% at 50% 48%, rgba(255, 255, 255, 0.88) 0%, rgba(244, 244, 240, 0.5) 45%, transparent 80%),
+    radial-gradient(circle at 12% 15%, rgba(169, 191, 174, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 88% 75%, rgba(108, 143, 114, 0.12) 0%, transparent 50%),
+    linear-gradient(180deg, #FAF9F5 0%, #F4F4F0 45%, #EBEFEA 100%);
+}
+
+.bg-emerald-vault-gradient {
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% 15%, rgba(31, 77, 54, 0.9) 0%, rgba(15, 46, 32, 0.98) 70%, #0F2E20 100%);
+}
+

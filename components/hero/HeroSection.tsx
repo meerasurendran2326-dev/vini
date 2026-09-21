@@ -71,7 +71,12 @@ export default function HeroSection() {
   const line2 = 'VIDI'.split('');
 
   return (
-    <section className="relative min-h-[100vh] min-h-[720px] bg-[#F4F4F0] text-[#0F2A1F] font-sans overflow-hidden flex flex-col justify-between selection:bg-[#0F2A1F]/10">
+    <section className="relative min-h-[100vh] min-h-[720px] bg-hero-gradient text-[#0F2A1F] font-sans overflow-hidden flex flex-col justify-between selection:bg-[#0F2A1F]/10">
+      
+      {/* Ambient Backlight Gradient Orb */}
+      <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
+        <div className="w-[90vw] max-w-[950px] h-[80vw] max-h-[800px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.92)_0%,rgba(244,244,240,0.65)_40%,rgba(169,191,174,0.18)_68%,transparent_90%)] blur-3xl opacity-90" />
+      </div>
       
       {/* SEARCH MODAL */}
       {searchOpen && (

@@ -177,7 +177,7 @@ export default function HomePage() {
         <span>09</span>
       </div>
 
-      <div ref={containerRef} className="relative bg-ivory text-ink selection:bg-sage/30 selection:text-forest">
+      <div ref={containerRef} className="relative bg-transparent text-ink selection:bg-sage/30 selection:text-forest">
         
         {/* =========================================================================
             SCENE 01: HERO — VELORE ATELIER MINIMAL 3D HERO SECTION
@@ -187,7 +187,7 @@ export default function HomePage() {
         {/* =========================================================================
             SCENE 02: COLLECTION INTRO — EDITORIAL ARCHIVE REVEAL ON IVORY STAGE
         ========================================================================= */}
-        <section className="border-b border-line relative overflow-hidden py-16 sm:py-20 bg-pearl">
+        <section className="border-b border-line relative overflow-hidden py-16 sm:py-20 bg-gradient-to-b from-[#FAF9F5]/90 via-pearl/80 to-[#F0F3EE]/90">
           {/* Faint Giant Serif Word behind */}
           <div className="absolute top-6 right-4 font-editorial italic text-[16vw] leading-none text-forest/[0.04] pointer-events-none select-none">
             Archive
@@ -212,7 +212,7 @@ export default function HomePage() {
             SCENE 03: PROTECTED CARD FAN CAROUSEL ON DEEP-EMERALD FULL-BLEED PANEL
             Note: card-fan-carousel.tsx is UNTOUCHED; panel is #0F2E20 with white text
         ========================================================================= */}
-        <section className="bg-forest text-white relative overflow-hidden py-20 border-b border-emerald/30 shadow-[inset_0_20px_50px_rgba(0,0,0,0.2)]">
+        <section className="bg-emerald-vault-gradient text-white relative overflow-hidden py-20 border-b border-emerald/30 shadow-[inset_0_20px_50px_rgba(0,0,0,0.2)]">
           {/* Subtle orbital arcs and sparkle stars */}
           <OrbitArc orientation="top-right" opacity={0.2} />
           <ChromeRibbon variant="left" opacity={0.25} className="top-0 left-0 w-[550px] h-[350px]" />
@@ -273,7 +273,7 @@ export default function HomePage() {
         {/* =========================================================================
             SCENE 05: CRAFTSMANSHIP — PINNED NARRATIVE SCENE WITH CLIP-PATH REVEALS
         ========================================================================= */}
-        <section className="py-24 px-6 sm:px-10 lg:px-[6vw] border-b border-line relative overflow-hidden bg-ivory">
+        <section className="py-24 px-6 sm:px-10 lg:px-[6vw] border-b border-line relative overflow-hidden bg-gradient-to-b from-[#FAF9F5]/90 via-ivory/80 to-pearl/60">
           <SceneBackground withHalftone theme="light" />
 
           <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -354,7 +354,7 @@ export default function HomePage() {
         {/* =========================================================================
             SCENE 06: FEATURED PIECES — EDITORIAL SHOWCASE WITH CLEAN LIGHT CARDS
         ========================================================================= */}
-        <section className="py-24 px-6 sm:px-10 lg:px-[6vw] border-b border-line relative bg-pearl">
+        <section className="py-24 px-6 sm:px-10 lg:px-[6vw] border-b border-line relative bg-gradient-to-b from-pearl/70 via-[#FAF9F5]/80 to-pearl/80">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-line">
               <div>
@@ -397,7 +397,7 @@ export default function HomePage() {
         {/* =========================================================================
             SCENE 07: MATERIAL SPECIFICATION PANEL
         ========================================================================= */}
-        <section className="py-20 px-6 sm:px-10 lg:px-[6vw] border-b border-line bg-white relative">
+        <section className="py-20 px-6 sm:px-10 lg:px-[6vw] border-b border-line bg-gradient-to-b from-white/90 via-[#FAF9F5]/80 to-pearl/50 relative">
           <div className="max-w-6xl mx-auto bg-ivory border border-line p-8 sm:p-12 rounded-[2px] relative overflow-hidden shadow-sm">
             <CornerBrackets size={16} color="rgba(31,77,54,0.4)" />
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
@@ -479,7 +479,7 @@ export default function HomePage() {
         {/* =========================================================================
             SCENE 09: SHOP CTA & VIP CONCIERGE ACCESS ON IVORY STAGE
         ========================================================================= */}
-        <section className="py-28 px-6 sm:px-10 lg:px-[6vw] border-b border-line bg-ivory relative">
+        <section className="py-28 px-6 sm:px-10 lg:px-[6vw] border-b border-line bg-gradient-to-b from-[#FAF9F5]/90 via-ivory/80 to-[#ECEFEA]/90 relative">
           <div className="max-w-4xl mx-auto bg-white border border-line p-8 sm:p-14 text-center relative overflow-hidden rounded-[2px] shadow-[0_12px_40px_rgba(15,46,32,0.06)]">
             <CornerBrackets size={18} color="rgba(31,77,54,0.5)" />
 
