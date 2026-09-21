@@ -19,6 +19,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CinematicOpening from '@/components/luxury/CinematicOpening';
 import HeroSection from '@/components/hero/HeroSection';
 import ProductCard from '@/components/product/ProductCard';
+import Velaris from '@/components/ui/velaris';
 import { CardFanCarousel, CardFanItem } from '@/components/ui/card-fan-carousel';
 import SceneBackground from '@/components/luxury/SceneBackground';
 import ChromeRibbon from '@/components/luxury/ChromeRibbon';
@@ -432,38 +433,47 @@ export default function HomePage() {
         </section>
 
         {/* =========================================================================
-            SCENE 08: BRAND STORY WITH ORBITAL ARCS ON DEEP EMERALD PANEL
+            SCENE 08: BRAND STORY WITH VELARIS LIVING GRADIENT ON DEEP EMERALD PANEL
         ========================================================================= */}
-        <section className="py-28 px-6 sm:px-10 lg:px-[6vw] border-b border-emerald/30 bg-forest text-white relative overflow-hidden">
-          <OrbitArc orientation="top-right" opacity={0.3} />
+        <section className="border-b border-emerald/30 relative overflow-hidden">
+          <Velaris
+            bg="#0F2E20"
+            colors={["#1F4D36", "#0F2E20", "#2C6347", "#0A2016"]}
+            height="auto"
+            grain={0.2}
+            speed={1.5}
+            className="py-28 px-6 sm:px-10 lg:px-[6vw] text-white"
+          >
+            <OrbitArc orientation="top-right" opacity={0.3} />
 
-          <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6">
-            <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-sage">
-              Scene 08 • The Sovereign Manifesto
-            </span>
+            <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6">
+              <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-sage">
+                Scene 08 • The Sovereign Manifesto
+              </span>
 
-            <h2 className="font-sans font-medium text-4xl sm:text-6xl uppercase tracking-tight text-white leading-tight">
-              I Came. I Conquered. <br />
-              <span className="font-editorial italic font-light text-sage">
-                Permanent
-              </span>{' '}
-              Presence.
-            </h2>
+              <h2 className="font-sans font-medium text-4xl sm:text-6xl uppercase tracking-tight text-white leading-tight">
+                I Came. I Conquered. <br />
+                <span className="font-editorial italic font-light text-sage">
+                  Permanent
+                </span>{' '}
+                Presence.
+              </h2>
 
-            <p className="font-editorial italic text-xl sm:text-2xl text-mist leading-relaxed max-w-2xl mx-auto">
-              "We reject hollow jewellery that pretends to be precious. We build heavy, unapologetic silver for those who command their own presence."
-            </p>
+              <p className="font-editorial italic text-xl sm:text-2xl text-mist leading-relaxed max-w-2xl mx-auto">
+                "We reject hollow jewellery that pretends to be precious. We build heavy, unapologetic silver for those who command their own presence."
+              </p>
 
-            <div className="pt-4">
-              <Link
-                href="/about"
-                className="inline-flex items-center space-x-2 text-[11px] font-mono uppercase tracking-[0.14em] text-white hover:text-sage transition-colors underline decoration-sage/40 underline-offset-8"
-              >
-                <span>Read The Silversmith Manifesto</span>
-                <ArrowRight className="w-3.5 h-3.5 text-sage" />
-              </Link>
+              <div className="pt-4">
+                <Link
+                  href="/about"
+                  className="inline-flex items-center space-x-2 text-[11px] font-mono uppercase tracking-[0.14em] text-white hover:text-sage transition-colors underline decoration-sage/40 underline-offset-8"
+                >
+                  <span>Read The Silversmith Manifesto</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-sage" />
+                </Link>
+              </div>
             </div>
-          </div>
+          </Velaris>
         </section>
 
         {/* =========================================================================

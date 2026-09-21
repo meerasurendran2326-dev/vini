@@ -1,34 +1,19 @@
-"use client";
-import React from "react";
-import { ContainerScroll } from "@/components/ui/container-scroll-animation";
-import Image from "next/image";
+import Velaris from "@/components/ui/velaris";
 
-export function HeroScrollDemo() {
+export default function VelarisDemo() {
   return (
-    <div className="flex flex-col overflow-hidden pb-[500px] pt-[1000px]">
-      <ContainerScroll
-        titleComponent={
-          <>
-            <h1 className="text-4xl font-semibold text-black dark:text-white">
-              Unleash the power of <br />
-              <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
-                Scroll Animations
-              </span>
-            </h1>
-          </>
-        }
-      >
-        <Image
-          src={`https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=2070&auto=format&fit=crop`}
-          alt="hero"
-          height={720}
-          width={1400}
-          className="mx-auto rounded-2xl object-cover h-full object-left-top"
-          draggable={false}
-        />
-      </ContainerScroll>
-    </div>
+    <Velaris height="500px" className="rounded-xl">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-6 text-center">
+        <span className="rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs font-medium text-white/80 backdrop-blur">
+          Powered by WebGL
+        </span>
+        <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-white sm:text-6xl">
+          Living gradients in motion
+        </h1>
+        <p className="max-w-md text-sm text-white/70 sm:text-base">
+          An animated simplex-noise background with color blending, vignette glow and film grain.
+        </p>
+      </div>
+    </Velaris>
   );
 }
-
-export default HeroScrollDemo;
