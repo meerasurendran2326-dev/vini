@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ShoppingBag, Search, Menu, X } from 'lucide-react';
 import { useCart } from '@/lib/context/CartContext';
 
 export default function Navbar() {
+  const pathname = usePathname();
   const { openCart, itemCount } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -34,6 +36,8 @@ export default function Navbar() {
     { label: 'Track Order', href: '/track' },
   ];
 
+  const isHome = pathname === '/';
+
   return (
     <>
       {/* 32px Deep-Emerald Announcement Bar */}
@@ -57,13 +61,17 @@ export default function Navbar() {
       <header
         className={`fixed top-[32px] inset-x-0 z-40 h-[76px] transition-all duration-300 ${
           scrolled
-            ? 'bg-[#F6F5F0]/90 backdrop-blur-md border-b border-[rgba(15,46,32,0.12)] shadow-[0_4px_24px_rgba(15,46,32,0.06)]'
-            : 'bg-transparent border-b border-[rgba(15,46,32,0.08)]'
+            ? 'bg-[#F4F4F0]/90 backdrop-blur-md border-b border-[rgba(15,46,32,0.12)] shadow-[0_4px_24px_rgba(15,46,32,0.06)]'
+            : isHome
+            ? 'bg-transparent border-b border-[rgba(15,46,32,0.08)]'
+            : 'bg-[#F4F4F0] border-b border-[rgba(15,46,32,0.08)]'
         }`}
       >
         <div className="max-w-7xl mx-auto h-full px-6 sm:px-10 lg:px-[6vw] flex items-center justify-between">
-          {/* Left: Monogram + Wordmark */}
-          <div className="flex items-center space-x-3">
+          
+          {/* SLIM REFERENCE NAV LAYOUT FOR HOME & ALL PAGES */}
+          {/* Left: Est. 2026 or Brand Mark */}
+          <div className="flex items-center space-x-4">
             <button
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open navigation menu"
@@ -73,50 +81,50 @@ export default function Navbar() {
             </button>
 
             <Link href="/" className="flex items-center space-x-3 group">
-              <span className="w-8 h-8 rounded-[2px] border border-line bg-pearl flex items-center justify-center text-[11px] font-mono tracking-tighter text-ink font-bold group-hover:border-green group-hover:text-emerald transition-colors shadow-sm">
-                VVV
+              <span className="text-xs font-sans tracking-widest text-[#0F2A1F] font-semibold uppercase">
+                Est. 2026
               </span>
-              <div className="flex flex-col">
-                <span className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-ink group-hover:text-emerald transition-colors">
-                  Vini Vici Vidi
-                </span>
-                <span className="text-[8px] font-mono uppercase tracking-widest text-sage">
-                  Silver Collection
-                </span>
-              </div>
+              <span className="text-[10px] font-mono text-[#0F2A1F]/40 hidden sm:inline">•</span>
+              <span className="text-xs font-sans tracking-widest text-[#0F2A1F]/70 hidden sm:inline uppercase">
+                Vini Vici Vidi
+              </span>
             </Link>
           </div>
 
-          {/* Center: Frosted White Pill with unwrapped links */}
-          <nav className="hidden lg:flex items-center space-x-1 px-3 py-1.5 rounded-full border border-line bg-white/85 backdrop-blur-md shadow-[0_2px_12px_rgba(15,46,32,0.05)]">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-ink/75 hover:text-emerald hover:bg-green/10 rounded-full transition-colors whitespace-nowrap"
-              >
-                {link.label}
-              </Link>
-            ))}
+          {/* Center: Clean links, small sans-serif, no pill borders */}
+          <nav className="hidden lg:flex items-center space-x-8 text-xs font-sans tracking-wide text-[#0F2A1F]/80">
+            <Link href="/shop" className="hover:text-[#0F2A1F] transition-colors">
+              Collection
+            </Link>
+            <Link href="/about" className="hover:text-[#0F2A1F] transition-colors">
+              About
+            </Link>
+            <Link href="/gallery" className="hover:text-[#0F2A1F] transition-colors">
+              Lookbook
+            </Link>
+            <Link href="/contact" className="hover:text-[#0F2A1F] transition-colors">
+              Contact
+            </Link>
           </nav>
 
-          {/* Right: Search + Cart */}
-          <div className="flex items-center space-x-2.5 sm:space-x-3">
+          {/* Right: Search & Cart (0) (clean sans-serif, no pill borders) */}
+          <div className="flex items-center space-x-6 text-xs font-sans tracking-wide">
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search collection"
-              className="p-2 text-ink/70 hover:text-emerald rounded-full hover:bg-white border border-transparent hover:border-line transition-all shadow-sm"
+              className="flex items-center space-x-1.5 text-[#0F2A1F]/80 hover:text-[#0F2A1F] transition-colors"
             >
-              <Search className="w-4 h-4" />
+              <Search className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Search</span>
             </button>
 
             <button
               onClick={openCart}
               aria-label="Open shopping cart"
-              className="flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-line bg-white hover:border-green text-ink hover:text-emerald transition-all shadow-sm"
+              className="flex items-center space-x-1.5 text-[#0F2A1F] font-semibold hover:opacity-75 transition-opacity"
             >
-              <ShoppingBag className="w-3.5 h-3.5 text-green" />
-              <span className="text-[11px] font-mono font-semibold text-emerald">({itemCount})</span>
+              <ShoppingBag className="w-3.5 h-3.5" />
+              <span>Cart ({itemCount})</span>
             </button>
           </div>
         </div>
@@ -125,7 +133,7 @@ export default function Navbar() {
       {/* Search Overlay */}
       {searchOpen && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-forest/60 backdrop-blur-sm">
-          <div className="w-full max-w-xl bg-white border border-line p-6 shadow-2xl rounded-[2px]">
+          <div className="w-full max-w-xl bg-[#F4F4F0] border border-line p-6 shadow-2xl rounded-[2px]">
             <div className="flex items-center justify-between pb-4 border-b border-line">
               <span className="text-xs font-mono uppercase tracking-wider text-ink font-semibold">
                 Search Silver Archive
@@ -152,12 +160,12 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search rings, pendants, byzantine chains..."
-                className="flex-1 px-4 py-2.5 bg-pearl border border-line text-ink placeholder:text-sage text-xs font-mono rounded-[2px] focus:outline-none focus:border-green"
+                className="flex-1 px-4 py-2.5 bg-white border border-line text-ink placeholder:text-sage text-xs font-sans focus:outline-none"
                 autoFocus
               />
               <button
                 type="submit"
-                className="px-5 py-2.5 bg-emerald hover:bg-forest text-white text-xs font-mono uppercase tracking-wider font-semibold rounded-[2px] transition-colors"
+                className="px-5 py-2.5 bg-emerald hover:bg-forest text-white text-xs font-mono uppercase tracking-wider font-semibold transition-colors"
               >
                 Search
               </button>
@@ -173,7 +181,7 @@ export default function Navbar() {
             className="fixed inset-0 bg-forest/60 backdrop-blur-sm"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="relative w-4/5 max-w-sm bg-ivory border-r border-line p-8 flex flex-col justify-between z-10 shadow-2xl">
+          <div className="relative w-4/5 max-w-sm bg-[#F4F4F0] border-r border-line p-8 flex flex-col justify-between z-10 shadow-2xl">
             <div>
               <div className="flex items-center justify-between pb-6 border-b border-line">
                 <span className="font-sans text-sm font-semibold uppercase tracking-widest text-ink">
@@ -193,7 +201,7 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-xs font-mono uppercase tracking-widest text-ink hover:text-emerald py-1 border-b border-line/40 transition-colors"
+                    className="text-xs font-sans uppercase tracking-widest text-ink hover:text-emerald py-1 border-b border-line/40 transition-colors"
                   >
                     {link.label}
                   </Link>

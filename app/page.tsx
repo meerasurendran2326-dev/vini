@@ -17,7 +17,7 @@ import {
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CinematicOpening from '@/components/luxury/CinematicOpening';
-import SilverJewellery3D from '@/components/luxury/SilverJewellery3D';
+import HeroSection from '@/components/hero/HeroSection';
 import ProductCard from '@/components/product/ProductCard';
 import { CardFanCarousel, CardFanItem } from '@/components/ui/card-fan-carousel';
 import SceneBackground from '@/components/luxury/SceneBackground';
@@ -179,124 +179,9 @@ export default function HomePage() {
       <div ref={containerRef} className="relative bg-ivory text-ink selection:bg-sage/30 selection:text-forest">
         
         {/* =========================================================================
-            SCENE 01: HERO — VELORE-STYLE STAGGERED H1 WORDMARK BEHIND CENTERED 3D RING
+            SCENE 01: HERO — VELORE ATELIER MINIMAL 3D HERO SECTION
         ========================================================================= */}
-        <section className="relative min-h-[calc(100svh-108px)] flex flex-col justify-between px-6 sm:px-10 lg:px-[6vw] pt-4 sm:pt-6 pb-8 overflow-hidden bg-ivory border-b border-line">
-          {/* Liquid chrome ribbon in top-left */}
-          <ChromeRibbon variant="left" opacity={0.45} className="top-0 left-0 w-[520px] h-[340px]" />
-
-          {/* Top Meta Bar */}
-          <div className="relative z-10 flex items-center justify-between text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.14em] text-muted pt-2 pb-4 border-b border-line">
-            <div className="flex items-center space-x-2.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green inline-block animate-pulse" />
-              <span className="text-ink font-medium">Atelier Online Showroom</span>
-            </div>
-            <div className="hidden md:flex items-center space-x-3 text-muted">
-              <span>Pure 92.5% Sterling Metallurgy</span>
-              <span className="text-green">•</span>
-              <span>Handcrafted In India</span>
-            </div>
-            <div>
-              <button
-                onClick={() => setShowIntro(true)}
-                className="hover:text-emerald transition-colors underline decoration-line underline-offset-4"
-              >
-                Replay Vault Intro
-              </button>
-            </div>
-          </div>
-
-          {/* Velore-Style Stage: Staggered Giant H1 Wordmark with Centered 3D Foreground Ring */}
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center my-auto py-6">
-            
-            {/* Left Narrative Column (Cols 1-7) */}
-            <div className="lg:col-span-7 flex flex-col justify-center relative z-20">
-              {/* Micro-label kicker */}
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-line bg-white/80 text-[10px] font-mono uppercase tracking-[0.14em] text-muted w-fit mb-5 shadow-sm">
-                <Sparkles className="w-3 h-3 text-emerald" />
-                <span>Exhibition Catalog 2026</span>
-              </div>
-
-              {/* Tagline Headline */}
-              <h2 className="font-sans font-medium text-3xl sm:text-5xl lg:text-[clamp(2.5rem,4.5vw,4.5rem)] leading-[1.05] tracking-[-0.03em] text-ink mb-5 uppercase">
-                Liquid Chrome. <br />
-                <span className="font-editorial italic font-light text-emerald lowercase">
-                  architectural
-                </span>{' '}
-                Silver.
-              </h2>
-
-              {/* Description */}
-              <p className="font-sans text-xs sm:text-sm text-muted max-w-[52ch] leading-relaxed tracking-normal mb-7">
-                Forged from certified 925 solid sterling silver. Precision-beveled planar signets, fluid torque bangles, and generational bespoke metallurgy designed to outlive the century.
-              </p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 mb-7">
-                <Link
-                  href="/shop"
-                  className="px-7 py-3.5 bg-emerald hover:bg-forest text-white text-[11px] font-mono uppercase tracking-[0.14em] font-semibold rounded-[2px] transition-all duration-300 shadow-[0_4px_20px_rgba(31,77,54,0.25)] hover:shadow-[0_6px_25px_rgba(15,46,32,0.35)] flex items-center space-x-2.5 group"
-                >
-                  <span>Explore Exhibition</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                </Link>
-
-                <Link
-                  href="/about"
-                  className="group px-7 py-3.5 border border-line hover:border-emerald text-ink hover:text-emerald bg-white/60 hover:bg-white text-[11px] font-mono uppercase tracking-[0.14em] rounded-[2px] transition-all"
-                >
-                  The Silversmith Story
-                </Link>
-              </div>
-
-              {/* Meta Scarcity & Offer Row */}
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] font-mono uppercase tracking-[0.12em] text-muted">
-                <span className="flex items-center space-x-1.5 text-emerald font-semibold">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>50% Celebration Discount Active</span>
-                </span>
-                <span className="text-line hidden sm:inline">•</span>
-                <span>Guest Checkout Enabled</span>
-                <span className="text-line hidden sm:inline">•</span>
-                <span className="hidden sm:inline">Lifetime Metallurgy Guarantee</span>
-              </div>
-            </div>
-
-            {/* Right Column / Stage: 3D Interactive Sovereign Ring Overlapping Stage (Cols 8-12) */}
-            <div className="lg:col-span-5 relative flex items-center justify-center">
-              {/* Staggered Giant Wordmark Backdrop (Subtle behind 3D object) */}
-              <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none select-none z-0 opacity-[0.08] overflow-hidden">
-                <span className="font-sans font-black text-7xl sm:text-9xl text-emerald tracking-tighter leading-none -translate-x-6">
-                  VINI
-                </span>
-                <span className="font-sans font-black text-7xl sm:text-9xl text-emerald tracking-tighter leading-none translate-x-6">
-                  VICI
-                </span>
-                <span className="font-sans font-black text-7xl sm:text-9xl text-emerald tracking-tighter leading-none -translate-x-2">
-                  VIDI
-                </span>
-              </div>
-
-              {/* 3D Real Product Interactive Studio Canvas */}
-              <div className="relative w-full max-w-lg z-10">
-                <SilverJewellery3D />
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Floor Shadow Band & Scene Ticker */}
-          <div className="relative z-10 pt-4 border-t border-line flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.14em] text-muted">
-            <div className="flex items-center space-x-2">
-              <span className="text-ink font-medium">Scene 01</span>
-              <span>•</span>
-              <span>Pure Material Induction</span>
-            </div>
-            <div className="flex items-center space-x-1.5 text-emerald">
-              <span>Scroll To Enter Vault</span>
-              <span className="animate-bounce">↓</span>
-            </div>
-          </div>
-        </section>
+        <HeroSection />
 
         {/* =========================================================================
             SCENE 02: COLLECTION INTRO — EDITORIAL ARCHIVE REVEAL ON IVORY STAGE
