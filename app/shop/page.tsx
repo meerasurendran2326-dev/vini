@@ -71,17 +71,17 @@ function ShopContent() {
   }, [products, selectedCategory, searchQuery, onlyFiftyPercent, onlyInStock, sortBy]);
 
   return (
-    <div className="bg-void min-h-screen text-ice-white pb-32">
+    <div className="bg-ivory min-h-screen text-ink pb-32 selection:bg-sage/30 selection:text-forest">
       {/* Editorial Header */}
-      <div className="pt-12 pb-16 px-6 sm:px-10 lg:px-16 border-b border-steel/30 bg-graphite/40">
+      <div className="pt-12 pb-16 px-6 sm:px-10 lg:px-16 border-b border-line bg-pearl/60">
         <div className="max-w-7xl mx-auto">
-          <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/60 block mb-2">
+          <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-emerald font-semibold block mb-2">
             The Permanent Archive • 925 Solid Sterling Silver
           </span>
-          <h1 className="font-display text-4xl sm:text-6xl uppercase tracking-wider text-ice-white font-normal">
+          <h1 className="font-sans text-4xl sm:text-6xl uppercase tracking-tight text-ink font-medium">
             Collection Catalogue
           </h1>
-          <p className="mt-3 font-editorial italic text-lg sm:text-xl text-silver/80 max-w-2xl">
+          <p className="mt-3 font-editorial italic text-lg sm:text-xl text-muted max-w-2xl">
             {filteredProducts.length} archival silver specimens available for immediate dispatch or bespoke personal engraving.
           </p>
         </div>
@@ -89,17 +89,17 @@ function ShopContent() {
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-10">
         {/* Filter Controls Bar */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-steel/40">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-line">
           {/* Category Tabs */}
           <div className="flex items-center space-x-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-4 py-2 text-xs font-sans uppercase tracking-super-wide whitespace-nowrap transition-all duration-300 border ${
+                className={`px-4 py-2 text-xs font-mono uppercase tracking-[0.14em] whitespace-nowrap transition-all duration-300 rounded-[2px] border ${
                   selectedCategory === cat.id
-                    ? 'bg-bright-silver text-void border-bright-silver font-semibold'
-                    : 'bg-carbon text-silver hover:text-ice-white border-steel/50 hover:border-silver/50'
+                    ? 'bg-emerald text-white border-emerald font-semibold shadow-sm'
+                    : 'bg-white text-muted hover:text-ink border-line hover:border-emerald/40'
                 }`}
               >
                 {cat.label}
@@ -108,32 +108,32 @@ function ShopContent() {
           </div>
 
           {/* Secondary Controls: Search, Sort, 50% Toggle */}
-          <div className="flex flex-wrap items-center gap-4 text-xs font-sans">
+          <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
             {/* 50% Offer Filter */}
             <button
               onClick={() => setOnlyFiftyPercent(!onlyFiftyPercent)}
-              className={`flex items-center space-x-2 px-3.5 py-2 border transition-colors ${
+              className={`flex items-center space-x-2 px-3.5 py-2 border rounded-[2px] transition-colors ${
                 onlyFiftyPercent
-                  ? 'bg-brand-green/20 border-brand-green text-brand-green font-medium'
-                  : 'bg-carbon border-steel/50 text-silver hover:text-ice-white'
+                  ? 'bg-emerald/15 border-emerald text-emerald font-semibold'
+                  : 'bg-white border-line text-muted hover:text-ink hover:border-emerald/40'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <Sparkles className="w-3.5 h-3.5 text-emerald" />
               <span className="uppercase tracking-wider text-[11px]">50% Offer Only</span>
             </button>
 
             {/* Sort Selector */}
-            <div className="flex items-center space-x-2 bg-carbon border border-steel/50 px-3 py-1.5 text-silver">
-              <ArrowUpDown className="w-3.5 h-3.5 text-silver/70" />
+            <div className="flex items-center space-x-2 bg-white border border-line px-3 py-1.5 text-ink rounded-[2px]">
+              <ArrowUpDown className="w-3.5 h-3.5 text-emerald" />
               <select
                 value={sortBy}
                 onChange={(e: any) => setSortBy(e.target.value)}
-                className="bg-transparent text-xs text-ice-white focus:outline-none uppercase tracking-wider cursor-pointer"
+                className="bg-transparent text-xs text-ink focus:outline-none uppercase tracking-wider cursor-pointer font-mono"
               >
-                <option value="featured" className="bg-graphite">Curated Sort</option>
-                <option value="price-asc" className="bg-graphite">Price: Low to High</option>
-                <option value="price-desc" className="bg-graphite">Price: High to Low</option>
-                <option value="name" className="bg-graphite">Alphabetical</option>
+                <option value="featured">Curated Sort</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name">Alphabetical</option>
               </select>
             </div>
           </div>
@@ -141,20 +141,20 @@ function ShopContent() {
 
         {/* Active Filters Summary */}
         {(searchQuery || onlyFiftyPercent || selectedCategory !== 'all') && (
-          <div className="pt-4 flex items-center space-x-3 text-xs text-silver">
+          <div className="pt-4 flex items-center space-x-3 text-xs text-muted font-mono">
             <span>Filtering by:</span>
             {selectedCategory !== 'all' && (
-              <span className="px-2.5 py-1 bg-carbon border border-steel/50 text-[10px] uppercase tracking-wider text-ice-white">
+              <span className="px-2.5 py-1 bg-white border border-line text-[10px] uppercase tracking-wider text-ink rounded-sm">
                 Category: {selectedCategory}
               </span>
             )}
             {searchQuery && (
-              <span className="px-2.5 py-1 bg-carbon border border-steel/50 text-[10px] uppercase tracking-wider text-ice-white">
+              <span className="px-2.5 py-1 bg-white border border-line text-[10px] uppercase tracking-wider text-ink rounded-sm">
                 "{searchQuery}"
               </span>
             )}
             {onlyFiftyPercent && (
-              <span className="px-2.5 py-1 bg-carbon border border-steel/50 text-[10px] uppercase tracking-wider text-brand-green">
+              <span className="px-2.5 py-1 bg-emerald/10 border border-emerald text-[10px] uppercase tracking-wider text-emerald font-semibold rounded-sm">
                 50% Offer
               </span>
             )}
@@ -164,7 +164,7 @@ function ShopContent() {
                 setSearchQuery('');
                 setOnlyFiftyPercent(false);
               }}
-              className="text-[10px] uppercase tracking-widest text-bright-silver hover:underline ml-2"
+              className="text-[10px] uppercase tracking-widest text-emerald hover:underline ml-2 font-semibold"
             >
               Clear All
             </button>
@@ -174,12 +174,12 @@ function ShopContent() {
         {/* Products Grid */}
         <div className="pt-12">
           {filteredProducts.length === 0 ? (
-            <div className="text-center py-24 border border-dashed border-steel/40 p-12 bg-carbon/50">
-              <span className="font-display text-3xl text-silver/40 block mb-3">VVV</span>
-              <p className="font-editorial italic text-2xl text-silver">
+            <div className="text-center py-24 border border-dashed border-line p-12 bg-white rounded-[2px]">
+              <span className="font-sans font-bold text-3xl text-emerald/40 block mb-3">VVV</span>
+              <p className="font-editorial italic text-2xl text-ink">
                 No matching specimens found in the current archive.
               </p>
-              <p className="text-xs font-sans text-chrome mt-2">
+              <p className="text-xs font-sans text-muted mt-2">
                 Try modifying your search criteria or explore our complete 925 collection.
               </p>
               <button
@@ -188,7 +188,7 @@ function ShopContent() {
                   setSearchQuery('');
                   setOnlyFiftyPercent(false);
                 }}
-                className="mt-6 px-6 py-3 bg-bright-silver text-void text-xs font-sans uppercase tracking-super-wide font-semibold"
+                className="mt-6 px-6 py-3 bg-emerald hover:bg-forest text-white text-xs font-mono uppercase tracking-[0.14em] font-semibold rounded-[2px] shadow-sm transition-colors"
               >
                 Reset Catalog View
               </button>
@@ -208,7 +208,7 @@ function ShopContent() {
 
 export default function ShopPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-void flex items-center justify-center text-silver text-xs uppercase tracking-widest">Opening Archive...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-ivory flex items-center justify-center text-muted text-xs font-mono uppercase tracking-widest">Opening Archive...</div>}>
       <ShopContent />
     </Suspense>
   );

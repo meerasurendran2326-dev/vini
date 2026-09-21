@@ -43,7 +43,7 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
     });
   };
 
-  // Exit transition handoff into the live hero
+  // Exit transition handoff into the live ivory hero
   const triggerHandoff = useCallback(() => {
     if (hasEntered) return;
     setHasEntered(true);
@@ -59,7 +59,7 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
     // Smooth clip-path scale expansion into the live page
     if (containerRef.current) {
       gsap.to(containerRef.current, {
-        scale: 1.04,
+        scale: 1.05,
         opacity: 0,
         clipPath: 'inset(20% 20% 20% 20% round 16px)',
         duration: 0.9,
@@ -130,7 +130,7 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
       const tl = gsap.timeline();
       timelineRef.current = tl;
 
-      // 0.0s: BLACK VOID — tiny white glint drift
+      // 0.0s: DEEP EMERALD VOID — tiny white silver glint drift
       tl.fromTo(
         '#introGlint',
         { scale: 0.5, opacity: 0 },
@@ -141,12 +141,12 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
       tl.fromTo(
         '#silverLightBeam',
         { x: '-100%', opacity: 0 },
-        { x: '100%', opacity: 0.75, duration: 1.0, ease: 'power2.inOut' },
+        { x: '100%', opacity: 0.85, duration: 1.0, ease: 'power2.inOut' },
         0.8
       );
       tl.to(
         '#introGreenFog',
-        { opacity: 0.5, duration: 1.2, ease: 'power1.out' },
+        { opacity: 0.6, duration: 1.2, ease: 'power1.out' },
         1.0
       );
 
@@ -216,30 +216,30 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
       role="dialog"
       aria-modal="true"
       aria-label="Cinematic Exhibition Entry"
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#030504] text-[#F2F2F2] select-none overflow-hidden"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-forest text-white select-none overflow-hidden"
     >
       {/* 1. Skip Button (Available from t=0) */}
       <button
         ref={skipBtnRef}
         onClick={triggerHandoff}
         aria-label="Skip Cinematic Intro (Esc)"
-        className="absolute top-8 right-8 z-40 text-[10px] font-mono uppercase tracking-[0.16em] text-[#9AA39D] hover:text-[#F2F2F2] transition-colors duration-300 px-3.5 py-1.5 border border-[rgba(242,242,242,0.12)] hover:border-[#6C8F72] bg-[#0A0F0C]/80 backdrop-blur-md rounded-[2px]"
+        className="absolute top-8 right-8 z-40 text-[10px] font-mono uppercase tracking-[0.16em] text-mist hover:text-white transition-colors duration-300 px-3.5 py-1.5 border border-white/20 hover:border-green bg-forest/80 backdrop-blur-md rounded-[2px]"
       >
         Skip Intro [Esc]
       </button>
 
-      {/* 2. Background Stack: Void, Green Fog, Film Grain, and Sweeping Beam */}
+      {/* 2. Background Stack: Deep Emerald Void, Green Fog, Film Grain, and Sweeping Beam */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Sweeping Silver Light Beam */}
         <div
           id="silverLightBeam"
-          className="absolute -top-40 -left-1/4 w-[150vw] h-[500px] -rotate-12 bg-[radial-gradient(ellipse_at_center,rgba(242,242,242,0.18)_0%,rgba(108,143,114,0.08)_40%,transparent_70%)] blur-2xl"
+          className="absolute -top-40 -left-1/4 w-[150vw] h-[500px] -rotate-12 bg-[radial-gradient(ellipse_at_center,rgba(246,245,240,0.22)_0%,rgba(108,143,114,0.15)_40%,transparent_70%)] blur-2xl"
         />
 
         {/* Deep Green Fog in the wake */}
         <div
           id="introGreenFog"
-          className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(18,53,36,0.22)_0%,rgba(6,17,12,0.4)_50%,transparent_80%)] opacity-0"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(31,77,54,0.35)_0%,rgba(15,46,32,0.6)_50%,transparent_80%)] opacity-0"
         />
 
         {/* Film grain SVG */}
@@ -255,21 +255,21 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
         </svg>
 
         {/* Edge Vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_50%,rgba(3,5,4,0.92)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_50%,rgba(15,46,32,0.9)_100%)]" />
       </div>
 
       {/* 3. Stage 0.0s Glint */}
       <div id="introGlint" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-        <div className="w-2 h-2 rounded-full bg-[#F2F2F2] shadow-[0_0_20px_#F2F2F2,0_0_40px_#6C8F72] animate-pulse" />
+        <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_20px_#FFFFFF,0_0_40px_#6C8F72] animate-pulse" />
       </div>
 
       {/* 4. Center Content Stage */}
       <div className="relative z-20 flex flex-col items-center max-w-3xl px-6 text-center">
         {/* Brand Monogram & Reflection (1.8s) */}
         <div id="introMonogramWrap" className="mb-8 relative flex items-center justify-center">
-          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border border-[rgba(242,242,242,0.18)] p-1 flex items-center justify-center relative bg-gradient-to-b from-[#0A0F0C] via-[#0B1A12] to-[#030504] shadow-[0_0_50px_rgba(108,143,114,0.18)]">
-            <div className="absolute inset-1 rounded-full border border-[rgba(242,242,242,0.10)] bg-[radial-gradient(ellipse_at_top,rgba(242,242,242,0.22),transparent_70%)]" />
-            <span className="font-sans font-semibold text-2xl tracking-[0.25em] text-[#F2F2F2] relative z-10 pl-1">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border border-white/20 p-1 flex items-center justify-center relative bg-gradient-to-b from-emerald via-forest to-forest shadow-[0_0_50px_rgba(108,143,114,0.25)]">
+            <div className="absolute inset-1 rounded-full border border-white/10 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.25),transparent_70%)]" />
+            <span className="font-sans font-semibold text-2xl tracking-[0.25em] text-white relative z-10 pl-1">
               VVV
             </span>
           </div>
@@ -277,7 +277,7 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
 
         {/* Hero Real Product Piece (3.0s) */}
         <div id="introHeroPiece" className="relative w-44 h-44 sm:w-52 sm:h-52 mb-6 flex items-center justify-center">
-          <div className="relative w-full h-full rounded-full overflow-hidden border border-[rgba(242,242,242,0.12)] shadow-[0_0_60px_rgba(108,143,114,0.25)] bg-[#0A0F0C]">
+          <div className="relative w-full h-full rounded-full overflow-hidden border border-white/20 shadow-[0_0_60px_rgba(108,143,114,0.3)] bg-forest">
             <Image
               src={heroProduct.images[0] || '/images/products/pdt-1.jpeg'}
               alt={heroProduct.name}
@@ -286,7 +286,7 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
               priority
             />
             {/* Soft radial alpha edge mask */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(3,5,4,0.75)_95%)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(15,46,32,0.75)_95%)] pointer-events-none" />
           </div>
           {/* Subtle contact shadow underneath */}
           <div className="absolute -bottom-4 w-32 h-4 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(108,143,114,0.5)_0%,transparent_75%)] blur-md" />
@@ -296,7 +296,7 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
         <div className="overflow-hidden">
           <p
             id="introKicker"
-            className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-[#9AA39D] mb-3"
+            className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-sage mb-3"
           >
             The Atelier • 925 Solid Sterling Metallurgy
           </p>
@@ -305,7 +305,7 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
         <div className="overflow-hidden mb-3">
           <h1
             id="introHeadline"
-            className="font-sans font-medium text-3xl sm:text-5xl uppercase tracking-[-0.03em] text-[#F2F2F2]"
+            className="font-sans font-medium text-3xl sm:text-5xl uppercase tracking-[-0.03em] text-white"
           >
             VINI VICI VIDI
           </h1>
@@ -314,7 +314,7 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
         <div className="overflow-hidden max-w-lg mb-8">
           <p
             id="introScriptWord"
-            className="font-editorial italic text-base sm:text-lg text-[#BFC3C7]"
+            className="font-editorial italic text-base sm:text-lg text-bright-silver"
           >
             "Metal must not merely be bent; it must remember light."
           </p>
@@ -327,7 +327,7 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
             onClick={triggerHandoff}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="group relative inline-flex items-center space-x-3 px-8 py-3.5 border border-[rgba(242,242,242,0.25)] hover:border-[#6C8F72] bg-[#0A0F0C]/90 hover:bg-[#F2F2F2] text-[#F2F2F2] hover:text-[#030504] transition-all duration-300 shadow-[0_0_40px_rgba(108,143,114,0.2)] rounded-[2px]"
+            className="group relative inline-flex items-center space-x-3 px-8 py-3.5 border border-white/40 hover:border-green bg-white hover:bg-emerald text-forest hover:text-white transition-all duration-300 shadow-[0_0_40px_rgba(108,143,114,0.25)] rounded-[2px]"
           >
             <span className="text-[11px] font-mono uppercase tracking-[0.16em] font-semibold">
               Enter The Collection
@@ -338,11 +338,11 @@ export default function CinematicOpening({ onComplete }: CinematicOpeningProps) 
       </div>
 
       {/* Stage Micro-Labels */}
-      <div className="absolute bottom-8 left-8 text-[9px] font-mono uppercase tracking-[0.16em] text-[#9AA39D]/60 hidden sm:block">
-        Atmospheric Induction • Scene 00 / 08
+      <div className="absolute bottom-8 left-8 text-[9px] font-mono uppercase tracking-[0.16em] text-sage/70 hidden sm:block">
+        Atmospheric Induction • Scene 00 / 09
       </div>
-      <div className="absolute bottom-8 right-8 text-[9px] font-mono uppercase tracking-[0.16em] text-[#6C8F72] flex items-center space-x-2">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#6C8F72] animate-pulse" />
+      <div className="absolute bottom-8 right-8 text-[9px] font-mono uppercase tracking-[0.16em] text-sage flex items-center space-x-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
         <span>Atelier Active</span>
       </div>
     </div>

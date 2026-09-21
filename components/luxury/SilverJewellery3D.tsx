@@ -101,9 +101,9 @@ export default function SilverJewellery3D() {
       const sCtx = shadowCanvas.getContext('2d');
       if (sCtx) {
         const sGrad = sCtx.createRadialGradient(128, 64, 10, 128, 64, 110);
-        sGrad.addColorStop(0, 'rgba(6, 17, 12, 0.85)');
-        sGrad.addColorStop(0.5, 'rgba(11, 26, 18, 0.45)');
-        sGrad.addColorStop(1, 'rgba(3, 5, 4, 0)');
+        sGrad.addColorStop(0, 'rgba(15, 46, 32, 0.22)');
+        sGrad.addColorStop(0.5, 'rgba(15, 46, 32, 0.08)');
+        sGrad.addColorStop(1, 'rgba(246, 245, 240, 0)');
         sCtx.fillStyle = sGrad;
         sCtx.fillRect(0, 0, 256, 128);
       }
@@ -111,7 +111,7 @@ export default function SilverJewellery3D() {
       const shadowMat = new THREE.MeshBasicMaterial({
         map: shadowTex,
         transparent: true,
-        opacity: 0.85,
+        opacity: 0.75,
         depthWrite: false,
       });
       const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
@@ -138,7 +138,7 @@ export default function SilverJewellery3D() {
         map: texture,
         alphaMap: alphaTexture,
         transparent: true,
-        color: new THREE.Color(0x9aa39d),
+        color: new THREE.Color(0xd4d7da),
         metalness: 0.9,
         roughness: 0.35,
         side: THREE.DoubleSide,
@@ -152,19 +152,19 @@ export default function SilverJewellery3D() {
     scene.add(productGroup);
 
     // Studio Lighting: White key light + soft green-white rim light
-    const ambientLight = new THREE.AmbientLight(0x0a0f0c, 3.0);
+    const ambientLight = new THREE.AmbientLight(0xf6f5f0, 2.2);
     scene.add(ambientLight);
 
     const keyLight = new THREE.DirectionalLight(0xffffff, 4.2);
     keyLight.position.set(4, 6, 6);
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0xd4d7da, 3.0);
+    const rimLight = new THREE.DirectionalLight(0xdde5de, 2.6);
     rimLight.position.set(-5, -3, -3);
     scene.add(rimLight);
 
     // Soft Green-White Underglow beneath object
-    const greenGlow = new THREE.PointLight(0x8fb89a, 2.2, 9);
+    const greenGlow = new THREE.PointLight(0xa9bfae, 1.8, 9);
     greenGlow.position.set(0, -1.8, 2);
     scene.add(greenGlow);
 
@@ -269,13 +269,13 @@ export default function SilverJewellery3D() {
       <div className="absolute top-2 right-2 sm:right-4 z-20 pointer-events-auto">
         <Link
           href={`/product/${heroProduct.slug}`}
-          className="group flex items-center space-x-2 px-3 py-1.5 rounded-full border border-line bg-surface/75 backdrop-blur-md text-[10px] font-mono uppercase tracking-widest text-muted hover:text-text hover:border-green transition-all"
+          className="group flex items-center space-x-2 px-3 py-1.5 rounded-full border border-line bg-white/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-widest text-muted hover:text-emerald hover:border-green transition-all shadow-sm"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
           <span className="truncate max-w-[180px] sm:max-w-[240px]">
             {heroProduct.name}
           </span>
-          <span className="text-text font-semibold">
+          <span className="text-emerald font-semibold">
             ₹{heroProduct.price.toLocaleString('en-IN')}
           </span>
         </Link>
@@ -290,14 +290,14 @@ export default function SilverJewellery3D() {
             width={440}
             height={440}
             priority
-            className="object-contain max-h-[360px] rounded-full drop-shadow-[0_20px_35px_rgba(11,26,18,0.7)]"
+            className="object-contain max-h-[360px] rounded-full drop-shadow-[0_20px_35px_rgba(15,46,32,0.15)]"
           />
         </div>
       )}
 
       {/* Interactive 3D Showroom Hint */}
       <div className="absolute bottom-2 inset-x-0 flex items-center justify-center pointer-events-none">
-        <div className="px-3 py-1 rounded-full border border-line bg-surface/60 backdrop-blur-md text-[9px] font-mono uppercase tracking-[0.14em] text-muted flex items-center space-x-2">
+        <div className="px-3 py-1 rounded-full border border-line bg-white/75 backdrop-blur-md text-[9px] font-mono uppercase tracking-[0.14em] text-muted flex items-center space-x-2 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-green" />
           <span>Interactive 3D Showroom • Drag or Hover to Inspect</span>
         </div>

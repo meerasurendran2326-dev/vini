@@ -188,24 +188,24 @@ export default function GalleryPage() {
   const activePlate = activeIndex !== null ? galleryPlates[activeIndex] : null;
 
   return (
-    <div className="bg-[#030504] min-h-screen text-[#F2F2F2] selection:bg-[#6C8F72]/30 selection:text-[#F2F2F2]">
-      {/* Editorial Header - Aligned with 6vw container */}
-      <header className="px-6 sm:px-10 lg:px-[6vw] pt-12 pb-14 border-b border-[rgba(242,242,242,0.10)] bg-[#06110C]/40 relative">
+    <div className="bg-ivory min-h-screen text-ink selection:bg-sage/30 selection:text-forest">
+      {/* Editorial Header */}
+      <header className="px-6 sm:px-10 lg:px-[6vw] pt-12 pb-14 border-b border-line bg-pearl/60 relative">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#6C8F72] inline-block animate-pulse" />
-            <span>Exhibition Archive • Real Client Inventory Only</span>
+          <div className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-[0.14em] text-muted mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-green inline-block animate-pulse" />
+            <span className="text-emerald font-semibold">Exhibition Archive • Real Client Inventory Only</span>
           </div>
 
-          <h1 className="font-sans font-medium text-4xl sm:text-6xl uppercase tracking-[-0.03em] text-[#F2F2F2]">
+          <h1 className="font-sans font-medium text-4xl sm:text-6xl uppercase tracking-[-0.03em] text-ink">
             Exhibition Lookbook. <br />
-            <span className="font-editorial italic font-light text-[#9AA39D] lowercase">
+            <span className="font-editorial italic font-light text-emerald lowercase">
               photographic
             </span>{' '}
             Studies.
           </h1>
 
-          <p className="mt-4 font-sans text-xs sm:text-sm text-[#9AA39D] max-w-2xl leading-relaxed">
+          <p className="mt-4 font-sans text-xs sm:text-sm text-muted max-w-2xl leading-relaxed">
             Every plate represents authentic handcrafted 925 sterling silver artefacts from the Vini vici vidi atelier. Photographed under controlled showroom illumination to reveal true metallic texture and sculptural weight.
           </p>
         </div>
@@ -217,12 +217,12 @@ export default function GalleryPage() {
           {galleryPlates.map((plate, index) => (
             <article
               key={plate.id}
-              className={`${plate.colSpan || 'lg:col-span-6'} group relative flex flex-col bg-[#0A0F0C] border border-[rgba(242,242,242,0.10)] hover:border-[#6C8F72]/60 transition-all duration-500 overflow-hidden rounded-[2px] shadow-2xl`}
+              className={`${plate.colSpan || 'lg:col-span-6'} group relative flex flex-col bg-white border border-line hover:border-green transition-all duration-500 overflow-hidden rounded-[2px] shadow-[0_4px_20px_rgba(15,46,32,0.04)] hover:shadow-[0_12px_30px_rgba(15,46,32,0.08)]`}
             >
               {/* Media Container with Desktop Hover Spotlight */}
               <div
                 onClick={() => setActiveIndex(index)}
-                className={`relative ${plate.aspectRatio} w-full overflow-hidden bg-[#030504] cursor-pointer`}
+                className={`relative ${plate.aspectRatio} w-full overflow-hidden bg-pearl cursor-pointer`}
               >
                 {plate.type === 'product' ? (
                   <>
@@ -231,23 +231,20 @@ export default function GalleryPage() {
                       alt={`${plate.title} - ${plate.material}`}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
-                      className="object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                      className="object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
                       priority={index < 3}
                     />
-                    {/* Subtle vignette */}
-                    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_45%,rgba(3,5,4,0.55)_98%)]" />
                   </>
                 ) : (
                   /* Procedural Atmosphere Plate (Strictly Non-Product) */
-                  <div className="w-full h-full relative flex items-center justify-center p-8 bg-[radial-gradient(ellipse_at_center,rgba(108,143,114,0.12)_0%,rgba(11,26,18,0.4)_50%,#030504_100%)] overflow-hidden">
-                    <svg className="w-full h-full opacity-60" viewBox="0 0 600 300" fill="none">
+                  <div className="w-full h-full relative flex items-center justify-center p-8 bg-gradient-to-br from-pearl via-mist to-ivory overflow-hidden">
+                    <svg className="w-full h-full opacity-70" viewBox="0 0 600 300" fill="none">
                       <defs>
                         <linearGradient id="chromeFlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#030504" />
-                          <stop offset="30%" stopColor="#0B1A12" />
-                          <stop offset="60%" stopColor="#6C8F72" />
-                          <stop offset="85%" stopColor="#F2F2F2" />
-                          <stop offset="100%" stopColor="#BFC3C7" />
+                          <stop offset="0%" stopColor="#1F4D36" />
+                          <stop offset="35%" stopColor="#6C8F72" />
+                          <stop offset="70%" stopColor="#BFC3C7" />
+                          <stop offset="100%" stopColor="#FFFFFF" />
                         </linearGradient>
                       </defs>
                       <path
@@ -259,56 +256,56 @@ export default function GalleryPage() {
                       />
                       <path
                         d="M-30,220 C180,120 280,320 480,180 C580,120 680,260 720,200"
-                        stroke="rgba(242,242,242,0.15)"
+                        stroke="rgba(31,77,54,0.2)"
                         strokeWidth="1"
                         fill="none"
                       />
                     </svg>
-                    <div className="absolute bottom-4 left-4 right-4 bg-[#0A0F0C]/80 border border-[rgba(242,242,242,0.10)] px-3 py-1.5 text-[9px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] text-center">
+                    <div className="absolute bottom-4 left-4 right-4 bg-white/90 border border-line px-3 py-1.5 text-[9px] font-mono uppercase tracking-[0.14em] text-muted text-center rounded-sm">
                       Atmospheric Ray-Traced Vector Study • Non-Jewellery Plate
                     </div>
                   </div>
                 )}
 
                 {/* Plate Badge */}
-                <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#0A0F0C]/85 border border-[rgba(242,242,242,0.12)] text-[10px] font-mono tracking-[0.14em] text-[#F2F2F2] backdrop-blur-sm">
+                <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 border border-line text-[10px] font-mono tracking-[0.14em] text-ink backdrop-blur-sm shadow-sm">
                   PLATE {plate.plateNumber}
                 </div>
 
                 {/* Inspect Action Hint */}
-                <div className="absolute top-3 right-3 px-2.5 py-1 bg-[#0A0F0C]/85 border border-[rgba(242,242,242,0.12)] text-[10px] font-mono uppercase tracking-[0.12em] text-[#9AA39D] group-hover:text-[#F2F2F2] transition-colors backdrop-blur-sm flex items-center space-x-1">
+                <div className="absolute top-3 right-3 px-2.5 py-1 bg-white/90 border border-line text-[10px] font-mono uppercase tracking-[0.12em] text-muted group-hover:text-emerald transition-colors backdrop-blur-sm flex items-center space-x-1 shadow-sm">
                   <span>Enlarge</span>
                   <span>↗</span>
                 </div>
               </div>
 
               {/* Caption Section with Real Metadata */}
-              <div className="p-6 flex flex-col justify-between flex-1 border-t border-[rgba(242,242,242,0.08)] bg-[#0A0F0C]">
+              <div className="p-6 flex flex-col justify-between flex-1 border-t border-line bg-white">
                 <div>
-                  <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] mb-1.5">
+                  <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.14em] text-muted mb-1.5">
                     <span>{plate.subtitle}</span>
-                    {plate.price && <span className="text-[#F2F2F2]">₹{plate.price.toLocaleString('en-IN')}</span>}
+                    {plate.price && <span className="text-ink font-bold font-mono">₹{plate.price.toLocaleString('en-IN')}</span>}
                   </div>
-                  <h2 className="font-sans font-medium text-lg uppercase tracking-tight text-[#F2F2F2] group-hover:text-[#8FB89A] transition-colors">
+                  <h2 className="font-sans font-medium text-lg uppercase tracking-tight text-ink group-hover:text-emerald transition-colors">
                     {plate.title}
                   </h2>
-                  <p className="text-[11px] font-mono text-[#9AA39D] mt-1 tracking-wide">
+                  <p className="text-[11px] font-mono text-muted mt-1 tracking-wide">
                     {plate.material}
                   </p>
                 </div>
 
                 {plate.productSlug && (
-                  <div className="mt-5 pt-3 border-t border-[rgba(242,242,242,0.06)] flex items-center justify-between">
+                  <div className="mt-5 pt-3 border-t border-line flex items-center justify-between">
                     <Link
                       href={`/product/${plate.productSlug}`}
-                      className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#6C8F72] hover:text-[#F2F2F2] transition-colors flex items-center space-x-1.5"
+                      className="text-[10px] font-mono uppercase tracking-[0.14em] text-emerald hover:text-forest font-semibold transition-colors flex items-center space-x-1.5"
                     >
                       <span>Acquire Piece In Shop</span>
                       <ExternalLink className="w-3 h-3" />
                     </Link>
                     <button
                       onClick={() => setActiveIndex(index)}
-                      className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] hover:text-[#F2F2F2] transition-colors"
+                      className="text-[10px] font-mono uppercase tracking-[0.14em] text-muted hover:text-ink transition-colors"
                     >
                       View Specs ↗
                     </button>
@@ -320,23 +317,22 @@ export default function GalleryPage() {
         </div>
 
         {/* Exhibition Closing Strip */}
-        <section className="mt-24 p-10 sm:p-14 bg-[#0A0F0C] border border-[rgba(242,242,242,0.10)] text-center max-w-4xl mx-auto rounded-[2px] shadow-2xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(108,143,114,0.06)_0%,transparent_70%)] pointer-events-none" />
+        <section className="mt-24 p-10 sm:p-14 bg-white border border-line text-center max-w-4xl mx-auto rounded-[2px] shadow-md relative overflow-hidden">
           <div className="relative z-10 space-y-4">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 border border-[rgba(242,242,242,0.12)] bg-[#030504] text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D]">
-              <Sparkles className="w-3 h-3 text-[#6C8F72]" />
-              <span>Limited Atelier Inventory</span>
+            <div className="inline-flex items-center space-x-2 px-3 py-1 border border-line bg-pearl text-[10px] font-mono uppercase tracking-[0.14em] text-muted rounded-full">
+              <Sparkles className="w-3 h-3 text-emerald" />
+              <span className="text-emerald font-semibold">Limited Atelier Inventory</span>
             </div>
-            <h2 className="font-sans font-medium text-2xl sm:text-4xl uppercase tracking-tight text-[#F2F2F2]">
+            <h2 className="font-sans font-medium text-2xl sm:text-4xl uppercase tracking-tight text-ink">
               Acquire Directly From The Silversmith Vault
             </h2>
-            <p className="text-xs sm:text-sm font-sans text-[#9AA39D] max-w-lg mx-auto leading-relaxed">
-              Every creation featured in this catalog is cast in solid 925 sterling metallurgy, individually stamped with official hallmarks and shipped in our magnetic obsidian presentation case.
+            <p className="text-xs sm:text-sm font-sans text-muted max-w-lg mx-auto leading-relaxed">
+              Every creation featured in this catalog is cast in solid 925 sterling metallurgy, individually stamped with official hallmarks and shipped in our magnetic presentation case.
             </p>
             <div className="pt-4 flex items-center justify-center gap-4 flex-wrap">
               <Link
                 href="/shop"
-                className="inline-flex items-center space-x-2 px-8 py-3.5 bg-[#F2F2F2] hover:bg-white text-[#030504] font-mono text-xs uppercase tracking-[0.14em] font-semibold transition-all shadow-xl rounded-[2px]"
+                className="inline-flex items-center space-x-2 px-8 py-3.5 bg-emerald hover:bg-forest text-white font-mono text-xs uppercase tracking-[0.14em] font-semibold transition-all shadow-[0_4px_20px_rgba(31,77,54,0.25)] rounded-[2px]"
               >
                 <span>Explore Full Collection</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -356,36 +352,36 @@ export default function GalleryPage() {
         >
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-[#030504]/95 backdrop-blur-md"
+            className="fixed inset-0 bg-forest/60 backdrop-blur-md"
             onClick={() => setActiveIndex(null)}
           />
 
           {/* Modal Card */}
-          <div className="relative max-w-5xl w-full max-h-[92vh] bg-[#0A0F0C] border border-[rgba(242,242,242,0.14)] p-6 sm:p-8 z-10 shadow-2xl flex flex-col rounded-[2px]">
+          <div className="relative max-w-5xl w-full max-h-[92vh] bg-white border border-line p-6 sm:p-8 z-10 shadow-2xl flex flex-col rounded-[2px]">
             {/* Top Bar */}
-            <div className="flex justify-between items-start pb-4 border-b border-[rgba(242,242,242,0.10)]">
+            <div className="flex justify-between items-start pb-4 border-b border-line">
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#6C8F72] block">
+                <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-emerald font-semibold block">
                   Plate {activePlate.plateNumber} of {galleryPlates.length < 10 ? `0${galleryPlates.length}` : galleryPlates.length}
                 </span>
-                <h3 className="font-sans font-medium text-xl uppercase tracking-tight text-[#F2F2F2] mt-1">
+                <h3 className="font-sans font-medium text-xl uppercase tracking-tight text-ink mt-1">
                   {activePlate.title}
                 </h3>
-                <p className="text-xs font-mono text-[#9AA39D] mt-0.5">
+                <p className="text-xs font-mono text-muted mt-0.5">
                   {activePlate.material}
                 </p>
               </div>
               <button
                 onClick={() => setActiveIndex(null)}
                 aria-label="Close Lightbox"
-                className="p-2 text-[#9AA39D] hover:text-[#F2F2F2] border border-[rgba(242,242,242,0.10)] hover:border-[rgba(242,242,242,0.3)] transition-colors rounded-[2px]"
+                className="p-2 text-muted hover:text-ink border border-line hover:border-emerald transition-colors rounded-[2px]"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Media Area */}
-            <div className="relative flex-1 overflow-hidden my-6 flex items-center justify-center min-h-[40vh] max-h-[55vh]">
+            <div className="relative flex-1 overflow-hidden my-6 flex items-center justify-center min-h-[40vh] max-h-[55vh] bg-pearl rounded-sm">
               {activePlate.type === 'product' ? (
                 <div className="relative w-full h-full max-h-[55vh] flex items-center justify-center">
                   <Image
@@ -397,11 +393,11 @@ export default function GalleryPage() {
                   />
                 </div>
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-[#030504] border border-[rgba(242,242,242,0.06)]">
-                  <p className="text-xs font-mono uppercase tracking-[0.14em] text-[#6C8F72]">
+                <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-pearl border border-line">
+                  <p className="text-xs font-mono uppercase tracking-[0.14em] text-emerald font-semibold">
                     Atmospheric Computational Light Study
                   </p>
-                  <p className="text-[11px] text-[#9AA39D] mt-2 max-w-md">
+                  <p className="text-[11px] text-muted mt-2 max-w-md">
                     Rendered purely from non-jewellery vector calculations to demonstrate silver specular reflectivity without representing any physical jewellery piece.
                   </p>
                 </div>
@@ -409,7 +405,7 @@ export default function GalleryPage() {
             </div>
 
             {/* Lightbox Footer & Pagination */}
-            <div className="pt-4 border-t border-[rgba(242,242,242,0.10)] flex items-center justify-between text-xs font-mono">
+            <div className="pt-4 border-t border-line flex items-center justify-between text-xs font-mono">
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() =>
@@ -417,7 +413,7 @@ export default function GalleryPage() {
                       prev !== null ? (prev - 1 + galleryPlates.length) % galleryPlates.length : 0
                     )
                   }
-                  className="px-3 py-1.5 border border-[rgba(242,242,242,0.12)] hover:border-[#6C8F72] text-[#9AA39D] hover:text-[#F2F2F2] transition-colors flex items-center space-x-1"
+                  className="px-3 py-1.5 border border-line hover:border-green text-muted hover:text-ink transition-colors flex items-center space-x-1 rounded-[2px]"
                   aria-label="Previous plate"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
@@ -429,7 +425,7 @@ export default function GalleryPage() {
                       prev !== null ? (prev + 1) % galleryPlates.length : 0
                     )
                   }
-                  className="px-3 py-1.5 border border-[rgba(242,242,242,0.12)] hover:border-[#6C8F72] text-[#9AA39D] hover:text-[#F2F2F2] transition-colors flex items-center space-x-1"
+                  className="px-3 py-1.5 border border-line hover:border-green text-muted hover:text-ink transition-colors flex items-center space-x-1 rounded-[2px]"
                   aria-label="Next plate"
                 >
                   <span>NEXT</span>
@@ -440,7 +436,7 @@ export default function GalleryPage() {
               {activePlate.productSlug && (
                 <Link
                   href={`/product/${activePlate.productSlug}`}
-                  className="px-5 py-1.5 bg-[#F2F2F2] hover:bg-white text-[#030504] font-semibold transition-colors uppercase tracking-[0.14em] text-[11px] rounded-[2px]"
+                  className="px-5 py-1.5 bg-emerald hover:bg-forest text-white font-semibold transition-colors uppercase tracking-[0.14em] text-[11px] rounded-[2px]"
                 >
                   View Product Page
                 </Link>

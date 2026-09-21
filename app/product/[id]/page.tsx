@@ -59,9 +59,9 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-void flex flex-col items-center justify-center text-ice-white space-y-4">
-        <span className="font-display text-4xl text-silver/40">VVV</span>
-        <p className="font-editorial italic text-2xl text-silver">
+      <div className="min-h-screen bg-ivory flex flex-col items-center justify-center text-ink space-y-4">
+        <span className="font-sans font-bold text-4xl text-emerald/40">VVV</span>
+        <p className="font-editorial italic text-2xl text-muted">
           Locating archival specimen...
         </p>
       </div>
@@ -83,10 +83,10 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="bg-void min-h-screen text-ice-white pb-32">
+    <div className="bg-ivory min-h-screen text-ink pb-32 selection:bg-sage/30 selection:text-forest">
       {/* Breadcrumb Bar */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-8 pb-6 border-b border-steel/30 flex items-center justify-between text-[10px] font-sans uppercase tracking-monumental text-silver/60">
-        <Link href="/shop" className="inline-flex items-center space-x-2 hover:text-ice-white transition-colors">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-8 pb-6 border-b border-line flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.14em] text-muted">
+        <Link href="/shop" className="inline-flex items-center space-x-2 hover:text-emerald transition-colors">
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Collection</span>
         </Link>
@@ -101,7 +101,7 @@ export default function ProductDetailPage() {
           {/* Left Column: Media Gallery */}
           <div className="lg:col-span-7 space-y-6">
             {/* Primary Main Image Container */}
-            <div className="relative aspect-[4/5] w-full bg-carbon border border-steel/60 overflow-hidden shadow-2xl group">
+            <div className="relative aspect-[4/5] w-full bg-pearl border border-line overflow-hidden shadow-md group rounded-[2px]">
               <img
                 src={product.images[selectedImageIndex] || product.images[0]}
                 alt={product.name}
@@ -111,24 +111,24 @@ export default function ProductDetailPage() {
               {/* Status Badges Overlay */}
               <div className="absolute top-4 left-4 z-20 flex flex-col space-y-2">
                 {product.isFiftyPercentOffer && (
-                  <span className="px-3 py-1 bg-graphite/90 border border-steel/80 text-[10px] font-sans uppercase tracking-monumental text-ice-white font-semibold backdrop-blur-md">
+                  <span className="px-3 py-1 bg-emerald text-[10px] font-mono uppercase tracking-[0.14em] text-white font-semibold shadow-sm">
                     50% Celebration Offer
                   </span>
                 )}
                 {isLowStock && (
-                  <span className="px-3 py-1 bg-graphite/90 border border-amber-500/50 text-[10px] font-sans uppercase tracking-widest text-amber-300 font-semibold backdrop-blur-md animate-pulse">
+                  <span className="px-3 py-1 bg-pearl/90 border border-green/50 text-[10px] font-mono uppercase tracking-widest text-emerald font-semibold backdrop-blur-md shadow-sm">
                     ONLY {product.stock} PIECES REMAINING
                   </span>
                 )}
                 {isOutOfStock && (
-                  <span className="px-3 py-1 bg-graphite/90 border border-red-500/50 text-[10px] font-sans uppercase tracking-widest text-red-400 font-semibold backdrop-blur-md">
+                  <span className="px-3 py-1 bg-mist/90 border border-line text-[10px] font-mono uppercase tracking-widest text-muted font-semibold backdrop-blur-md">
                     VAULT ARCHIVED
                   </span>
                 )}
               </div>
 
               {/* Hallmark Certification Watermark */}
-              <div className="absolute bottom-4 right-4 text-[9px] font-sans uppercase tracking-widest text-silver/60 bg-graphite/80 px-2.5 py-1 border border-steel/40">
+              <div className="absolute bottom-4 right-4 text-[9px] font-mono uppercase tracking-widest text-muted bg-white/90 px-2.5 py-1 border border-line rounded-sm shadow-sm">
                 BIS 925 Laser Verified
               </div>
             </div>
@@ -140,10 +140,10 @@ export default function ProductDetailPage() {
                   <button
                     key={idx}
                     onClick={() => setSelectedImageIndex(idx)}
-                    className={`relative w-20 h-24 bg-carbon border overflow-hidden transition-all ${
+                    className={`relative w-20 h-24 bg-pearl border rounded-sm overflow-hidden transition-all ${
                       selectedImageIndex === idx
-                        ? 'border-bright-silver shadow-lg scale-95'
-                        : 'border-steel/50 opacity-60 hover:opacity-100'
+                        ? 'border-emerald shadow-sm scale-95'
+                        : 'border-line opacity-60 hover:opacity-100'
                     }`}
                   >
                     <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover" />
@@ -156,69 +156,69 @@ export default function ProductDetailPage() {
           {/* Right Column: Editorial Product Information & Actions */}
           <div className="lg:col-span-5 space-y-8">
             <div>
-              <div className="text-[10px] font-sans uppercase tracking-monumental text-silver/60">
+              <div className="text-[10px] font-mono uppercase tracking-[0.14em] text-muted">
                 {product.sku} • {product.specifications.material}
               </div>
 
-              <h1 className="mt-2 font-display text-3xl sm:text-4xl uppercase tracking-wider text-ice-white font-normal leading-tight">
+              <h1 className="mt-2 font-sans text-3xl sm:text-4xl uppercase tracking-tight text-ink font-medium leading-tight">
                 {product.name}
               </h1>
 
-              <p className="mt-2 font-editorial italic text-base sm:text-lg text-silver/80">
+              <p className="mt-2 font-editorial italic text-base sm:text-lg text-muted">
                 {product.tagline}
               </p>
             </div>
 
             {/* Price Box */}
-            <div className="p-5 bg-carbon border border-steel/50 space-y-2">
+            <div className="p-5 bg-white border border-line space-y-2 rounded-[2px] shadow-sm">
               <div className="flex items-baseline space-x-4">
-                <span className="font-mono text-3xl font-semibold text-ice-white">
+                <span className="font-mono text-3xl font-bold text-ink">
                   ₹{product.price.toLocaleString('en-IN')}
                 </span>
                 {product.originalPrice > product.price && (
                   <>
-                    <span className="font-mono text-base text-chrome line-through">
+                    <span className="font-mono text-base text-muted line-through">
                       ₹{product.originalPrice.toLocaleString('en-IN')}
                     </span>
-                    <span className="text-[10px] font-sans uppercase tracking-widest text-brand-green font-semibold">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-emerald font-semibold">
                       Save ₹{(product.originalPrice - product.price).toLocaleString('en-IN')} (50%)
                     </span>
                   </>
                 )}
               </div>
-              <p className="text-[10px] font-sans uppercase tracking-wider text-silver/60">
+              <p className="text-[10px] font-mono uppercase tracking-wider text-muted">
                 Inclusive of all taxes • Free Insured Courier Across India
               </p>
             </div>
 
             {/* Description */}
-            <p className="font-sans text-xs sm:text-sm text-silver/85 leading-relaxed tracking-wide">
+            <p className="font-sans text-xs sm:text-sm text-muted leading-relaxed tracking-normal">
               {product.description}
             </p>
 
             {/* Ring Size Selection (If Ring) */}
             {product.category === 'rings' && (
               <div className="space-y-3">
-                <div className="flex justify-between items-center text-xs uppercase tracking-wider text-silver">
+                <div className="flex justify-between items-center text-xs uppercase tracking-wider text-muted font-mono">
                   <span>Select Finger Sizing</span>
                   <a
                     href={waUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[10px] text-bright-silver hover:underline tracking-widest"
+                    className="text-[10px] text-emerald hover:underline tracking-widest font-semibold"
                   >
                     Size Guide / WhatsApp Help
                   </a>
                 </div>
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 font-mono">
                   {ringSizes.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      className={`py-2 px-2 text-[10px] font-sans uppercase tracking-wider border text-center transition-all ${
+                      className={`py-2 px-2 text-[10px] uppercase tracking-wider border rounded-[2px] text-center transition-all ${
                         selectedSize === size
-                          ? 'bg-bright-silver text-void border-bright-silver font-semibold'
-                          : 'bg-carbon text-silver border-steel/50 hover:border-silver/60'
+                          ? 'bg-emerald text-white border-emerald font-semibold shadow-sm'
+                          : 'bg-white text-muted border-line hover:border-emerald/40 hover:text-ink'
                       }`}
                     >
                       {size}
@@ -234,16 +234,16 @@ export default function ProductDetailPage() {
                 <button
                   onClick={() => addToCart(product, quantity, selectedSize)}
                   disabled={isOutOfStock}
-                  className="flex-1 py-4 bg-carbon hover:bg-steel/40 border border-steel/80 hover:border-bright-silver text-ice-white text-xs uppercase font-sans tracking-monumental font-semibold transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-30"
+                  className="flex-1 py-4 bg-white hover:bg-pearl border border-line hover:border-emerald text-ink text-xs uppercase font-mono tracking-[0.14em] font-semibold transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-30 rounded-[2px]"
                 >
-                  <ShoppingBag className="w-4 h-4" />
+                  <ShoppingBag className="w-4 h-4 text-emerald" />
                   <span>{isOutOfStock ? 'Sold Out' : 'Add To Vault Cart'}</span>
                 </button>
 
                 <button
                   onClick={handleBuyNow}
                   disabled={isOutOfStock}
-                  className="flex-1 py-4 bg-bright-silver hover:bg-white text-void text-xs uppercase font-sans tracking-monumental font-semibold transition-all duration-300 flex items-center justify-center space-x-2 shadow-xl disabled:opacity-30"
+                  className="flex-1 py-4 bg-emerald hover:bg-forest text-white text-xs uppercase font-mono tracking-[0.14em] font-semibold transition-all duration-300 flex items-center justify-center space-x-2 shadow-[0_4px_20px_rgba(31,77,54,0.25)] disabled:opacity-30 rounded-[2px]"
                 >
                   <Zap className="w-4 h-4" />
                   <span>Instant Guest Checkout</span>
@@ -255,7 +255,7 @@ export default function ProductDetailPage() {
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3.5 bg-graphite border border-brand-green/40 hover:border-brand-green text-brand-green text-xs uppercase font-sans tracking-super-wide transition-colors flex items-center justify-center space-x-2"
+                className="w-full py-3.5 bg-white border border-line hover:border-emerald text-emerald hover:text-forest text-xs uppercase font-mono tracking-[0.14em] transition-colors flex items-center justify-center space-x-2 rounded-[2px] shadow-sm font-semibold"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Ask About This Piece on WhatsApp</span>
@@ -263,29 +263,29 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Trust & Guarantee Box */}
-            <div className="pt-6 border-t border-steel/40 space-y-3 text-xs font-sans text-silver/80">
+            <div className="pt-6 border-t border-line space-y-3 text-xs font-sans text-muted">
               <div className="flex items-center space-x-3">
-                <ShieldCheck className="w-4 h-4 text-bright-silver flex-shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-emerald flex-shrink-0" />
                 <span>BIS 925 Hallmarked Certified Sterling Silver</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Truck className="w-4 h-4 text-bright-silver flex-shrink-0" />
+                <Truck className="w-4 h-4 text-emerald flex-shrink-0" />
                 <span>Complimentary Insured Courier Dispatch Across India (2–4 Days)</span>
               </div>
               <div className="flex items-center space-x-3">
-                <RotateCcw className="w-4 h-4 text-bright-silver flex-shrink-0" />
+                <RotateCcw className="w-4 h-4 text-emerald flex-shrink-0" />
                 <span>7-Day Hassle-Free Return & Exchange Policy</span>
               </div>
             </div>
 
             {/* Collapsible Accordions: Craft / Specs / Care */}
-            <div className="pt-6 border-t border-steel/40 space-y-4">
-              <div className="border border-steel/40 bg-carbon">
-                <div className="flex border-b border-steel/40 text-xs uppercase tracking-wider font-sans">
+            <div className="pt-6 border-t border-line space-y-4">
+              <div className="border border-line bg-white rounded-[2px] overflow-hidden shadow-sm">
+                <div className="flex border-b border-line text-xs uppercase tracking-wider font-mono">
                   <button
                     onClick={() => setActiveTab('craft')}
                     className={`flex-1 py-3 text-center transition-colors ${
-                      activeTab === 'craft' ? 'bg-graphite text-ice-white font-semibold' : 'text-silver hover:text-ice-white'
+                      activeTab === 'craft' ? 'bg-pearl text-ink font-semibold' : 'text-muted hover:text-ink'
                     }`}
                   >
                     Specifications
@@ -293,7 +293,7 @@ export default function ProductDetailPage() {
                   <button
                     onClick={() => setActiveTab('shipping')}
                     className={`flex-1 py-3 text-center transition-colors ${
-                      activeTab === 'shipping' ? 'bg-graphite text-ice-white font-semibold' : 'text-silver hover:text-ice-white'
+                      activeTab === 'shipping' ? 'bg-pearl text-ink font-semibold' : 'text-muted hover:text-ink'
                     }`}
                   >
                     Dispatch & Transit
@@ -301,36 +301,36 @@ export default function ProductDetailPage() {
                   <button
                     onClick={() => setActiveTab('care')}
                     className={`flex-1 py-3 text-center transition-colors ${
-                      activeTab === 'care' ? 'bg-graphite text-ice-white font-semibold' : 'text-silver hover:text-ice-white'
+                      activeTab === 'care' ? 'bg-pearl text-ink font-semibold' : 'text-muted hover:text-ink'
                     }`}
                   >
                     Silver Care
                   </button>
                 </div>
 
-                <div className="p-5 text-xs font-sans text-silver/80 leading-relaxed space-y-2">
+                <div className="p-5 text-xs font-sans text-muted leading-relaxed space-y-2">
                   {activeTab === 'craft' && (
-                    <div className="space-y-2">
-                      <div className="flex justify-between py-1 border-b border-steel/20">
-                        <span className="text-silver/50 uppercase">Purity</span>
-                        <span className="text-ice-white font-medium">{product.specifications.purity}</span>
+                    <div className="space-y-2 font-mono">
+                      <div className="flex justify-between py-1 border-b border-line">
+                        <span className="text-muted uppercase">Purity</span>
+                        <span className="text-ink font-medium">{product.specifications.purity}</span>
                       </div>
-                      <div className="flex justify-between py-1 border-b border-steel/20">
-                        <span className="text-silver/50 uppercase">Weight</span>
-                        <span className="text-ice-white font-medium">{product.specifications.weight}</span>
+                      <div className="flex justify-between py-1 border-b border-line">
+                        <span className="text-muted uppercase">Weight</span>
+                        <span className="text-ink font-medium">{product.specifications.weight}</span>
                       </div>
-                      <div className="flex justify-between py-1 border-b border-steel/20">
-                        <span className="text-silver/50 uppercase">Finish</span>
-                        <span className="text-ice-white font-medium">{product.specifications.finish}</span>
+                      <div className="flex justify-between py-1 border-b border-line">
+                        <span className="text-muted uppercase">Finish</span>
+                        <span className="text-ink font-medium">{product.specifications.finish}</span>
                       </div>
-                      <div className="flex justify-between py-1 border-b border-steel/20">
-                        <span className="text-silver/50 uppercase">Hallmark</span>
-                        <span className="text-ice-white font-medium">{product.specifications.hallmark}</span>
+                      <div className="flex justify-between py-1 border-b border-line">
+                        <span className="text-muted uppercase">Hallmark</span>
+                        <span className="text-ink font-medium">{product.specifications.hallmark}</span>
                       </div>
                       {product.specifications.dimensions && (
-                        <div className="flex justify-between py-1 border-b border-steel/20">
-                          <span className="text-silver/50 uppercase">Dimensions</span>
-                          <span className="text-ice-white font-medium">{product.specifications.dimensions}</span>
+                        <div className="flex justify-between py-1 border-b border-line">
+                          <span className="text-muted uppercase">Dimensions</span>
+                          <span className="text-ink font-medium">{product.specifications.dimensions}</span>
                         </div>
                       )}
                     </div>
@@ -353,7 +353,7 @@ export default function ProductDetailPage() {
                         Protected with an electrolytic rhodium anti-tarnish barrier. Clean with the provided micro-suede cloth.
                       </p>
                       <p>
-                        Avoid contact with harsh pool chlorine and industrial solvents. Store in the VINI VICI VIDI obsidian vault.
+                        Avoid contact with harsh pool chlorine and industrial solvents. Store in the VINI VICI VIDI presentation box.
                       </p>
                     </div>
                   )}
@@ -365,17 +365,17 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Editorial Related Products */}
-        <div className="mt-32 pt-16 border-t border-steel/40">
+        <div className="mt-32 pt-16 border-t border-line">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/60 block mb-1">
+              <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-emerald font-semibold block mb-1">
                 Atelier Recommendations
               </span>
-              <h2 className="font-display text-2xl sm:text-3xl uppercase tracking-wider text-ice-white">
+              <h2 className="font-sans text-2xl sm:text-3xl uppercase tracking-tight text-ink font-medium">
                 Harmonious Pairings
               </h2>
             </div>
-            <Link href="/shop" className="text-xs uppercase tracking-super-wide text-bright-silver hover:underline">
+            <Link href="/shop" className="text-xs uppercase font-mono tracking-[0.14em] text-emerald hover:underline font-semibold">
               Explore All →
             </Link>
           </div>

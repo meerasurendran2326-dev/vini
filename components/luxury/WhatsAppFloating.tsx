@@ -23,14 +23,14 @@ export default function WhatsAppFloating({
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Connect on WhatsApp"
-        className="group flex items-center space-x-2.5 px-3.5 py-2 bg-[#0A0F0C]/85 hover:bg-[#0A0F0C] border border-[rgba(242,242,242,0.12)] hover:border-[#6C8F72]/60 text-[#F2F2F2] rounded-full backdrop-blur-md transition-all duration-300 shadow-2xl"
+        className="group flex items-center space-x-2.5 px-4 py-2 bg-white/90 hover:bg-white border border-line hover:border-green text-ink rounded-full backdrop-blur-md transition-all duration-300 shadow-[0_10px_30px_rgba(15,46,32,0.12)] hover:shadow-[0_14px_35px_rgba(15,46,32,0.18)]"
       >
         <div className="relative flex items-center justify-center">
-          <MessageCircle className="w-3.5 h-3.5 text-[#6C8F72] transition-transform duration-300 group-hover:scale-110" />
-          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[#6C8F72] animate-ping" />
+          <MessageCircle className="w-3.5 h-3.5 text-emerald transition-transform duration-300 group-hover:scale-110" />
+          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green animate-ping" />
         </div>
         <div className="flex items-center space-x-1.5 text-left">
-          <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] group-hover:text-[#F2F2F2] transition-colors">
+          <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-muted group-hover:text-emerald font-medium transition-colors">
             Atelier WhatsApp
           </span>
         </div>

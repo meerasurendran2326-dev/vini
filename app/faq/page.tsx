@@ -38,21 +38,21 @@ export default function FAQPage() {
     },
     {
       q: "What is your return and exchange policy?",
-      a: "We offer a 7-day hassle-free return or exchange window from the date of delivery for all non-customized pieces. Items must be in unworn condition with the original obsidian presentation vault and certificate intact."
+      a: "We offer a 7-day hassle-free return or exchange window from the date of delivery for all non-customized pieces. Items must be in unworn condition with the original presentation box and certificate intact."
     }
   ];
 
   return (
-    <div className="bg-void min-h-screen text-ice-white pb-32">
-      <div className="pt-12 pb-16 px-6 sm:px-10 lg:px-16 border-b border-steel/30 bg-graphite/40">
+    <div className="bg-ivory min-h-screen text-ink pb-32 selection:bg-sage/30 selection:text-forest">
+      <div className="pt-12 pb-16 px-6 sm:px-10 lg:px-16 border-b border-line bg-pearl/60">
         <div className="max-w-4xl mx-auto text-center">
-          <span className="text-[10px] font-sans uppercase tracking-monumental text-silver/60 block mb-2">
+          <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-emerald font-semibold block mb-2">
             Client Guidance & Assistance
           </span>
-          <h1 className="font-display text-4xl sm:text-5xl uppercase tracking-wider text-ice-white font-normal">
+          <h1 className="font-sans text-4xl sm:text-5xl uppercase tracking-tight text-ink font-medium">
             Frequently Asked Questions
           </h1>
-          <p className="mt-3 font-editorial italic text-base sm:text-lg text-silver/80 max-w-xl mx-auto">
+          <p className="mt-3 font-editorial italic text-base sm:text-lg text-muted max-w-xl mx-auto">
             Everything you need to know about our metallurgy, guest checkout, Razorpay, and insured pan-India delivery.
           </p>
         </div>
@@ -65,23 +65,23 @@ export default function FAQPage() {
             return (
               <div
                 key={idx}
-                className="bg-carbon border border-steel/50 transition-colors"
+                className="bg-white border border-line rounded-[2px] transition-colors shadow-sm overflow-hidden"
               >
                 <button
                   onClick={() => setOpenIdx(isOpen ? null : idx)}
                   className="w-full p-6 text-left flex items-center justify-between space-x-4 focus:outline-none"
                 >
-                  <span className="font-sans text-xs sm:text-sm uppercase tracking-wider font-medium text-ice-white">
+                  <span className="font-sans text-xs sm:text-sm uppercase tracking-wider font-medium text-ink">
                     {faq.q}
                   </span>
                   <ChevronDown
-                    className={`w-4 h-4 text-silver flex-shrink-0 transition-transform duration-300 ${
-                      isOpen ? 'rotate-180 text-bright-silver' : ''
+                    className={`w-4 h-4 text-muted flex-shrink-0 transition-transform duration-300 ${
+                      isOpen ? 'rotate-180 text-emerald' : ''
                     }`}
                   />
                 </button>
                 {isOpen && (
-                  <div className="px-6 pb-6 text-xs sm:text-sm font-sans text-silver/80 leading-relaxed border-t border-steel/30 pt-4">
+                  <div className="px-6 pb-6 text-xs sm:text-sm font-sans text-muted leading-relaxed border-t border-line pt-4">
                     {faq.a}
                   </div>
                 )}
@@ -91,11 +91,11 @@ export default function FAQPage() {
         </div>
 
         {/* WhatsApp Direct Help Banner */}
-        <div className="mt-16 p-8 bg-graphite border border-steel/60 text-center space-y-4">
-          <h3 className="font-display text-xl uppercase tracking-wider text-ice-white">
+        <div className="mt-16 p-8 bg-white border border-line text-center space-y-4 rounded-[2px] shadow-sm">
+          <h3 className="font-sans text-xl uppercase tracking-tight text-ink font-medium">
             Have a Specific Question About a Piece?
           </h3>
-          <p className="text-xs font-sans text-silver/70 max-w-md mx-auto">
+          <p className="text-xs font-sans text-muted max-w-md mx-auto">
             Connect directly with our atelier concierge on WhatsApp for real-time sizing recommendations, styling advice, or order inquiries.
           </p>
           <div className="pt-2">
@@ -103,7 +103,7 @@ export default function FAQPage() {
               href="https://wa.me/919876543210?text=Hello%20VINI%20VICI%20VIDI,%20I%20have%20a%20question%20regarding%20the%20silver%20collection."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center space-x-2 px-6 py-3 bg-carbon border border-brand-green/50 hover:border-brand-green text-brand-green text-xs font-sans uppercase tracking-super-wide transition-colors"
+              className="inline-flex items-center space-x-2 px-6 py-3 bg-emerald hover:bg-forest text-white text-xs font-mono uppercase tracking-[0.14em] font-semibold transition-colors rounded-[2px] shadow-[0_4px_20px_rgba(31,77,54,0.25)]"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Message WhatsApp Concierge</span>
