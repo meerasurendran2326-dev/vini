@@ -11,7 +11,7 @@ import { animate, stagger } from 'animejs';
 const HeroRing3D = dynamic(() => import('./HeroRing3D'), {
   ssr: false,
   loading: () => (
-    <div className="w-[320px] h-[320px] mx-auto flex items-center justify-center">
+    <div className="w-full h-[540px] flex items-center justify-center">
       <div className="w-12 h-12 rounded-full border-2 border-[#0F2A1F]/20 border-t-[#0F2A1F] animate-spin" />
     </div>
   ),
@@ -37,9 +37,9 @@ export default function HeroSection() {
       });
       anims.push(wordmarkAnim);
 
-      // 2. Scale & fade in for 3D Ring
+      // 2. Scale (0.9 to 1) & fade in for 3D Ring
       const ringAnim = animate('.hero-ring-container', {
-        scale: [0.85, 1],
+        scale: [0.9, 1],
         opacity: [0, 1],
         duration: 900,
         delay: 250,
@@ -71,8 +71,8 @@ export default function HeroSection() {
   const line2 = 'VIDI'.split('');
 
   return (
-    <section className="relative min-h-[calc(100vh-108px)] bg-[#F4F4F0] text-[#0F2A1F] font-sans overflow-hidden flex flex-col justify-between selection:bg-[#0F2A1F]/10">
-
+    <section className="relative min-h-[100vh] min-h-[720px] bg-[#F4F4F0] text-[#0F2A1F] font-sans overflow-hidden flex flex-col justify-between selection:bg-[#0F2A1F]/10">
+      
       {/* SEARCH MODAL */}
       {searchOpen && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-[#0F2A1F]/40 backdrop-blur-sm">
@@ -116,21 +116,21 @@ export default function HeroSection() {
         </div>
       )}
 
-      {/* 2. HERO MAIN STAGE */}
-      <div className="relative flex-1 max-w-7xl mx-auto w-full px-6 sm:px-10 lg:px-16 flex flex-col justify-between py-6 sm:py-10">
+      {/* HERO MAIN STAGE */}
+      <div className="relative flex-1 max-w-7xl mx-auto w-full px-6 sm:px-10 lg:px-16 flex flex-col justify-between pt-4 pb-6">
         
-        {/* TOP SUPPORTING ELEMENTS ROW */}
-        <div className="grid grid-cols-12 items-start z-10 relative">
-          {/* Top-Left: Tiny Tagline */}
+        {/* TOP SUPPORTING ROW */}
+        <div className="grid grid-cols-12 items-start z-20 relative pt-2">
+          {/* Top-Left: Tagline */}
           <div className="col-span-12 sm:col-span-6 lg:col-span-4 hero-fade-in">
-            <p className="text-[11px] sm:text-xs font-mono tracking-widest text-[#0F2A1F]/60 uppercase">
+            <p className="text-[11px] sm:text-xs font-mono tracking-widest text-[#0F2A1F]/70 uppercase">
               Silver that becomes part of your story
             </p>
           </div>
 
           {/* Top-Right: Small Cropped Lifestyle Photo */}
           <div className="hidden md:flex col-span-4 col-start-9 justify-end hero-fade-in">
-            <div className="relative w-28 h-36 rounded-lg overflow-hidden border border-[#0F2A1F]/15 shadow-md transform rotate-1 hover:rotate-0 transition-transform duration-500">
+            <div className="relative w-28 h-36 rounded-lg overflow-hidden border border-[#0F2A1F]/15 shadow-sm transform rotate-1 hover:rotate-0 transition-transform duration-500">
               <Image
                 src="/images/products/pdt-2.jpeg"
                 alt="Silver Lifestyle"
@@ -142,13 +142,13 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* CENTER STAGE: GIANT WORDMARK + OVERLAPPING 3D PRODUCT */}
-        <div className="relative my-auto py-8 sm:py-12 flex items-center justify-center">
+        {/* CENTER STAGE: GIANT WORDMARK (Z-1) + OVERLAPPING HUGE 3D RING (Z-10) */}
+        <div className="relative my-auto py-2 sm:py-6 flex items-center justify-center min-h-[500px]">
           
-          {/* GIANT FULL-WIDTH ULTRA-BOLD GROTESK WORDMARK (BEHIND 3D RING) */}
-          <div className="w-full flex flex-col space-y-1 sm:space-y-2 select-none z-0">
+          {/* GIANT FULL-WIDTH ULTRA-BOLD GROTESK WORDMARK (Z-1 BEHIND RING) */}
+          <div className="w-full flex flex-col space-y-0 sm:space-y-1 select-none z-1 relative">
             {/* Line 1: VINI VICI (staggered left) */}
-            <div className="overflow-hidden flex items-center justify-start text-[14vw] sm:text-[12vw] md:text-[11vw] font-black leading-[0.85] tracking-tighter text-[#0F2A1F] uppercase">
+            <div className="overflow-hidden flex items-center justify-start text-[15vw] sm:text-[13vw] md:text-[11.5vw] font-extrabold leading-[0.82] tracking-tighter text-[#0F2A1F] uppercase">
               {line1.map((char, i) => (
                 <span
                   key={i}
@@ -160,7 +160,7 @@ export default function HeroSection() {
             </div>
 
             {/* Line 2: VIDI (staggered right like reference velora / atelier) */}
-            <div className="overflow-hidden flex items-center justify-end text-[14vw] sm:text-[12vw] md:text-[11vw] font-black leading-[0.85] tracking-tighter text-[#0F2A1F] uppercase pr-2 sm:pr-8">
+            <div className="overflow-hidden flex items-center justify-end text-[15vw] sm:text-[13vw] md:text-[11.5vw] font-extrabold leading-[0.82] tracking-tighter text-[#0F2A1F] uppercase pr-2 sm:pr-6">
               {line2.map((char, i) => (
                 <span key={i} className="inline-block hero-letter">
                   {char}
@@ -169,29 +169,29 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* 3D INTERACTIVE RING (FLOATING IN FRONT OF WORDMARK) */}
-          <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+          {/* HUGE 3D INTERACTIVE RING FIGURE (Z-10 IN FRONT OF WORDMARK) */}
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <HeroRing3D
-              imageSrc="/images/products/pdt-1.jpeg"
-              productName="Aethelgard Hand-Carved Sovereign"
+              imageSrc="/images/ring-cutout.png"
+              fallbackWebp="/images/ring-cutout.webp"
+              productName="Aethelgard Hand-Carved Sovereign Ring"
             />
           </div>
 
-          {/* ANNOTATION LINE & MICRO-LABEL TO 3D RING */}
-          <div className="hidden lg:flex absolute right-[12%] top-[48%] items-center space-x-3 z-30 pointer-events-none hero-fade-in">
-            <div className="w-16 h-[1px] bg-[#0F2A1F]/30" />
-            <span className="text-[10px] font-mono tracking-widest uppercase text-[#0F2A1F]/80 bg-[#F4F4F0]/90 px-2 py-1 border border-[#0F2A1F]/15 rounded-[2px]">
-              925 Sterling Silver · Hand-carved
+          {/* ANNOTATION LINE & MICRO-LABEL ATTACHED TO RING'S RIGHT SIDE */}
+          <div className="hidden lg:flex absolute right-[10%] top-[45%] items-center space-x-3 z-20 pointer-events-none hero-fade-in">
+            <div className="w-20 h-[1px] bg-[#0F2A1F]/30" />
+            <span className="text-[10px] font-mono tracking-widest uppercase text-[#0F2A1F] bg-[#F4F4F0]/95 px-2.5 py-1 border border-[#0F2A1F]/20 rounded-[2px] shadow-sm">
+              925 STERLING SILVER · HAND-CARVED
             </span>
           </div>
         </div>
 
-        {/* MIDDLE-LEFT: SMALL 3-LINE PARAGRAPH & LEFT-BOTTOM HAND PHOTO */}
-        <div className="grid grid-cols-12 items-end z-10 relative pt-4">
-          
-          {/* Left-Middle Paragraph + Left-Bottom Photo */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4 space-y-4 hero-fade-in">
-            <p className="text-xs text-[#0F2A1F]/70 leading-relaxed max-w-[34ch] font-sans">
+        {/* BOTTOM ROW: CRAFTSMANSHIP PARAGRAPH, HAND PHOTO, "vini / 01" & "EXPLORE COLLECTION" */}
+        <div className="grid grid-cols-12 items-end z-20 relative pt-2">
+          {/* Left-Middle Paragraph + Left-Bottom Hand Photo */}
+          <div className="col-span-12 sm:col-span-6 lg:col-span-4 space-y-3 hero-fade-in">
+            <p className="text-xs text-[#0F2A1F]/75 leading-relaxed max-w-[34ch] font-sans">
               Forged from certified 925 solid sterling silver. Precision-beveled planar signets, fluid torque bangles, and generational bespoke metallurgy.
             </p>
 
@@ -206,8 +206,8 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* BOTTOM BAR: "vini / 01" & "EXPLORE COLLECTION" */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-8 flex items-end justify-between sm:justify-end space-x-8 pt-6 sm:pt-0 hero-fade-in">
+          {/* Bottom Right: "vini / 01" and Underlined EXPLORE COLLECTION */}
+          <div className="col-span-12 sm:col-span-6 lg:col-span-8 flex items-end justify-between sm:justify-end space-x-8 pt-4 sm:pt-0 hero-fade-in">
             <span className="text-xs font-mono tracking-widest text-[#0F2A1F]/60 uppercase">
               vini / 01
             </span>
@@ -222,9 +222,9 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* 3. SOFT WHITE FLOOR BELOW HERO WITH BLURRED SHADOW UNDER RING */}
-      <div className="w-full h-12 bg-gradient-to-b from-[#F4F4F0] to-[#FFFFFF] border-b border-[#0F2A1F]/10 relative z-10 flex items-center justify-center pointer-events-none">
-        <div className="w-72 h-4 bg-[#0F2A1F]/10 blur-md rounded-full" />
+      {/* SOFT WHITE FLOOR SECTION ACROSS BOTTOM 25% OF HERO */}
+      <div className="w-full h-24 bg-gradient-to-b from-[#F4F4F0] to-[#FFFFFF] border-b border-[#0F2A1F]/10 relative z-10 flex items-center justify-center pointer-events-none">
+        <div className="w-96 h-6 bg-[#0F2A1F]/12 blur-lg rounded-full" />
       </div>
     </section>
   );
