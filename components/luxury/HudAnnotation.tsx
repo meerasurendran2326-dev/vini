@@ -16,7 +16,7 @@ export function CornerBrackets({
   className = '',
   size = 12,
   strokeWidth = 1,
-  color = 'rgba(242, 242, 242, 0.22)'
+  color = 'rgba(15, 46, 32, 0.25)'
 }: CornerBracketsProps) {
   return (
     <div
@@ -72,12 +72,13 @@ export function CornerBrackets({
 // =========================================================================
 interface HudLabelProps {
   className?: string;
-  index?: string; // e.g. "01 / 08"
+  index?: string;
   objectName: string;
   material?: string;
   status?: string;
   coordinates?: string;
   price?: number;
+  theme?: 'light' | 'emerald';
   align?: 'left' | 'right';
 }
 
@@ -89,35 +90,48 @@ export function HudLabel({
   status = 'HALLMARK CERTIFIED',
   coordinates,
   price,
+  theme = 'light',
   align = 'left'
 }: HudLabelProps) {
+  const isLight = theme === 'light';
+
   return (
     <div
-      className={`font-mono text-[10px] uppercase tracking-[0.14em] space-y-1.5 p-3.5 bg-[#0A0F0C]/85 border border-[rgba(242,242,242,0.10)] backdrop-blur-md rounded-[2px] ${
-        align === 'right' ? 'text-right' : 'text-left'
-      } ${className}`}
+      className={`font-mono text-[10px] uppercase tracking-[0.14em] space-y-1.5 p-3.5 backdrop-blur-md rounded-[2px] ${
+        isLight
+          ? 'bg-white/90 border border-line text-ink shadow-[0_4px_20px_rgba(15,46,32,0.06)]'
+          : 'bg-forest/85 border border-[rgba(228,231,234,0.18)] text-white shadow-[0_4px_24px_rgba(15,46,32,0.25)]'
+      } ${align === 'right' ? 'text-right' : 'text-left'} ${className}`}
     >
-      <div className="flex items-center justify-between gap-4 text-[#6C8F72] border-b border-[rgba(242,242,242,0.08)] pb-1">
+      <div
+        className={`flex items-center justify-between gap-4 border-b pb-1 ${
+          isLight ? 'text-green border-line' : 'text-green-soft border-[rgba(228,231,234,0.12)]'
+        }`}
+      >
         {index && <span>INDEX {index}</span>}
         <span className="flex items-center space-x-1.5 ml-auto">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#6C8F72] animate-pulse" />
-          <span className="text-[#9AA39D]">{status}</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
+          <span className={isLight ? 'text-sage' : 'text-silver'}>{status}</span>
         </span>
       </div>
 
-      <div className="text-[#F2F2F2] font-semibold tracking-[0.12em] line-clamp-1">
+      <div className={`font-semibold tracking-[0.12em] line-clamp-1 ${isLight ? 'text-ink' : 'text-white'}`}>
         {objectName}
       </div>
 
-      <div className="text-[#9AA39D] text-[9px] tracking-[0.1em]">
+      <div className={`text-[9px] tracking-[0.1em] ${isLight ? 'text-sage' : 'text-silver'}`}>
         {material}
       </div>
 
       {(price || coordinates) && (
-        <div className="flex items-center justify-between text-[9px] pt-1 text-[#9AA39D] border-t border-[rgba(242,242,242,0.06)]">
+        <div
+          className={`flex items-center justify-between text-[9px] pt-1 border-t ${
+            isLight ? 'text-sage border-line' : 'text-silver border-[rgba(228,231,234,0.08)]'
+          }`}
+        >
           {coordinates && <span>GEO // {coordinates}</span>}
           {price && (
-            <span className="text-[#F2F2F2] font-bold ml-auto">
+            <span className={`font-bold ml-auto ${isLight ? 'text-emerald' : 'text-white'}`}>
               ₹{price.toLocaleString('en-IN')}
             </span>
           )}
@@ -135,14 +149,18 @@ interface LeaderLineProps {
   direction?: 'to-right' | 'to-left';
   length?: number;
   label?: string;
+  theme?: 'light' | 'emerald';
 }
 
 export function LeaderLine({
   className = '',
   direction = 'to-right',
   length = 80,
-  label
+  label,
+  theme = 'light'
 }: LeaderLineProps) {
+  const isLight = theme === 'light';
+
   return (
     <div
       className={`pointer-events-none flex items-center select-none ${
@@ -151,14 +169,22 @@ export function LeaderLine({
       aria-hidden="true"
     >
       {/* Anchor dot */}
-      <span className="w-1.5 h-1.5 rounded-full bg-[#6C8F72] ring-2 ring-[#6C8F72]/30 flex-shrink-0" />
+      <span className="w-1.5 h-1.5 rounded-full bg-green ring-2 ring-green/30 flex-shrink-0" />
       {/* Hairline connector */}
       <span
-        className="h-px bg-gradient-to-r from-[#6C8F72] via-[rgba(242,242,242,0.25)] to-transparent"
+        className={`h-px ${
+          isLight
+            ? 'bg-gradient-to-r from-green via-sage to-transparent'
+            : 'bg-gradient-to-r from-green via-silver to-transparent'
+        }`}
         style={{ width: length }}
       />
       {label && (
-        <span className="text-[9px] font-mono uppercase tracking-[0.14em] text-[#9AA39D] px-2 whitespace-nowrap">
+        <span
+          className={`text-[9px] font-mono uppercase tracking-[0.14em] px-2 whitespace-nowrap ${
+            isLight ? 'text-ink' : 'text-silver'
+          }`}
+        >
           {label}
         </span>
       )}

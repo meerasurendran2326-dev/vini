@@ -6,7 +6,7 @@ interface SparkleStarProps {
   className?: string;
   size?: number; // size in px (default 16)
   withHalo?: boolean;
-  color?: string; // default white/silver
+  color?: string; // default chrome/green
   animate?: boolean;
 }
 
@@ -14,7 +14,7 @@ export default function SparkleStar({
   className = '',
   size = 16,
   withHalo = true,
-  color = '#F2F2F2',
+  color = '#6C8F72',
   animate = true
 }: SparkleStarProps) {
   return (
@@ -43,7 +43,7 @@ export default function SparkleStar({
             r="8.5"
             stroke={color}
             strokeWidth="0.6"
-            strokeOpacity="0.28"
+            strokeOpacity="0.32"
           />
         )}
         {/* 4-point elongated sparkle star */}

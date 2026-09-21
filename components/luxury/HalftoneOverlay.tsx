@@ -5,11 +5,13 @@ import React from 'react';
 interface HalftoneOverlayProps {
   className?: string;
   opacity?: number;
+  dotColor?: string;
 }
 
 export default function HalftoneOverlay({
   className = '',
-  opacity = 0.08
+  opacity = 0.09,
+  dotColor = '#8A9096'
 }: HalftoneOverlayProps) {
   return (
     <div
@@ -20,30 +22,30 @@ export default function HalftoneOverlay({
       <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern
-            id="halftoneDots"
+            id="halftoneDotsLight"
             x="0"
             y="0"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             patternUnits="userSpaceOnUse"
           >
-            <circle cx="12" cy="12" r="1.2" fill="#F2F2F2" />
+            <circle cx="10" cy="10" r="1.1" fill={dotColor} />
           </pattern>
           {/* Radial mask to fade out smoothly at edges */}
-          <radialGradient id="halftoneFade" cx="50%" cy="50%" r="50%">
+          <radialGradient id="halftoneFadeLight" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="white" stopOpacity="1" />
             <stop offset="65%" stopColor="white" stopOpacity="0.4" />
             <stop offset="100%" stopColor="white" stopOpacity="0" />
           </radialGradient>
-          <mask id="halftoneMask">
-            <rect width="100%" height="100%" fill="url(#halftoneFade)" />
+          <mask id="halftoneMaskLight">
+            <rect width="100%" height="100%" fill="url(#halftoneFadeLight)" />
           </mask>
         </defs>
         <rect
           width="100%"
           height="100%"
-          fill="url(#halftoneDots)"
-          mask="url(#halftoneMask)"
+          fill="url(#halftoneDotsLight)"
+          mask="url(#halftoneMaskLight)"
         />
       </svg>
     </div>

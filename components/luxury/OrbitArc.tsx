@@ -11,7 +11,7 @@ interface OrbitArcProps {
 export default function OrbitArc({
   className = '',
   orientation = 'top-right',
-  opacity = 0.4
+  opacity = 0.45
 }: OrbitArcProps) {
   return (
     <div
@@ -26,15 +26,15 @@ export default function OrbitArc({
         className="w-full h-full"
       >
         <defs>
-          <linearGradient id="orbitGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#F2F2F2" stopOpacity="0.8" />
-            <stop offset="25%" stopColor="#6C8F72" stopOpacity="0.5" />
-            <stop offset="60%" stopColor="#0B1A12" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="#030504" stopOpacity="0" />
+          <linearGradient id="orbitSilverGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
+            <stop offset="30%" stopColor="#BFC3C7" stopOpacity="0.6" />
+            <stop offset="70%" stopColor="#6C8F72" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="rgba(31, 77, 54, 0)" />
           </linearGradient>
 
-          <linearGradient id="orbitEcho" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8FB89A" stopOpacity="0.2" />
+          <linearGradient id="orbitSilverEcho" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#8A9096" stopOpacity="0.3" />
             <stop offset="70%" stopColor="transparent" stopOpacity="0" />
           </linearGradient>
         </defs>
@@ -48,7 +48,7 @@ export default function OrbitArc({
               rx="680"
               ry="480"
               transform="rotate(-25 950 50)"
-              stroke="url(#orbitGlow)"
+              stroke="url(#orbitSilverGlow)"
               strokeWidth="1.2"
               fill="none"
             />
@@ -59,7 +59,7 @@ export default function OrbitArc({
               rx="710"
               ry="505"
               transform="rotate(-25 950 50)"
-              stroke="url(#orbitEcho)"
+              stroke="url(#orbitSilverEcho)"
               strokeWidth="0.8"
               strokeDasharray="4 8"
               fill="none"
@@ -75,7 +75,7 @@ export default function OrbitArc({
               rx="680"
               ry="480"
               transform="rotate(-25 50 950)"
-              stroke="url(#orbitGlow)"
+              stroke="url(#orbitSilverGlow)"
               strokeWidth="1.2"
               fill="none"
             />
@@ -85,7 +85,7 @@ export default function OrbitArc({
               rx="710"
               ry="505"
               transform="rotate(-25 50 950)"
-              stroke="url(#orbitEcho)"
+              stroke="url(#orbitSilverEcho)"
               strokeWidth="0.8"
               strokeDasharray="4 8"
               fill="none"
@@ -101,7 +101,7 @@ export default function OrbitArc({
               rx="460"
               ry="320"
               transform="rotate(-15 500 500)"
-              stroke="url(#orbitGlow)"
+              stroke="url(#orbitSilverGlow)"
               strokeWidth="1"
               fill="none"
             />
