@@ -1,235 +1,116 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import dynamic from 'next/dynamic';
-import { Search, ShoppingBag } from 'lucide-react';
-import { useCart } from '@/lib/context/CartContext';
-import { animate, stagger } from 'animejs';
+import Image from "next/image";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import { Inter_Tight } from "next/font/google";
 
-const HeroRing3D = dynamic(() => import('./HeroRing3D'), {
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  display: "swap",
+});
+
+const RingViewer = dynamic(() => import("./RingViewer"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[540px] flex items-center justify-center">
-      <div className="w-12 h-12 rounded-full border-2 border-[#0F2A1F]/20 border-t-[#0F2A1F] animate-spin" />
+    <div className="flex h-[420px] w-[300px] items-center justify-center sm:h-[520px] sm:w-[420px]">
+      <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#0f2a1f]/20 border-t-[#0f2a1f]" />
     </div>
   ),
 });
 
 export default function HeroSection() {
-  const { openCart, itemCount } = useCart();
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    // anime.js v4 entrance animation sequence
-    const anims: any[] = [];
-
-    try {
-      // 1. Staggered slide up for wordmark letters
-      const wordmarkAnim = animate('.hero-letter', {
-        translateY: ['100%', '0%'],
-        opacity: [0, 1],
-        delay: stagger(80),
-        duration: 800,
-        ease: 'outExpo',
-      });
-      anims.push(wordmarkAnim);
-
-      // 2. Scale (0.9 to 1) & fade in for 3D Ring
-      const ringAnim = animate('.hero-ring-container', {
-        scale: [0.9, 1],
-        opacity: [0, 1],
-        duration: 900,
-        delay: 250,
-        ease: 'outExpo',
-      });
-      anims.push(ringAnim);
-
-      // 3. Fade in supporting elements
-      const fadeAnim = animate('.hero-fade-in', {
-        opacity: [0, 1],
-        translateY: ['16px', '0px'],
-        delay: stagger(100, { start: 450 }),
-        duration: 750,
-        ease: 'outExpo',
-      });
-      anims.push(fadeAnim);
-    } catch (err) {
-      console.warn('Anime.js sequence error:', err);
-    }
-
-    return () => {
-      anims.forEach((a) => {
-        if (a && typeof a.pause === 'function') a.pause();
-      });
-    };
-  }, []);
-
-  const line1 = 'VINI VICI'.split('');
-  const line2 = 'VIDI'.split('');
-
   return (
-    <section className="relative min-h-[100vh] min-h-[720px] bg-hero-gradient text-[#0F2A1F] font-sans overflow-hidden flex flex-col justify-between selection:bg-[#0F2A1F]/10">
-      
-      {/* Ambient Backlight Gradient Orb */}
-      <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
-        <div className="w-[90vw] max-w-[950px] h-[80vw] max-h-[800px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.92)_0%,rgba(244,244,240,0.65)_40%,rgba(169,191,174,0.18)_68%,transparent_90%)] blur-3xl opacity-90" />
+    <section
+      className={`relative h-[760px] overflow-hidden bg-[#f3f3ee] text-[#111315] sm:h-[820px] ${interTight.className}`}
+    >
+      <div className="absolute inset-x-0 top-0 h-[76%] bg-[#f3f3ee]" />
+      <div className="absolute inset-x-0 bottom-0 h-[24%] bg-white" />
+
+      <div className="absolute inset-x-0 top-0 z-20 mx-auto flex max-w-[1440px] items-center justify-between px-6 py-5 text-[11px] font-medium uppercase tracking-[0.18em] sm:px-10 lg:px-12">
+        <span className="text-[#111315]">Est. 2026</span>
+        <div className="hidden items-center gap-8 text-[#111315]/80 sm:flex">
+          <span>Collections</span>
+          <span>About</span>
+          <span>Contacts</span>
+        </div>
+        <div className="flex items-center gap-5 text-[#111315]">
+          <span>Search</span>
+          <span>Cart</span>
+        </div>
       </div>
-      
-      {/* SEARCH MODAL */}
-      {searchOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-[#0F2A1F]/40 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-[#F4F4F0] border border-[#0F2A1F]/20 p-6 shadow-2xl rounded-[2px]">
-            <div className="flex items-center justify-between pb-3 border-b border-[#0F2A1F]/15">
-              <span className="text-xs font-mono uppercase tracking-wider text-[#0F2A1F] font-semibold">
-                Search Collection
-              </span>
-              <button
-                onClick={() => setSearchOpen(false)}
-                className="text-xs font-mono text-[#0F2A1F]/60 hover:text-[#0F2A1F]"
-              >
-                [CLOSE]
-              </button>
-            </div>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (searchQuery.trim()) {
-                  window.location.href = `/shop?search=${encodeURIComponent(searchQuery.trim())}`;
-                }
-              }}
-              className="mt-4 flex items-center space-x-3"
-            >
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search sovereign rings, pendants..."
-                className="flex-1 px-4 py-2 bg-white border border-[#0F2A1F]/20 text-[#0F2A1F] text-xs font-sans focus:outline-none"
-                autoFocus
-              />
-              <button
-                type="submit"
-                className="px-5 py-2 bg-[#0F2A1F] text-[#F4F4F0] text-xs font-mono uppercase tracking-wider font-semibold"
-              >
-                Search
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
 
-      {/* HERO MAIN STAGE */}
-      <div className="relative flex-1 max-w-7xl mx-auto w-full px-6 sm:px-10 lg:px-16 flex flex-col justify-between pt-4 pb-6">
-        
-        {/* TOP SUPPORTING ROW */}
-        <div className="grid grid-cols-12 items-start z-20 relative pt-2">
-          {/* Top-Left: Tagline */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4 hero-fade-in">
-            <p className="text-[11px] sm:text-xs font-mono tracking-widest text-[#0F2A1F]/70 uppercase">
-              Silver that becomes part of your story
-            </p>
+      <div className="relative z-10 mx-auto h-full max-w-[1440px] px-5 pb-0 sm:px-8 lg:px-10">
+        <div className="relative h-full">
+          <div className="pointer-events-none absolute inset-0 flex items-start justify-between px-0 pt-16">
+            <div className="hero-wordmark left-0 text-left">VINI VICI</div>
+            <div className="hero-wordmark right-0 text-right">VIDI</div>
           </div>
 
-          {/* Top-Right: Small Cropped Lifestyle Photo */}
-          <div className="hidden md:flex col-span-4 col-start-9 justify-end hero-fade-in">
-            <div className="relative w-28 h-36 rounded-lg overflow-hidden border border-[#0F2A1F]/15 shadow-sm transform rotate-1 hover:rotate-0 transition-transform duration-500">
-              <Image
-                src="/images/products/pdt-2.jpeg"
-                alt="Silver Lifestyle"
-                fill
-                sizes="112px"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-b from-transparent to-white/10" />
 
-        {/* CENTER STAGE: GIANT WORDMARK (Z-1) + OVERLAPPING HUGE 3D RING (Z-10) */}
-        <div className="relative my-auto py-2 sm:py-6 flex items-center justify-center min-h-[500px]">
-          
-          {/* GIANT FULL-WIDTH ULTRA-BOLD GROTESK WORDMARK (Z-1 BEHIND RING) */}
-          <div className="w-full flex flex-col space-y-0 sm:space-y-1 select-none z-1 relative">
-            {/* Line 1: VINI VICI (staggered left) */}
-            <div className="overflow-hidden flex items-center justify-start text-[15vw] sm:text-[13vw] md:text-[11.5vw] font-extrabold leading-[0.82] tracking-tighter text-[#0F2A1F] uppercase">
-              {line1.map((char, i) => (
-                <span
-                  key={i}
-                  className={`inline-block hero-letter ${char === ' ' ? 'w-[0.3em]' : ''}`}
-                >
-                  {char}
-                </span>
-              ))}
-            </div>
-
-            {/* Line 2: VIDI (staggered right like reference velora / atelier) */}
-            <div className="overflow-hidden flex items-center justify-end text-[15vw] sm:text-[13vw] md:text-[11.5vw] font-extrabold leading-[0.82] tracking-tighter text-[#0F2A1F] uppercase pr-2 sm:pr-6">
-              {line2.map((char, i) => (
-                <span key={i} className="inline-block hero-letter">
-                  {char}
-                </span>
-              ))}
+          <div className="absolute left-1/2 top-[19%] z-30 flex -translate-x-1/2 items-center justify-center sm:top-[16%] lg:top-[18%]">
+            <div className="ring-area pointer-events-auto h-[330px] w-[300px] sm:h-[440px] sm:w-[420px] lg:h-[560px] lg:w-[620px]">
+              <RingViewer />
             </div>
           </div>
 
-          {/* HUGE 3D INTERACTIVE RING FIGURE (Z-10 IN FRONT OF WORDMARK) */}
-          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-            <HeroRing3D
-              imageSrc="/images/ring-cutout.png"
-              fallbackWebp="/images/ring-cutout.webp"
-              productName="Aethelgard Hand-Carved Sovereign Ring"
-            />
-          </div>
-
-          {/* ANNOTATION LINE & MICRO-LABEL ATTACHED TO RING'S RIGHT SIDE */}
-          <div className="hidden lg:flex absolute right-[10%] top-[45%] items-center space-x-3 z-20 pointer-events-none hero-fade-in">
-            <div className="w-20 h-[1px] bg-[#0F2A1F]/30" />
-            <span className="text-[10px] font-mono tracking-widest uppercase text-[#0F2A1F] bg-[#F4F4F0]/95 px-2.5 py-1 border border-[#0F2A1F]/20 rounded-[2px] shadow-sm">
-              925 STERLING SILVER · HAND-CARVED
+          <div className="absolute right-[5%] top-[35%] z-40 hidden items-center gap-4 lg:flex">
+            <div className="h-px w-20 bg-[#111315]/25" />
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#111315]">
+              925 Sterling Silver · Faceted Onyx
             </span>
           </div>
-        </div>
 
-        {/* BOTTOM ROW: CRAFTSMANSHIP PARAGRAPH, HAND PHOTO, "vini / 01" & "EXPLORE COLLECTION" */}
-        <div className="grid grid-cols-12 items-end z-20 relative pt-2">
-          {/* Left-Middle Paragraph + Left-Bottom Hand Photo */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-4 space-y-3 hero-fade-in">
-            <p className="text-xs text-[#0F2A1F]/75 leading-relaxed max-w-[34ch] font-sans">
-              Forged from certified 925 solid sterling silver. Precision-beveled planar signets, fluid torque bangles, and generational bespoke metallurgy.
-            </p>
+          <div className="absolute bottom-[6.5rem] left-0 z-30 hidden max-w-[220px] text-[11px] uppercase tracking-[0.2em] text-[#111315] md:block">
+            Jewelry that becomes part of your story
+          </div>
 
-            <div className="hidden sm:block relative w-24 h-24 rounded-lg overflow-hidden border border-[#0F2A1F]/15 shadow-sm transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+          <div className="absolute bottom-[4.5rem] left-0 z-30 max-w-[300px] text-[12px] leading-relaxed text-[#111315]/75 sm:max-w-[340px]">
+            Designed with conviction. Crafted to feel as individual as the hand
+            that wears it.
+          </div>
+
+          <div className="absolute left-0 top-[58%] z-30 hidden md:block">
+            <div className="relative h-[82px] w-[110px] overflow-hidden rounded-[10px] border border-[#111315]/10 bg-white/70 shadow-[0_10px_30px_rgba(17,19,21,0.08)]">
               <Image
                 src="/images/products/pdt-3.jpeg"
-                alt="Silver Hand Carved Detail"
+                alt="Hand detail"
                 fill
-                sizes="96px"
                 className="object-cover"
+                sizes="110px"
               />
             </div>
           </div>
 
-          {/* Bottom Right: "vini / 01" and Underlined EXPLORE COLLECTION */}
-          <div className="col-span-12 sm:col-span-6 lg:col-span-8 flex items-end justify-between sm:justify-end space-x-8 pt-4 sm:pt-0 hero-fade-in">
-            <span className="text-xs font-mono tracking-widest text-[#0F2A1F]/60 uppercase">
-              vini / 01
-            </span>
-
-            <Link
-              href="/shop"
-              className="text-xs font-mono uppercase tracking-[0.18em] font-semibold text-[#0F2A1F] hover:opacity-75 transition-opacity underline underline-offset-8 decoration-[#0F2A1F]/40 hover:decoration-[#0F2A1F]"
-            >
-              EXPLORE COLLECTION →
-            </Link>
+          <div className="absolute right-[7%] top-[8%] z-30 hidden xl:block">
+            <div className="relative h-[120px] w-[120px] overflow-hidden rounded-[10px] border border-[#111315]/10 bg-white/70 shadow-[0_10px_30px_rgba(17,19,21,0.08)]">
+              <Image
+                src="/images/products/pdt-2.jpeg"
+                alt="Portrait detail"
+                fill
+                className="object-cover"
+                sizes="120px"
+              />
+            </div>
           </div>
+
+          <div className="absolute bottom-[1.5rem] left-1/2 z-30 -translate-x-1/2 text-[11px] font-medium uppercase tracking-[0.28em] text-[#111315]/60">
+            velore / 01
+          </div>
+
+          <Link
+            href="/shop"
+            className="absolute bottom-[1.2rem] right-[2%] z-30 text-[11px] font-medium uppercase tracking-[0.22em] text-[#111315] underline decoration-[#111315]/35 underline-offset-[6px] hover:opacity-80"
+          >
+            Explore Collection
+          </Link>
         </div>
       </div>
 
-      {/* SOFT WHITE FLOOR SECTION ACROSS BOTTOM 25% OF HERO */}
-      <div className="w-full h-24 bg-gradient-to-b from-[#F4F4F0] to-[#FFFFFF] border-b border-[#0F2A1F]/10 relative z-10 flex items-center justify-center pointer-events-none">
-        <div className="w-96 h-6 bg-[#0F2A1F]/12 blur-lg rounded-full" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[34px] bg-white">
+        <div className="absolute left-1/2 top-2 h-6 w-[380px] -translate-x-1/2 rounded-full bg-[#111315]/10 blur-xl" />
       </div>
     </section>
   );
