@@ -1,15 +1,16 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
-import { Product } from '@/lib/types';
+import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { Product } from "@/lib/types";
 
 export interface CardFanItem {
   id: string;
   title: string;
   subtitle?: string;
+  description?: string;
   image: string;
   price?: number;
   originalPrice?: number;
@@ -30,7 +31,7 @@ export function CardFanCarousel({
   items,
   title,
   subtitle,
-  className = '',
+  className = "",
   onSelect,
 }: CardFanCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -42,8 +43,8 @@ export function CardFanCarousel({
       setIsMobile(window.innerWidth < 768);
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const total = items.length;
@@ -59,11 +60,11 @@ export function CardFanCarousel({
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') handlePrev();
-      if (e.key === 'ArrowRight') handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleNext, handlePrev]);
 
   // Calculate fan transform offsets based on distance from active index & hover state
@@ -85,7 +86,7 @@ export function CardFanCarousel({
         scale: 0.3,
         opacity: 0,
         zIndex: 0,
-        pointerEvents: 'none' as const,
+        pointerEvents: "none" as const,
       };
     }
 
@@ -136,7 +137,7 @@ export function CardFanCarousel({
 
     if (isHovered) {
       // Significantly enlarge the hovered card and lift it toward the viewer
-      scale = isMobile ? 1.08 : 1.20;
+      scale = isMobile ? 1.08 : 1.2;
       y = y - (isMobile ? 16 : 32);
       rotate = rotate * 0.25; // Straighten perspective for clean readability
       zIndex = 50; // Pop above all other cards
@@ -154,7 +155,7 @@ export function CardFanCarousel({
       scale,
       opacity,
       zIndex,
-      pointerEvents: 'auto' as const,
+      pointerEvents: "auto" as const,
     };
   };
 
@@ -163,7 +164,9 @@ export function CardFanCarousel({
   const activeItem = items[hoveredIndex !== null ? hoveredIndex : activeIndex];
 
   return (
-    <section className={`flex flex-col items-center w-full py-10 lg:py-16 px-4 md:px-8 relative z-20 overflow-hidden ${className}`}>
+    <section
+      className={`flex flex-col items-center w-full py-10 lg:py-16 px-4 md:px-8 relative z-20 overflow-hidden ${className}`}
+    >
       {/* Header */}
       {(title || subtitle) && (
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
@@ -196,8 +199,8 @@ export function CardFanCarousel({
                 key={item.id}
                 className={`fan-card absolute w-[13rem] h-[20rem] sm:w-[16rem] sm:h-[24rem] md:w-[18rem] md:h-[27rem] rounded-sm cursor-pointer select-none overflow-hidden bg-carbon transition-colors duration-300 ${
                   isHovered
-                    ? 'border border-signature-green shadow-[0_12px_36px_rgba(11,26,18,0.7)]'
-                    : 'border border-steel/60'
+                    ? "border border-signature-green shadow-[0_12px_36px_rgba(11,26,18,0.7)]"
+                    : "border border-steel/60"
                 }`}
                 animate={{
                   x: transform.x,
@@ -207,11 +210,22 @@ export function CardFanCarousel({
                   opacity: transform.opacity,
                   zIndex: transform.zIndex,
                 }}
+                whileHover={{
+                  scale:
+                    typeof transform.scale === "number"
+                      ? transform.scale + (isMobile ? 0.08 : 0.12)
+                      : 1.12,
+                  y:
+                    typeof transform.y === "number"
+                      ? transform.y - (isMobile ? 12 : 20)
+                      : -20,
+                  zIndex: 60,
+                }}
                 transition={{
-                  type: 'spring',
-                  stiffness: 280,
-                  damping: 22,
-                  mass: 0.7,
+                  type: "spring",
+                  stiffness: 320,
+                  damping: 24,
+                  mass: 0.8,
                 }}
                 style={{
                   zIndex: transform.zIndex,
@@ -219,6 +233,10 @@ export function CardFanCarousel({
                 }}
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
+                onPointerDown={() => setHoveredIndex(idx)}
+                onPointerLeave={() => setHoveredIndex(null)}
+                onFocus={() => setHoveredIndex(idx)}
+                onBlur={() => setHoveredIndex(null)}
                 onClick={() => {
                   if (!isCenter) {
                     setActiveIndex(idx);
@@ -234,7 +252,7 @@ export function CardFanCarousel({
                     alt={item.title}
                     loading="lazy"
                     className={`absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-700 ${
-                      isHovered ? 'scale-105' : 'group-hover:scale-102'
+                      isHovered ? "scale-105" : "group-hover:scale-102"
                     }`}
                   />
                   <div className="absolute inset-0 z-15 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_40%,rgba(5,5,5,0.5)_95%)]" />
@@ -249,14 +267,18 @@ export function CardFanCarousel({
                     {/* Badge */}
                     <div className="flex justify-between items-start">
                       {item.badge ? (
-                        <span className={`px-2.5 py-1 border text-[9px] font-sans uppercase tracking-monumental font-semibold backdrop-blur-md transition-colors ${
-                          isHovered
-                            ? 'bg-forest-deep text-ice-white border-signature-green'
-                            : 'bg-graphite/90 text-silver border-steel/70'
-                        }`}>
+                        <span
+                          className={`px-2.5 py-1 border text-[9px] font-sans uppercase tracking-monumental font-semibold backdrop-blur-md transition-colors ${
+                            isHovered
+                              ? "bg-forest-deep text-ice-white border-signature-green"
+                              : "bg-graphite/90 text-silver border-steel/70"
+                          }`}
+                        >
                           {item.badge}
                         </span>
-                      ) : <span />}
+                      ) : (
+                        <span />
+                      )}
 
                       <span className="text-[9px] font-mono text-silver/70 bg-void/80 px-2 py-0.5 border border-steel/40 backdrop-blur-sm">
                         0{idx + 1} / {total < 10 ? `0${total}` : total}
@@ -273,16 +295,22 @@ export function CardFanCarousel({
                       <h4 className="font-sans text-sm sm:text-base uppercase tracking-wider font-semibold text-ice-white line-clamp-1">
                         {item.title}
                       </h4>
+                      {item.description && (
+                        <p className="max-w-[12rem] text-[9px] font-sans uppercase tracking-[0.18em] text-silver/75 leading-relaxed line-clamp-2">
+                          {item.description}
+                        </p>
+                      )}
                       {item.price && (
                         <div className="flex items-baseline space-x-2 pt-1 font-mono text-sm">
                           <span className="text-bright-silver font-semibold">
-                            ₹{item.price.toLocaleString('en-IN')}
+                            ₹{item.price.toLocaleString("en-IN")}
                           </span>
-                          {item.originalPrice && item.originalPrice > item.price && (
-                            <span className="text-xs text-chrome line-through">
-                              ₹{item.originalPrice.toLocaleString('en-IN')}
-                            </span>
-                          )}
+                          {item.originalPrice &&
+                            item.originalPrice > item.price && (
+                              <span className="text-xs text-chrome line-through">
+                                ₹{item.originalPrice.toLocaleString("en-IN")}
+                              </span>
+                            )}
                         </div>
                       )}
 
@@ -331,10 +359,10 @@ export function CardFanCarousel({
                 aria-label={`Jump to slide ${idx + 1}`}
                 className={`transition-all duration-300 rounded-full cursor-pointer ${
                   isHover
-                    ? 'w-6 h-1.5 bg-ice-white shadow-[0_0_8px_rgba(108,143,114,0.7)]'
+                    ? "w-6 h-1.5 bg-ice-white shadow-[0_0_8px_rgba(108,143,114,0.7)]"
                     : isActive
-                    ? 'w-6 h-1.5 bg-signature-green shadow-[0_0_8px_rgba(108,143,114,0.5)]'
-                    : 'w-1.5 h-1.5 bg-steel/60 hover:bg-silver/60'
+                      ? "w-6 h-1.5 bg-signature-green shadow-[0_0_8px_rgba(108,143,114,0.5)]"
+                      : "w-1.5 h-1.5 bg-steel/60 hover:bg-silver/60"
                 }`}
               />
             );
@@ -355,7 +383,8 @@ export function CardFanCarousel({
       {activeItem && (
         <div className="mt-4 text-center">
           <span className="text-[11px] font-sans uppercase tracking-widest text-silver/60">
-            Selected Piece: <strong className="text-ice-white">{activeItem.title}</strong>
+            Selected Piece:{" "}
+            <strong className="text-ice-white">{activeItem.title}</strong>
           </span>
         </div>
       )}

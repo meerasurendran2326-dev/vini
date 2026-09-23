@@ -25,8 +25,7 @@ export default function HeroSection() {
     <section
       className={`relative h-[760px] overflow-hidden bg-[#f3f3ee] text-[#111315] sm:h-[820px] ${interTight.className}`}
     >
-      <div className="absolute inset-x-0 top-0 h-[76%] bg-[#f3f3ee]" />
-      <div className="absolute inset-x-0 bottom-0 h-[24%] bg-white" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(94,152,116,0.12),_transparent_52%),linear-gradient(180deg,_#f3f3ee_0%,_#f3f3ee_72%,_#ffffff_100%)]" />
 
       <div className="absolute inset-x-0 top-0 z-20 mx-auto flex max-w-[1440px] items-center justify-between px-6 py-5 text-[11px] font-medium uppercase tracking-[0.18em] sm:px-10 lg:px-12">
         <span className="text-[#111315]">Est. 2026</span>
@@ -44,8 +43,8 @@ export default function HeroSection() {
       <div className="relative z-10 mx-auto h-full max-w-[1440px] px-5 pb-0 sm:px-8 lg:px-10">
         <div className="relative h-full">
           <div className="pointer-events-none absolute inset-0 flex items-start justify-between px-0 pt-16">
-            <div className="hero-wordmark left-0 text-left">VINI VICI</div>
-            <div className="hero-wordmark right-0 text-right">VIDI</div>
+            <div className="hero-wordmark left-0 text-left">VINI</div>
+            <div className="hero-wordmark right-0 text-right">VICI VIDI</div>
           </div>
 
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-b from-transparent to-white/10" />
@@ -72,32 +71,8 @@ export default function HeroSection() {
             that wears it.
           </div>
 
-          <div className="absolute left-0 top-[58%] z-30 hidden md:block">
-            <div className="relative h-[82px] w-[110px] overflow-hidden rounded-[10px] border border-[#111315]/10 bg-white/70 shadow-[0_10px_30px_rgba(17,19,21,0.08)]">
-              <Image
-                src="/images/products/pdt-3.jpeg"
-                alt="Hand detail"
-                fill
-                className="object-cover"
-                sizes="110px"
-              />
-            </div>
-          </div>
-
-          <div className="absolute right-[7%] top-[8%] z-30 hidden xl:block">
-            <div className="relative h-[120px] w-[120px] overflow-hidden rounded-[10px] border border-[#111315]/10 bg-white/70 shadow-[0_10px_30px_rgba(17,19,21,0.08)]">
-              <Image
-                src="/images/products/pdt-2.jpeg"
-                alt="Portrait detail"
-                fill
-                className="object-cover"
-                sizes="120px"
-              />
-            </div>
-          </div>
-
           <div className="absolute bottom-[1.5rem] left-1/2 z-30 -translate-x-1/2 text-[11px] font-medium uppercase tracking-[0.28em] text-[#111315]/60">
-            velore / 01
+            vini / 01
           </div>
 
           <Link

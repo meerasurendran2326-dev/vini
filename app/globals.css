@@ -79,9 +79,9 @@ body {
   z-index: 0;
   display: block;
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 0.74;
-  letter-spacing: -0.08em;
+  letter-spacing: -0.02em;
   color: rgba(17, 19, 21, 0.96);
   font-size: clamp(13rem, 25vw, 28rem);
   text-transform: lowercase;
